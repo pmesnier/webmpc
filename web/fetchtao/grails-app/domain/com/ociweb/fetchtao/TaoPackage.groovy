@@ -5,9 +5,9 @@ package com.ociweb.fetchtao;
  */
 import grails.rest.Resource;
 
-@Resource(uri="/download")
+@Resource(uri="/downloadtao")
 public class TaoPackage {
     String baseVersion
-    int patches
-    String repo
+    int lastPatch
+
 }

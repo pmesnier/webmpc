@@ -7,6 +7,8 @@ class UrlMappings {
             }
         }
 
+        "/downloadtao"(resources:'taoPackage')
+        "/downloaddds"(resources:'ddsPackage')
         "/"(view:"/index")
         "500"(view:'/error')
         "404"(view:'/notFound')

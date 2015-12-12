@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta name="layout" content="taoDownload" />
-        <g:set var="entityName" value="${message(code: 'taoPackage.label', default: 'OCI TAO')}" />
+        <meta name="layout" content="ddsDownload" />
+        <g:set var="entityName" value="${message(code: 'ddsPackage.label', default: 'Open DDS')}" />
         <title>OCI TAO</title>
     </head>
     <body>
