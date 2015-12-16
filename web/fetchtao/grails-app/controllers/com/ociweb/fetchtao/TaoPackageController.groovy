@@ -10,19 +10,35 @@ import grails.transaction.Transactional
 @Transactional(readOnly = false)
 class TaoPackageController {
 
-    static allowedMethods = [save: "POST"] //, update: "PUT", delete: "DELETE"]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
     static standardScaffolding = true
     def productName
     def taoDownloadService
-
     def productNameProperty = "OCI TAO"
+
     def index() {
-        respond TaoPackage.list()
+        respond TaoPackage.list(), model: [pkgCount: TaoPackage.count()]
     }
 
-    def getLastPatch (String base) {
+    def show (TaoPackage taoPackage)
+    {
+        respond taoPackage;
+    }
+
+    def save () {
+        render "save called"
+    }
+
+    def pkgConfig () {
+        if (params.id > 0) {
+            def taopkg = TaoPackage.get(params.id)
+            render template:"taoPackage/pkgConfig.gsp", model: [taoPackage: taopkg]
+        }
+    }
+
+   def getLastPatch (String base) {
         TaoPackage.each ( {
-            if (it.baseVersion.equals(base)) {
+            if (it.baseVersion().equals(base)) {
                 respond it.lastPatch;
             }
         });

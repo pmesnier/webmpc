@@ -3,7 +3,7 @@
     <head>
         <meta name="layout" content="ddsDownload" />
         <g:set var="entityName" value="${message(code: 'ddsPackage.label', default: 'Open DDS')}" />
-        <title>OCI TAO</title>
+        <title>Open DDS Downloader</title>
     </head>
     <body>
         <a href="#list-taoPackage" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -18,7 +18,7 @@
             <g:if test="${flash.message}">
                 <div class="message" role="status">${flash.message}</div>
             </g:if>
-            ya ya ya
+
             <g:select id="baseVersion"
                       name="taoPackage.baseVersion"
                       objectKey="id"

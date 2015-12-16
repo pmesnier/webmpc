@@ -1,15 +1,49 @@
 import com.ociweb.fetchtao.DdsPackage
 import com.ociweb.fetchtao.TaoPackage
+import com.ociweb.fetchtao.TaoPackageController
+import com.ociweb.fetchtao.TaoReleases
 
 class BootStrap {
 
     def init = { servletContext ->
-        new TaoPackage(baseVersion: "1.4a", lastPatch: 26).save()
-        new TaoPackage(baseVersion: "1.5a", lastPatch: 22).save()
-        new TaoPackage(baseVersion: "1.6a", lastPatch: 15).save()
-        new TaoPackage(baseVersion: "2.0a", lastPatch: 7).save()
-        new TaoPackage(baseVersion: "2.2a", lastPatch: 7).save()
-     // new TaoPackage(baseVersion: "2.3a", lastPatch: 0).save()
+       def ossProduct = []
+        /*
+        ossProduct << [major: 1, minor: 2, lastPatch: 12]
+        ossProduct << [major: 1, minor: 3, lastPatch: 18]
+        ossProduct << [major: 1, minor: 4, lastPatch: 26]
+        ossProduct << [major: 1, minor: 5, lastPatch: 22]
+        ossProduct << [major: 1, minor: 6, lastPatch: 15]
+        ossProduct << [major: 2, minor: 0, lastPatch: 7]
+        ossProduct << [major: 2, minor: 2, lastPatch: 7]
+        // ossProduct << [major: 2, minor: 3, lastPatch: 0]
+
+        ossProduct.each { taodef ->
+            new TaoPackage(taodef).save()
+        }
+*/
+
+        new TaoPackage (major: 1, minor: 2, lastPatch: 12).save()
+        new TaoPackage (major: 1, minor: 3, lastPatch: 18).save()
+        new TaoPackage (major: 1, minor: 4, lastPatch: 26).save()
+        new TaoPackage (major: 1, minor: 5, lastPatch: 22).save()
+        new TaoPackage (major: 1, minor: 6, lastPatch: 15).save()
+        new TaoPackage (major: 2, minor: 0, lastPatch: 7).save()
+        new TaoPackage (major: 2, minor: 2, lastPatch: 7).save()
+        // new TaoPackage (major: 2, minor: 3, lastPatch: 0).save()
+
+
+        println "there are " + TaoPackage.count () + " packages"
+        ossProduct.clear()
+        ossProduct << [name: "OCI TAO", rootServerName: "download.ociweb.com"]
+
+        ossProduct.each { proddef ->
+            new TaoReleases(proddef).save()
+        }
+
+        if (DdsPackage.count() == 0)
+        {
+            new DdsPackage(baseVersion: "3.7", lastPatch: 0).save()
+        }
     }
     def destroy = {
     }
