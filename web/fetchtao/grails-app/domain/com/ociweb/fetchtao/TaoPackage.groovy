@@ -20,10 +20,8 @@ public class TaoPackage {
 
     def String rootPath (boolean patch) {
         String path = "http://download.ociweb.com/TAO-" + baseVersion ()
-        if (patch) {
-            path += "_patches"
-        }
-        return path
+        path += (patch) ? "_patches" + "/TAO-" : "/ACE+TAO-"
+        return path + baseVersion()
     }
 
     def boolean sourceOnlyAvailable (boolean base) {
@@ -37,7 +35,7 @@ public class TaoPackage {
         } else if (!base) {
             content = "_with_latest_patches"
         }
-        rootPath(false) + "ACE+TAO-" + baseVersion() + content
+        rootPath(false) + content
 
     }
 
@@ -46,7 +44,7 @@ public class TaoPackage {
         if (level == -1) {
             content = "_jumbo_patch"
             if (srcProj.equals("src") && sourceOnlyAvailable(false))
-                content += "NO_Makefiles"
+                content += "NO_makefiles"
         }
         else {
             content = "_p" + level
@@ -54,14 +52,14 @@ public class TaoPackage {
                 content += "_patched_files"
             }
             else if (srcProj.equals("src")) {
-                content += "_patched_files_NO_Makefiles"
+                content += "_patched_files_NO_makefiles"
             }
             else {
                 content += "_project_files"
             }
         }
 
-        rootPath(false) + "TAO-" + baseVersion() + "_p" + level + content
+        rootPath(true) + content
     }
 
     def String target (String patchLevel, int changesLevel, String contents, String compress) {
