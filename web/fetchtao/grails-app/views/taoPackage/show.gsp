@@ -16,9 +16,10 @@
         </div>
         <div id="pickOptions" class="content scaffold-edit" role="main">
             <h1><g:message code="default.chooseOpts.label" args="[entityName]" /> ${taoPackage.baseVersion()} </h1>
-            <form resource="${this.taoPackage}" method="PUT" >
+            <g:formRemote name="taoDownloadForm" url="[controller:'TaoPackage', action:'taoDownloadLink']" update="download_link">
                 <g:set var="lastpatch" value="${this.taoPackage?.lastPatch}" defaultvalue="10" />
                 <fieldset class="form">
+                    <g:hiddenField name="id" value="${taoPackage.id}" />
                     <p>Patch Level</p>
                     <p><g:radio name="patchLevel"  value="p0" /> Base (full source tree) </p>
                     <p><g:radio name="patchLevel"  value="pn" checked="checked" /> Latest, p${lastPatch} (full source tree) </p>
@@ -38,18 +39,12 @@
                     <br>
 
                 </fieldset>
-                <h1>File To Download</h1>
-                <dif 
-                <fieldset class="form">
-                    <g:set var="download" value="${taoPackage.target ("ps", 5, "src", "tar.gz") }" />
-                    <p><a href="${download}">${download}</a></p>
-                </fieldset>
-                <!--
-                <fieldset class="buttons">
-                    <input class="save" type="submit" value="${message(code: 'default.button.download.label', args: [entityName], default: 'Download [entityName]')}" />
-                </fieldset>
-                -->
-            </form>
+                <g:submitButton name="Get Download Info" resource="${taoPackage}"/>
+            </g:formRemote>
+
+            <h1>File To Download</h1>
+            <div id="download_link">
+            </div>
         </div>
     </body>
 </html>

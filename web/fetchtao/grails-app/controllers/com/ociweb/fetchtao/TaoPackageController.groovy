@@ -29,6 +29,16 @@ class TaoPackageController {
         render "save called"
     }
 
+    def taoDownloadLink (TaoPackage pkg)
+    {
+        def one = params.patchLevel
+        def two = params.changesLevel
+        def three = params.content
+        def four = params.compress
+
+        render template:'downloadLinkTao', model: [urlstr: pkg.target(one, two.toInteger(), three, four)]
+    }
+
     def pkgConfig () {
         if (params.id > 0) {
             def taopkg = TaoPackage.get(params.id)

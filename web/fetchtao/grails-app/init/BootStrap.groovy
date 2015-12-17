@@ -32,7 +32,6 @@ class BootStrap {
         // new TaoPackage (major: 2, minor: 3, lastPatch: 0).save()
 
 
-        println "there are " + TaoPackage.count () + " packages"
         ossProduct.clear()
         ossProduct << [name: "OCI TAO", rootServerName: "download.ociweb.com"]
 
