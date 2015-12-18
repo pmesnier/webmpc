@@ -1,34 +1,35 @@
 package com.ociweb.fetchtao;
 
+import com.ociweb.oss.Release
+
 /**
  * Created by phil on 12/9/15.
  */
-import grails.rest.Resource
-import org.apache.tools.ant.taskdefs.ExecuteOn
 
 //@Resource(uri="/downloadtao")
-public class TaoPackage {
-  //  static belongsTo = [product: TaoReleases]
+public class TaoPackage extends Release {
 
-    def int major
-    def int minor
-    def int lastPatch
+    static hostName = "download.ociweb.com"
 
-    def String baseVersion () {
+    int major
+    int minor
+    int lastPatch
+
+    String baseVersion () {
         return Integer.toString(major) + "." + Integer.toString(minor) + "a"
     }
 
-    def String rootPath (boolean patch) {
-        String path = "http://download.ociweb.com/TAO-" + baseVersion ()
+    String rootPath (boolean patch) {
+        String path = "http://" + hostName + "/TAO-" + baseVersion ()
         path += (patch) ? "_patches" + "/TAO-" : "/ACE+TAO-"
         return path + baseVersion()
     }
 
-    def boolean sourceOnlyAvailable (boolean base) {
+    boolean sourceOnlyAvailable (boolean base) {
         return base ? (major > 1 && minor > 0) : (major > 1 || minor > 5)
     }
 
-    def String fullArchive (boolean base, String srcProj) {
+    String fullArchive (boolean base, String srcProj) {
         String content = ""
         if (srcProj.equals("src") && sourceOnlyAvailable (base)) {
             content = base ? "-nomake" : "_with_latest_patches_NO_makefiles"
@@ -39,7 +40,7 @@ public class TaoPackage {
 
     }
 
-    def String changedFiles (int level, String srcProj) {
+    String changedFiles (int level, String srcProj) {
         String content
         if (level == -1) {
             content = "_jumbo_patch"
@@ -62,7 +63,7 @@ public class TaoPackage {
         rootPath(true) + content
     }
 
-    def String target (String patchLevel, int changesLevel, String contents, String compress) {
+    String target (String patchLevel, int changesLevel, String contents, String compress) {
         boolean patch = (patchLevel.equals("pj") || patchLevel.equals("ps"))
         String t = patch ? changedFiles (patchLevel.equals("pj") ? -1 : changesLevel, contents)
         : fullArchive (patchLevel.equals("p0"), contents)
@@ -70,7 +71,7 @@ public class TaoPackage {
         t + "." + compress
     }
 
-    def String toString () {
+    String toString () {
         baseVersion()
     }
 

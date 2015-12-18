@@ -39,25 +39,4 @@ class TaoPackageController {
         render template:'downloadLinkTao', model: [urlstr: pkg.target(one, two.toInteger(), three, four)]
     }
 
-    def pkgConfig () {
-        if (params.id > 0) {
-            def taopkg = TaoPackage.get(params.id)
-            render template:"taoPackage/pkgConfig.gsp", model: [taoPackage: taopkg]
-        }
-    }
-
-   def getLastPatch (String base) {
-        TaoPackage.each ( {
-            if (it.baseVersion().equals(base)) {
-                respond it.lastPatch;
-            }
-        });
-    }
-
-    def getInfo (String name, String what) {
-        String key = what;
-        render "Name = $name requested info is $key"
-    }
-
-
 }
