@@ -1,8 +1,8 @@
-import com.ociweb.fetchtao.TaoPackageController;
+import com.ociweb.fetchtao.TaoReleaseController;
 
 // Place your Spring DSL code here
 beans = {
-    productName (TaoPackageController) {
+    productName (TaoReleaseController) {
         productNameProperty = "OCI TAO"
     }
 }

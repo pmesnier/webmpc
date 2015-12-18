@@ -3,23 +3,23 @@
     <head>
         <g:javascript library="jquery" />
         <meta name="layout" content="taoDownload" />
-        <g:set var="entityName" value="${message(code: 'taoPackage.baseVersion()', default: 'OCI TAO')}" />
-        <g:set var="lastPatch" value="${taoPackage.lastPatch}" />
-        <title>OCI TAO ${taoPackage.baseVersion()} Downloader</title>
+        <g:set var="entityName" value="${message(code: 'taoRelease.baseVersion()', default: 'OCI TAO')}" />
+        <g:set var="lastPatch" value="${taoRelease.lastPatch}" />
+        <title>OCI TAO ${taoRelease.baseVersion()} Downloader</title>
     </head>
     <body>
-        <a href="#list-taoPackage" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
+        <a href="#list-taoRelease" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
         <div class="nav" role="navigation">
             <ul>
                 <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
             </ul>
         </div>
         <div id="pickOptions" class="content scaffold-edit" role="main">
-            <h1><g:message code="default.chooseOpts.label" args="[entityName]" /> ${taoPackage.baseVersion()} </h1>
-            <g:formRemote name="taoDownloadForm" url="[controller:'TaoPackage', action:'taoDownloadLink']" update="download_link">
-                <g:set var="lastpatch" value="${this.taoPackage?.lastPatch}" defaultvalue="10" />
+            <h1><g:message code="default.chooseOpts.label" args="[entityName]" /> ${taoRelease.baseVersion()} </h1>
+            <g:formRemote name="taoDownloadForm" url="[controller:'TaoRelease', action:'taoDownloadLink']" update="download_link">
+                <g:set var="lastpatch" value="${this.taoRelease?.lastPatch}" defaultvalue="10" />
                 <fieldset class="form">
-                    <g:hiddenField name="id" value="${taoPackage.id}" />
+                    <g:hiddenField name="id" value="${taoRelease.id}" />
                     <p>Patch Level</p>
                     <p><g:radio name="patchLevel"  value="p0" /> Base (full source tree) </p>
                     <p><g:radio name="patchLevel"  value="pn" checked="checked" /> Latest, p${lastPatch} (full source tree) </p>
@@ -39,7 +39,7 @@
                     <br>
 
                 </fieldset>
-                <g:submitButton name="Get Download Info" resource="${taoPackage}"/>
+                <g:submitButton name="Get Download Info" resource="${taoRelease}"/>
             </g:formRemote>
 
             <h1>File To Download</h1>

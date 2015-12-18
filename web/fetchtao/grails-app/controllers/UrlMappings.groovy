@@ -7,9 +7,9 @@ class UrlMappings {
             }
         }
 
-     //   "/downloadtao"(resources:'taoPackage')
-        "/downloaddds"(resources:'ddsPackage')
-        "/pickTaoRelease"(resources:'taoReleases')
+     //   "/downloadtao"(resources:'taoRelease')
+        "/downloaddds"(resources:'ddsRelease')
+        "/pickTaoRelease"(resources:'taoProduct')
         "/"(view:"/index")
         "500"(view:'/error')
         "404"(view:'/notFound')

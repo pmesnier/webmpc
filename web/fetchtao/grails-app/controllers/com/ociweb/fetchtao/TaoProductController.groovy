@@ -6,7 +6,7 @@ package com.ociweb.fetchtao
 import grails.transaction.Transactional
 
 @Transactional(readOnly = true)
-class TaoReleasesController {
+class TaoProductController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
     static standardScaffolding = true

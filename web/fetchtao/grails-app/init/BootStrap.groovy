@@ -1,6 +1,6 @@
-import com.ociweb.fetchtao.DdsPackage
+import com.ociweb.fetchdds.DdsRelease
 import com.ociweb.fetchtao.TaoProduct
-import com.ociweb.fetchtao.TaoPackage
+import com.ociweb.fetchtao.TaoRelease
 
 class BootStrap {
 
@@ -21,15 +21,15 @@ class BootStrap {
         ossProduct.each { proddef ->
             def release = new TaoProduct(proddef)
             ossPackage.each { pkgdef ->
-                def pkg = new TaoPackage (pkgdef)
+                def pkg = new TaoRelease (pkgdef)
                 release.addToReleases (pkg)
             }
             release.save(failOnError: true)
         }
 
-        if (DdsPackage.count() == 0)
+        if (DdsRelease.count() == 0)
         {
-            new DdsPackage(baseVersion: "3.7", lastPatch: 0).save()
+            new DdsRelease(baseVersion: "3.7", lastPatch: 0).save()
         }
     }
     def destroy = {

@@ -1,15 +1,15 @@
 package com.ociweb.fetchtao
 
+import com.ociweb.fetchdds.DdsRelease
+
 /**
  * Created by phil on 12/12/15.
  */
-
-import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
 @Transactional(readOnly = false)
 
-class DdsPackageController {
+class DdsReleaseController {
     static allowedMethods = [save: "POST"] //, update: "PUT", delete: "DELETE"]
     static standardScaffolding = true
     def productName
@@ -17,11 +17,11 @@ class DdsPackageController {
 
     def productNameProperty = "OpenDDS"
     def index() {
-        respond DdsPackage.list()
+        respond DdsRelease.list()
     }
 
     def getLastPatch (String base) {
-        DdsPackage.each ( {
+        DdsRelease.each ( {
             if (it.baseVersion.equals(base)) {
                 respond it.lastPatch;
             }

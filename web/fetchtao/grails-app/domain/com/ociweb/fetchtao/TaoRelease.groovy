@@ -7,7 +7,7 @@ import com.ociweb.oss.Release
  */
 
 //@Resource(uri="/downloadtao")
-public class TaoPackage extends Release {
+public class TaoRelease extends Release {
 
     static hostName = "download.ociweb.com"
 
