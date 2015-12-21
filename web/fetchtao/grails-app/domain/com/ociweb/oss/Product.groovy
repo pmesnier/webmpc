@@ -8,4 +8,9 @@ class Product {
     List releases
 
     String name
+    String description
+
+    static constraints = {
+        description nullable:true
+    }
 }

@@ -21,21 +21,21 @@
                 <fieldset class="form">
                     <g:hiddenField name="id" value="${taoRelease.id}" />
                     <p>Patch Level</p>
-                    <p><g:radio name="patchLevel"  value="p0" /> Base (full source tree) </p>
-                    <p><g:radio name="patchLevel"  value="pn" checked="checked" /> Latest, p${lastPatch} (full source tree) </p>
-                    <p><g:radio name="patchLevel"  value="pj" /> Jumbo patch, combining all incremental patches from base to latest </p>
-                    <p><g:radio name="patchLevel"  value="ps" /> Changed files from patch
+                    <p><g:radio name="patchLevel"  value="8" /> Base (full source tree) </p>
+                    <p><g:radio name="patchLevel"  value="16" checked="checked" /> Latest, p${lastPatch} (full source tree) </p>
+                    <p><g:radio name="patchLevel"  value="32" /> Jumbo patch, combining all incremental patches from base to latest </p>
+                    <p><g:radio name="patchLevel"  value="64" /> Changed files from patch
                         <g:field type="number" name="changesLevel" value="${lastpatch}" min="1" max="${lastpatch}" default="${lastpatch}" />
                     </p>
                     <br>
                     <p>Archive contents</p>
-                    <p><g:radio name="content" value="src" checked="checked" /> Source only </p>
-                    <p><g:radio name="content" value="proj"/> Project files only</p>
-                    <p><g:radio name="content" value="both"/> Source + Project files</p>
+                    <p><g:radio name="content" value="1" checked="checked" /> Source only </p>
+                    <p><g:radio name="content" value="2"/> Project files only</p>
+                    <p><g:radio name="content" value="3"/> Source + Project files</p>
                     <br>
                     <p>File format</p>
-                    <p><g:radio name="compress" value="tar.gz" checked="checked" /> .tar.gz </p>
-                    <p><g:radio name="compress" value="zip" /> .zip </p>
+                    <p><g:radio name="compress" value="512" checked="checked" /> .tar.gz </p>
+                    <p><g:radio name="compress" value="1024" /> .zip </p>
                     <br>
 
                 </fieldset>

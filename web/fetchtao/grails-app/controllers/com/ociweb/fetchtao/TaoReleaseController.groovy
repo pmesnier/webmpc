@@ -25,14 +25,12 @@ class TaoReleaseController {
         render "save called"
     }
 
-    def taoDownloadLink (TaoRelease pkg)
+    def taoDownloadLink (TaoRelease rel)
     {
-        def one = params.patchLevel
-        def two = params.changesLevel
-        def three = params.content
-        def four = params.compress
+        int id = TaoLegacyPackage.genId (params)
+        def pkg = rel.target(params)
 
-        render template:'downloadLinkTao', model: [urlstr: pkg.target(one, two.toInteger(), three, four)]
+        render template:'downloadLinkTao', model: [urlstr: pkg.targetName, md5str: pkg.md5sum]
     }
 
 }
