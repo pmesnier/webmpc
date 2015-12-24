@@ -1,0 +1,1 @@
+mFAST is a C++ implementation of the FAST protocol using pre-configured message definitions to improve throughput performance

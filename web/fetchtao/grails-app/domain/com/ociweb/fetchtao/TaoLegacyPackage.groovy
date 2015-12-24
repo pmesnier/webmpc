@@ -1,30 +1,39 @@
 package com.ociweb.fetchtao
 
-import com.ociweb.oss.Package
-
 /**
  * Created by phil on 12/19/15.
  */
 
-class TaoLegacyPackage extends Package {
+class TaoLegacyPackage {
+
+    static int CONTENT_MASK =7
     static int SOURCE_ONLY = 1
     static int PROJECT_ONLY = 2
     static int SOURCE_AND_PROJECT = 3
+    static int UNDEF_CONTENT = 4
 
+    static int PATCH_MASK = 248
     static int BASE_RELEASE = 8
     static int FULL_LATEST_RELEASE = 16
     static int JUMBO_PATCH = 32
     static int LEVEL_PATCH = 64
+    static int UNDEF_PATCH = 128
 
+    static int COMPRESS_MASK = 1792
     static int TGZ = 256
     static int ZIP = 512
     static int BZ2 = 1024
+
     static int LEVEL_SHIFT = 16
     String targetName
     String md5sum
     int content
 
-    static int genId(String name, int patch) {
+    static int defKey() {
+        return SOURCE_AND_PROJECT + FULL_LATEST_RELEASE + TGZ
+    }
+
+    static int genKey(String name, int patch) {
         int content = SOURCE_AND_PROJECT
         if (name.contains("NO_makefiles") || name.contains ("-nomake")) {
             content = SOURCE_ONLY
@@ -57,12 +66,13 @@ class TaoLegacyPackage extends Package {
         return content
     }
 
-    static int genId(def p) {
+    static int genKey(def p) {
         int pl = p.patchLevel.toInteger ()
-        int id = p.content.toInteger () + pl + p.compress.toInteger()
+        int key = p.content.toInteger () + pl + p.compress.toInteger()
         if (pl == LEVEL_PATCH) {
-            id += p.changesLevel.toInteger () << LEVEL_SHIFT
+            key += p.changesLevel.toInteger () << LEVEL_SHIFT
         }
-        return id
+        return key
     }
-}
+
+ }

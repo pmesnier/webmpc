@@ -9,148 +9,121 @@ import com.ociweb.oss.Release
 //@Resource(uri="/downloadtao")
 public class TaoRelease extends Release {
 
-    static hostName = "download.ociweb.com"
+    static hasMany = [legacy:TaoLegacyPackage]
+    static defaultPackage = new TaoLegacyPackage ([targetName: "Desired package not available",
+                                                   md5sum    :"",
+                                                   patchLevel:0])
 
-    int major
-    int minor
+    Map legacy = [:]
+
+    String rlsVersion
+    String basePath
+    String patchesPath
+//    URL    readme
+//    URL    releaseNotes
+
     int lastPatch
-    def firstRelease
-    def latestPatch
+    boolean patchsrc
+    int lastTarget
 
-    static Collection<Properties> initMd5sums (String urlStr) {
+    static initMd5sums (String urlStr) {
         URL md5file = new URL (urlStr)
         def md5sums = []
         md5file.readLines().each ({line ->
             def words = line.split("  ")
             String sum = words[0]
-            String filename = words[words.length-1]
+            String filename = words[-1]
             md5sums << [file: filename, sum: sum]
         })
         return md5sums
     }
 
+    def initFiles (String urlStr) {
+        URL directory = new URL (urlStr)
+        def files = []
+        directory .readLines().each ({line ->
+            def words = line.split (" ")
+
+        })
+    }
     def initPackages () {
-        /*
-        String path = this.rootPath(false, false)
+        println "Init packages called for rls = " + rlsVersion
         def baseSums = []
         try {
-            baseSums = initMd5sums(path + "/TAO-" + baseVersion() + ".md5")
+            baseSums = initMd5sums(basePath + "/TAO-" + rlsVersion + ".md5")
+            String baseRoot = "ACE+TAO-" + rlsVersion
+            baseSums << [file: baseRoot + ".tar.gz", sum : "not available"]
+            baseSums << [file: baseRoot + ".zip", sum : "not available"]
+            baseSums << [file: baseRoot + "-nomake.tar.gz", sum : "not available"]
+            baseSums << [file: baseRoot + "-nomake.zip", sum : "not available"]
         }
         catch (FileNotFoundException ex) {
             try {
-                baseSums = initMd5sums(path + "/ACE+TAO-" + baseVersion() + ".md5")
+                baseSums = initMd5sums(basePath + "/ACE+TAO-" + rlsVersion + ".md5")
             } catch (ex2) {
 
             }
         }
 
-        def pkgs = []
+        String key
         baseSums.each({
-            pkgs << [targetName: path + "/" + it.file,
-                     md5sum:it.sum,
-                     patchLevel:0,
-                     id: TaoLegacyPackage.genId(it.file, 0)]
+            key = TaoLegacyPackage.genKey(it.file, 0) as String
+            legacy.put  key, new TaoLegacyPackage( [targetName: basePath + "/" + it.file,
+                                                    md5sum:it.sum, patchLevel:0,
+            timestamp:it.time, size: it.fsize] )
         })
 
         for (int i = 1; i <= lastPatch; i++) {
-            path = this.rootPath(true, false)
             try {
-                baseSums.clear()
-                baseSums = initMd5sums(path + "/patch" + i + ".md5")
+                baseSums = initMd5sums(patchesPath + "/patch" + i + ".md5")
+                if (i == lastPatch) {
+                    String jumboRoot = "TAO-" + rlsVersion + "_jumbo_patch"
+                    baseSums << [file: jumboRoot + ".tar.gz", sum : "not available"]
+                    baseSums << [file: jumboRoot + ".zip", sum : "not available"]
+                    baseSums << [file: jumboRoot + "_NO_Makefiles.tar.gz", sum : "not available"]
+                    baseSums << [file: jumboRoot + "_NO_Makefiles.zip", sum : "not available"]
+                }
                 baseSums.each({
-                    pkgs << [targetName: path + "/" + it.file,
-                             md5sum:it.sum,
-                             patchLevel:i,
-                             id: TaoLegacyPackage.genId(it.file, i)]
+                    key = TaoLegacyPackage.genKey(it.file, i) as String
+                    def target = (it.file.contains ("latest") ? basePath : patchesPath) + "/" + it.file
+                    legacy.put key , new TaoLegacyPackage([targetName: target, md5sum:it.sum, patchLevel:i])
                 })
             }
             catch (FileNotFoundException ex) {
 
             }
+
         }
 
-        pkgs.each ({ pkgdef ->
-            def tp = new TaoLegacyPackage (pkgdef)
-            this.addToPackages (tp)
-        })
-        */
-    }
-
-    String baseVersion () {
-        return Integer.toString(major) + "." + Integer.toString(minor) + "a"
-    }
-
-    String rootPath (boolean patch, boolean prefixFile) {
-        String path = "http://" + hostName + "/TAO-" + baseVersion ()
-        if (patch) {
-            path += "_patches"
-        }
-        if (prefixFile) {
-            path += (patch) ? "/TAO-" : "/ACE+TAO-"
-            path += baseVersion ()
-        }
-        return path
-    }
-
-    boolean sourceOnlyAvailable (boolean base) {
-        return base ? (major > 1 && minor > 0) : (major > 1 || minor > 5)
-    }
-
-    String fullArchive (boolean base, int srcProj) {
-        String content = ""
-        if (srcProj == TaoLegacyPackage.SOURCE_ONLY && sourceOnlyAvailable (base)) {
-            content = base ? "-nomake" : "_with_latest_patches_NO_makefiles"
-        } else if (!base) {
-            content = "_with_latest_patches"
-        }
-        rootPath(false, true) + content
+        lastTarget = TaoLegacyPackage.defKey ()
 
     }
 
-    String changedFiles (int level, int srcProj) {
-        String content
-        if (level == -1) {
-            content = "_jumbo_patch"
-            if (srcProj == TaoLegacyPackage.SOURCE_ONLY && sourceOnlyAvailable(false))
-                content += "NO_makefiles"
-        }
-        else {
-            content = "_p" + level
-            if (srcProj == TaoLegacyPackage.SOURCE_AND_PROJECT ||
-                    (srcProj == TaoLegacyPackage.PROJECT_ONLY && !sourceOnlyAvailable(false))) {
-                content += "_patched_files"
-            }
-            else if (srcProj == TaoLegacyPackage.SOURCE_ONLY) {
-                content += "_patched_files_NO_makefiles"
-            }
-            else {
-                content += "_project_files"
-            }
-        }
+    TaoLegacyPackage target (def params) {
+        if (lastTarget == 0)
+            lastTarget = TaoLegacyPackage.defKey()
 
-        rootPath(true, true) + content
-    }
+        int patchLevel = params.patchLevel != null ? params.patchLevel.toInteger() : (lastTarget & TaoLegacyPackage.PATCH_MASK)
+        int changesLevel = params.changesLevel != null ? params.changesLevel.toInteger() : (lastTarget >> TaoLegacyPackage.LEVEL_SHIFT)
+        int content = params.content != null ? params.content.toInteger() : (lastTarget & TaoLegacyPackage.CONTENT_MASK)
+        int compress = params.compress != null ? params.compress.toInteger() : (lastTarget & TaoLegacyPackage.COMPRESS_MASK)
+        lastTarget = patchLevel + content + compress
 
-    TaoLegacyPackage target (def p) {
-        int patchLevel = p.patchLevel.toInteger()
-        int changesLevel = p.changesLevel.toInteger()
-        int content = p.content.toInteger()
-        int compress = p.compress.toInteger()
+        println "target using patchLevel = " + patchLevel +
+                " changesLevel = " + changesLevel +
+                " content = " + content +
+                " compress = " + compress
+                " getting legacy [" + lastTarget + "]"
 
-        boolean jumbo = patchLevel == TaoLegacyPackage.JUMBO_PATCH
-        boolean patch = ( jumbo || patchLevel == TaoLegacyPackage.LEVEL_PATCH)
-        String t = patch ? changedFiles (jumbo ? -1 : changesLevel, content)
-        : fullArchive (patchLevel == TaoLegacyPackage.BASE_RELEASE, content)
-        String compressStr = compress == TaoLegacyPackage.TGZ ? ".tar.gz" : compress == TaoLegacyPackage.ZIP ? ".zip" : ".tar.bz2"
-        String tpath = new String (t + "." + compressStr)
-        return new TaoLegacyPackage ([targetName: tpath,
-                                      md5sum    :"Under Construction",
-                                      patchLevel:changesLevel,
-                                      id        : TaoLegacyPackage.genId(tpath,changesLevel)])
+        if (patchLevel == TaoLegacyPackage.LEVEL_PATCH)
+            lastTarget += (changesLevel << TaoLegacyPackage.LEVEL_SHIFT)
+        String key = lastTarget as String
+
+        legacy.containsKey(key) ? legacy.get(key) : defaultPackage
     }
 
     String toString () {
-        baseVersion()
+        rlsVersion + " lastTarget = " + lastTarget
     }
 
 }

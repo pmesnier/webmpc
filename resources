@@ -1,0 +1,168 @@
+
+
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Object Computing, Inc. GitHub Products">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>OCI Sponsored Projects</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="oci_logo" href="http://www.ociweb.com"></a>
+          <h1 id="project_title">OCI Sponsored Projects</h1>
+          <a id="forkme_banner" href="https://github.com/objectcomputing" target="_blank">View on GitHub</a>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT <img src="images/logo-circle.png" alt="HTML tutorial" style="width:42px;height:42px;border:0">-->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to Our Github Page!</h3>
+
+<p>Thank you for taking the time to browse through our projects. All of our projects are open source, which means you have full and free access to the code, no vendor lock-in and maximum user control. For details about any of our projects, please click on the "View in Github" link below each product, or contact OCI for information or assistance.</p>
+
+   <!-- OpenDDS -->
+    <div id="product_wrap" class="outer">
+        <header class="inner">
+          <h3 id="product_title">OpenDDS</h3>
+            <ul>
+              <li><a id="product_link" href="http://github.com/objectcomputing/OpenDDS" target="_blank">Source</a></li>
+              <li><a id="product_link" href="http://github.com/objectcomputing/OpenDDS/releases" target="_blank">Releases</a></li>
+              <li><a id="product_link" href="http://download.ociweb.com/OpenDDS/OpenDDS-latest.pdf" target="_blank">Documentation</a></li>
+              <li>FAQ</li>
+              <li><a id="product_link" href="https://github.com/objectcomputing/OpenDDS/blob/master/LICENSE" target="_blank">License</a></li>
+            </ul>
+        </header>
+          <div id="product_title_bar"></div>
+          <p>OpenDDS is an open source native C++ implementation of the OMG (Object Management Group) Data Distribution Service (DDS) for Real-Time Systems specification. DDS defines a strongly typed publish-subscribe service for efficiently distributing application data between participants in a distributed application.</p>
+    </div>
+    <!-- TAO -->
+    <div id="product_wrap" class="outer">
+        <header class="inner">
+          <h3 id="product_title">OCI TAO</h3>
+            <ul>
+              <li><a id="product_link" href="http://theaceorb.com/downloads/index.html" target="_blank">Source</a></li>
+              <li><a id="product_link" href="http://theaceorb.com/downloads/index.html" target="_blank">Releases</a></li>
+              <li><a id="product_link" href="http://theaceorb.com/purchase/index.html" target="_blank">Documentation</a></li>
+              <li><a id="product_link" href="http://theaceorb.com/faq/index.html" target="_blank">FAQ</a></li>
+              <li><a id="product_link" href="http://theaceorb.com/product/license.html" target="_blank">License</a></li>
+            </ul>
+        </header>
+          <div id="product_title_bar"></div>
+          <p>The ACE ORB (TAO), pronounced "dow", is a CORBA V3.0 compliant, C++, object request broker. It is a second generation ORB developed with a highly extensible architecture as a result of its use of what might be termed a pattern framework, more commonly known as the ACE library. ACE is an acronym for ADAPTIVE Communication Environment.Although designed to meet the demanding requirements of hard real time systems, TAO can be easily used "out of the box" for general purpose CORBA middleware applications. Its design to meet exacting real time needs, which can be described as Quality of Service (QoS) requirements, has resulted in superior predictability, complete end to end determinism, high performance, and a scaleable implementation.</p>
+    </div>
+   <!-- MPC -->
+    <div id="product_wrap" class="outer">
+        <header class="inner">
+          <h3 id="product_title">Make Project Creator (MPC)</h3>
+            <ul>
+              <li><a id="product_link" href="https://github.com/DOCGroup/MPC" target="_blank">Source</a></li>
+              <li><a id="product_link" href="https://github.com/DOCGroup/MPC/releases" target="_blank">Releases</a></li>
+              <li><a id="product_link" href="https://github.com/DOCGroup/MPC/tree/master/docs" target="_blank">Documentation</a></li>
+              <li>FAQ</li>
+              <li><a id="product_link" href="https://github.com/DOCGroup/MPC/blob/master/docs/LICENSE" target="_blank">License</a></li>
+            </ul>
+        </header>
+          <div id="product_title_bar"></div>
+          <p>MPC (Make, Project and workspace Creator) is an open source tool, developed by OCI and written in Perl. It is designed to generate a variety of tool specific project files from a common baseline. Through the powerful combination of inheritance and defaults MPC is able to reduce the maintenance burden normally associated with keeping multiple target platforms, their unique build tools, and inconsistent feature sets current.It is also easily extensible to support new build environments. The objective is to solve the prevalent problem of fragile build environments, usually experienced by developer groups, by replacing it with a singular robust build environment, and an active community of users committed to its evolution.</p>
+    </div>
+   <!-- mFAST -->
+    <div id="product_wrap" class="outer">
+        <header class="inner">
+          <h3 id="product_title">mFAST</h3>
+            <ul>
+              <li><a id="product_link" href="http://github.com/objectcomputing/mFAST" target="_blank">Source</a></li>
+              <li><a id="product_link" href="http://github.com/objectcomputing/mFAST/releases" target="_blank">Releases</a></li>
+              <li>Documentation</li>
+              <li>FAQ</li>
+              <li><a id="product_link" href="http://github.com/objectcomputing/mFAST/blob/master/licence.txt" target="_blank">License</a></li>
+            </ul>
+        </header>
+          <div id="product_title_bar"></div>
+          <p>mFAST is a newly-released open source C++ implementation of the FAST protocol that is easy to use and more efficient than QuickFAST.</p>
+    </div>
+    <!-- QuickFAST -->
+    <div id="product_wrap" class="outer">
+        <header class="inner">
+          <h3 id="product_title" target="_blank">QuickFAST</h3>
+            <ul>
+              <li><a id="product_link" href="http://github.com/objectcomputing/quickfast" target="_blank">Source</a></li>
+              <li><a id="product_link" href="http://github.com/objectcomputing/quickfast/releases" target="_blank">Releases</a></li>
+              <li>Documentation</li>
+              <li>FAQ</li>
+              <li><a id="product_link" href="https://github.com/objectcomputing/quickfast/blob/master/license.txt" target="_blank">License</a></li>
+            </ul>
+        </header>
+          <div id="product_title_bar"></div>
+          <p>QuickFAST is an open source C++ implementation of the FAST protocol. The FAST (Fix Adapted for STreaming) protocol was developed by FIX Protocol Limited [FPL](http://www.fixprotocol.org/fast/) as a way to reduce the bandwidth and network-latency required to distribute market data without incurring excessive CPU costs. QuickFAST  is widely used by trading companies as the baseline for a multi-exchange trading architecture to commoditize market data and lower costs.</p>
+    </div>
+    <!-- LiquiBook -->
+    <div id="product_wrap" class="outer">
+        <header class="inner">
+          <h3 id="product_title" target="_blank">Liquibook</h3>
+            <ul>
+              <li><a id="product_link" href="https://github.com/objectcomputing/liquibook" target="_blank">Source</a></li>
+              <li><a id="product_link" href="https://github.com/objectcomputing/liquibook/releases" target="_blank">Releases</a></li>
+              <li>Documentation</li>
+              <li>FAQ</li>
+              <li><a id="product_link" href="https://github.com/objectcomputing/liquibook/blob/master/license.txt" target="_blank">License</a></li>
+            </ul>
+        </header>
+          <div id="product_title_bar"></div>
+          <p>An Open Source limit order book matching engine from OCI that is flexible to integrate into your design. It includes features such as low-level components for order matching and aggregate depth tracking and high performance qualities such as minimal copy to internal data structures and up to 2.5 million inserts per second.</p>
+    </div>
+<!-- JBoss -->
+    <div id="product_wrap" class="outer">
+        <header class="inner">
+          <h3 id="product_title">JBoss</h3>
+            <ul>
+              <li><a id="product_link" href="http://jboss.ociweb.com/download" target="_blank">Source</a></li>
+              <li><a id="product_link" href="http://jboss.ociweb.com/download" target="_blank">Releases</a></li>
+              <li>Documentation</li>
+              <li>FAQ</li>
+              <li><a id="product_link" href="http://jboss.ociweb.com/Product-Information" target="_blank">License</a></li>
+            </ul>
+        </header>
+          <div id="product_title_bar"></div>
+          <p>OCI’s open source redistribution of RedHat’s commercial JBoss Application Server.</p>
+    </div>
+<!-- Grails -->
+    <div id="product_wrap" class="outer">
+        <header class="inner">
+          <h3 id="product_title">Grails</h3>
+            <ul>
+              <li><a id="product_link" href="https://github.com/grails/grails-core" target="_blank">Source</a></li>
+              <li><a id="product_link" href="https://github.com/grails/grails-core/releases" target="_blank">Releases</a></li>
+              <li><a id="product_link" href="https://github.com/grails/grails-core/releases" target="_blank">Documentation</a></li>
+              <li><a id="product_link" href="http://www.grails.org/faq.html" target="_blank">FAQ</li>
+              <li><a id="product_link" href="https://github.com/grails/grails-core/blob/master/LICENSE" target="_blank">License</a></li>
+            </ul>
+        </header>
+          <div id="product_title_bar"></div>
+          <p>Grails is a framework used to build web applications with the Groovy programming language. The core framework is very extensible and there are numerous plugins available that provide easy integration of add-on features.</p>
+    </div>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p></p>
+      </footer>
+    </div>
+
+
+
+  </body>
+</html>

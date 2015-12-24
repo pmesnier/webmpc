@@ -1,38 +1,30 @@
+
 import com.ociweb.fetchdds.DdsRelease
 import com.ociweb.fetchtao.TaoProduct
 import com.ociweb.fetchtao.TaoRelease
+import com.ociweb.oss.Product
+import groovy.json.JsonSlurper
+
 
 class BootStrap {
 
     def init = { servletContext ->
-       def ossRelease = []
 
-        ossRelease << [major: 1, minor: 2, lastPatch: 12]
-        ossRelease << [major: 1, minor: 3, lastPatch: 18]
-        ossRelease << [major: 1, minor: 4, lastPatch: 26]
-        ossRelease << [major: 1, minor: 5, lastPatch: 22]
-        ossRelease << [major: 1, minor: 6, lastPatch: 15]
-        ossRelease << [major: 2, minor: 0, lastPatch: 7]
-        ossRelease << [major: 2, minor: 2, lastPatch: 8]
-
-        def ossProduct = []
-        ossProduct << [name: "OCI TAO", rootServerName: "download.ociweb.com"]
-
-        ossProduct.each { proddef ->
-            def product = new TaoProduct(proddef)
-            ossRelease.each { rlsdef ->
-                def rls = new TaoRelease (rlsdef)
-                rls.initPackages()
-                product.addToReleases (rls)
-            }
-            product.save(failOnError: true)
-        }
-
-        if (DdsRelease.count() == 0)
+        if (Product.list().size == 0)
         {
-            new DdsRelease(baseVersion: "3.7", lastPatch: 0).save()
+            def jsonSlurper = new JsonSlurper()
+            def resource = getClass().getClassLoader().getResource("products.json")
+            def products = jsonSlurper.parse(resource)
+            products.Product.each{
+                def prod = it.name.contains ("TAO") ? new TaoProduct (it) : new Product (it)
+                prod.initRelease(it)
+                prod.save(failOnError: true)
+                println "product " + it.name + " saved"
+            }
+
         }
     }
+
     def destroy = {
     }
 }

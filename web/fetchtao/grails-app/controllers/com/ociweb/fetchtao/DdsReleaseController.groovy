@@ -10,19 +10,19 @@ import grails.transaction.Transactional
 @Transactional(readOnly = false)
 
 class DdsReleaseController {
+    //static productNameProperty = "Open DDS - for test"
+    static productName = "Open DDS - for test with love"
+
     static allowedMethods = [save: "POST"] //, update: "PUT", delete: "DELETE"]
     static standardScaffolding = true
-    def productName
-    def taoDownloadService
 
-    def productNameProperty = "OpenDDS"
-    def index() {
+       def index() {
         respond DdsRelease.list()
     }
 
     def getLastPatch (String base) {
         DdsRelease.each ( {
-            if (it.baseVersion.equals(base)) {
+            if (it.rlsVersion.equals(base)) {
                 respond it.lastPatch;
             }
         });

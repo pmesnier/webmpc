@@ -22,7 +22,7 @@
 
             <ul>
                 <g:each in="${taoReleaseList}">
-                <li> <g:link action="show" id="${it.id}" >OCI TAO version ${it.baseVersion()} has ${it.lastPatch} patches.</g:link></li>
+                <li> <g:link action="show" id="${it.id}" >OCI TAO version ${it.rlsVersion} has ${it.lastPatch} patches.</g:link></li>
                 </g:each>
             </ul>
         </div>

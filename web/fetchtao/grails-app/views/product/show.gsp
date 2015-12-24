@@ -3,9 +3,8 @@
     <head>
         <g:javascript library="jquery" />
         <meta name="layout" content="taoDownload" />
-        <g:set var="entityName" value="${message(code: 'taoRelease.rlsVersion', default: 'OCI TAO')}" />
-        <g:set var="lastPatch" value="${taoRelease.lastPatch}" />
-        <title>OCI TAO ${taoRelease.rlsVersion} Downloader</title>
+        <g:set var="entityName" value="${message(code: 'name', default: 'Product')}" />
+        <title>${name} Downloader</title>
     </head>
     <body>
         <a href="#list-taoRelease" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>

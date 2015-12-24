@@ -19,8 +19,8 @@
                 <div class="message" role="status">${flash.message}</div>
             </g:if>
 
-            <g:select id="baseVersion"
-                      name="taoRelease.baseVersion"
+            <g:select id="version"
+                      name="taoRelease.version"
                       objectKey="id"
                       from="${taoPackageList }"
                        />

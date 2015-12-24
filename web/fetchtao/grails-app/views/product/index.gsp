@@ -37,7 +37,7 @@
             }
 
             #page-body {
-                margin: 2em 1em 1.25em 18em;
+                margin: 0 0.5em 0.5em 18em;
             }
 
             h2 {
@@ -61,7 +61,7 @@
                 margin: 0.25em 0;
             }
 
-            @media screen and (max-width: 480px) {
+            @media screen and (max-width: 2000px) {
                 #status {
                     display: none;
                 }
@@ -80,13 +80,20 @@
         <a href="#page-body" class="skip"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
         <div id="page-body" role="main">
             <h1>Welcome to OCI Download Portal</h1>
+
             <div id="controller-list" role="navigation">
                 <h2>OCI open source products:</h2>
-                <g:link controller="Product" action="show">Product List</g:link>
                 <ul>
-                    <g:each var="c" in="${grailsApplication.controllerClasses.sort { it.fullName } }">
-                        <li class="controller"><g:link controller="${c.logicalPropertyName}">Product name = ${c.getPropertyValue ("productName")} </g:link> <br>
-                        a brief description of ${c.getPropertyValue ("productName")} goes here</li>
+                    <g:each var="p" in="${productList}">
+                    <li>${p.name}
+                            <a href="${p.source}"> Source </a><g:link controller="Product" action="showReleases" id="${p.id}"> Releases </g:link>
+                            <g:link controller="Product" action="showLicense" id="${p.id}"> License </g:link>
+                            <g:link controller="Product" action="showDocs" id="${p.id}"> Documentation </g:link>
+                            <g:link controller="Product" action="showFAQ" id="${p.id}"> FAQ </g:link>
+                        <br>
+                        ${p.descstr}
+                        <br>
+                    </li>
                     </g:each>
                 </ul>
             </div>

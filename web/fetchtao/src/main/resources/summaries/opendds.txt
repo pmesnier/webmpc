@@ -1,0 +1,1 @@
+OpenDDS is an open source native C++ implementation of the OMG (Object Management Group) Data Distribution Service (DDS) for Real-Time Systems specification. DDS defines a strongly typed publish-subscribe service for efficiently distributing application data between participants in a distributed application.

@@ -1,0 +1,1 @@
+This is OCI’s open source redistribution of RedHat’s commercial JBoss Application Server.

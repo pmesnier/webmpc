@@ -11,8 +11,8 @@
         <g:layoutHead/>
     </head>
     <body>
-        <div id="taoLogo" role="banner"><a href="http://ociweb.com"><asset:image src="TAO-logo-1.png" alt="OCI TAO"/></a>
-        OCI TAO is the commercial release of The ACE ORB.
+        <div id="taoLogo" role="banner"><a href="http://ociweb.com"><asset:image src="${logo}" alt="OCI TAO"/></a>
+        ${title}
         </div>
         <g:layoutBody/>
         <div class="footer" role="contentinfo"></div>

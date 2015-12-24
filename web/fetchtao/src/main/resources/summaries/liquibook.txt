@@ -1,0 +1,1 @@
+An Open Source limit order book matching engine from OCI that is flexible to integrate into your design. It includes features such as low-level components for order matching and aggregate depth tracking and high performance qualities such as minimal copy to internal data structures and up to 2.5 million inserts per second.

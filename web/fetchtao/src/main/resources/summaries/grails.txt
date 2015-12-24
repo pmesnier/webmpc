@@ -1,0 +1,1 @@
+Grails is a framework used to build web applications with the Groovy programming language. The core framework is very extensible and there are numerous plugins available that provide easy integration of add-on features.

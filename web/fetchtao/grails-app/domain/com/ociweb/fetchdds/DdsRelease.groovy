@@ -6,7 +6,7 @@ import com.ociweb.oss.Release
  */
 
 public class DdsRelease {
-    String baseVersion
+    String rlsVersion
     int lastPatch
 }
 
