@@ -82,6 +82,7 @@
             <h1>Welcome to OCI Download Portal</h1>
             <div id="controller-list" role="navigation">
                 <h2>OCI open source products:</h2>
+
                 <g:link controller="Product" action="show">Product List</g:link>
                 <ul>
                     <g:each var="c" in="${grailsApplication.controllerClasses.sort { it.fullName } }">

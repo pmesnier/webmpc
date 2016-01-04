@@ -7,7 +7,7 @@ class UrlMappings {
             }
         }
 
-        "/"(view:"/product/index", controller:"com.ociweb.oss.ProductController")
+        "/"(view:'/index')
         "500"(view:'/error')
         "404"(view:'/notFound')
     }

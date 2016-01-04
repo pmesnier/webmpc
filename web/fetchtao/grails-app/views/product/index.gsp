@@ -86,13 +86,39 @@
                 <ul>
                     <g:each var="p" in="${productList}">
                     <li>${p.name}
-                            <a href="${p.source}"> Source </a><g:link controller="Product" action="showReleases" id="${p.id}"> Releases </g:link>
-                            <g:link controller="Product" action="showLicense" id="${p.id}"> License </g:link>
-                            <g:link controller="Product" action="showDocs" id="${p.id}"> Documentation </g:link>
-                            <g:link controller="Product" action="showFAQ" id="${p.id}"> FAQ </g:link>
-                        <br>
+                        <g:if test="${p instanceof com.ociweb.oss.GitHubProduct}">
+                            <g:link controller="GitHubProduct" action="showSource" id="${p.id}"> Source </g:link>
+                        </g:if>
+                        <g:else>
+                             <g:link controller="Product" action="showSource" id="${p.id}"> Source </g:link>
+                        </g:else>
+                        <g:if test="${p instanceof com.ociweb.oss.GitHubProduct}">
+                            <g:link controller="GitHubProduct" action="showReleases" id="${p.id}"> Releases </g:link>
+                        </g:if>
+                        <g:else>
+                             <g:link controller="Product" action="showReleases" id="${p.id}"> Releases </g:link>
+                        </g:else>
+                        <g:if test="${p instanceof com.ociweb.oss.GitHubProduct}">
+                            <g:link controller="GitHubProduct" action="showLicense" id="${p.id}"> License </g:link>
+                        </g:if>
+                        <g:else>
+                             <g:link controller="Product" action="showLicense" id="${p.id}"> License </g:link>
+                        </g:else>
+                        <g:if test="${p instanceof com.ociweb.oss.GitHubProduct}">
+                            <g:link controller="GitHubProduct" action="showDocumentation" id="${p.id}"> Documentation </g:link>
+                        </g:if>
+                        <g:else>
+                             <g:link controller="Product" action="showDocumentation" id="${p.id}"> Documentation </g:link>
+                        </g:else>
+                        <g:if test="${p instanceof com.ociweb.oss.GitHubProduct}">
+                            <g:link controller="GitHubProduct" action="showFAQ" id="${p.id}"> FAQ </g:link>
+                        </g:if>
+                        <g:else>
+                             <g:link controller="Product" action="showFAQ" id="${p.id}"> FAQ </g:link>
+                        </g:else>
+                        <p>
                         ${p.descstr}
-                        <br>
+                        </p>
                     </li>
                     </g:each>
                 </ul>

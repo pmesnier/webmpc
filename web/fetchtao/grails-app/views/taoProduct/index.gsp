@@ -10,7 +10,7 @@
         <a href="#list-taoProduct" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
         <div class="nav" role="navigation">
             <ul>
-                <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
+                <li><a class="home" href="${createLink(uri: '/product/index')}"><g:message code="default.home.label"/></a></li>
                 <!--li><g:link class="next" action="pkgConfig" params="'id=' + ${version?.value}" ><g:message code="default.options.label" args="options" /></g:link></li-->
             </ul>
         </div>

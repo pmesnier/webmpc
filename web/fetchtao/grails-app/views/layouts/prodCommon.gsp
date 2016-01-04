@@ -11,11 +11,11 @@
         <g:layoutHead/>
     </head>
     <body>
-        <div id="taoLogo" role="banner"><a href="http://ociweb.com"><asset:image src="opendds-logo-1.png" alt="Open DDS"/></a>
-        OpenDDS is OCI's open source implementation of the Data Distribution Service.
+        <div id="taoLogo" role="banner"><a href="http://ociweb.com"><asset:image src="${product.logo}" alt="OCI TAO"/></a>
+        ${product.title}
         </div>
         <g:layoutBody/>
         <div class="footer" role="contentinfo"></div>
-        <div id="spinner" class="spinner" style="display:all;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
+        <!-- div id="spinner" class="spinner" style="display:all;"><g:message code="spinner.alt" default="Loading&hellip;"/></div -->
     </body>
 </html>

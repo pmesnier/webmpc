@@ -29,12 +29,16 @@ public class TaoRelease extends Release {
     static initMd5sums (String urlStr) {
         URL md5file = new URL (urlStr)
         def md5sums = []
-        md5file.readLines().each ({line ->
-            def words = line.split("  ")
-            String sum = words[0]
-            String filename = words[-1]
-            md5sums << [file: filename, sum: sum]
-        })
+        try {
+            md5file.readLines().each ({line ->
+                def words = line.split("  ")
+                String sum = words[0]
+                String filename = words[-1]
+                md5sums << [file: filename, sum: sum]
+            })
+        } catch (java.net.SocketException ex) {
+            println "Caught " + ex + " reading " + urlStr
+        }
         return md5sums
     }
 

@@ -1,5 +1,10 @@
 {
-    "Product" : [
+    "gitHubAuthTokenFile" : "/tao_builds/phil/projects/webmpc/phil_auth_token",
+    "product" : [
+        {
+            "name" : "OSS Product"
+        },
+
         {
             "name" : "OpenDDS",
             "logo" : "opendds-logo-1.png",
@@ -107,6 +112,7 @@
             "title" : "JBoss, the Application Server",
             "descstr" : "OCI’s redistribution of Red Hat’s commercial JBoss application server",
             "descref" : "summaries/jboss.txt",
+            "source" : "http://jboss.ociweb.com/download",
             "rlsurl" : "http://jboss.ociweb.com/download",
             "license" : "http://jboss.ociweb.com/Product-Information",
             "docs" : "",

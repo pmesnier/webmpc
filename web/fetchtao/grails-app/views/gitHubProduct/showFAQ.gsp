@@ -11,14 +11,14 @@
         <div class="nav" role="navigation">
             <ul>
                  <li><a class="home" href="${createLink(uri: '/product/index')}"><g:message code="default.home.label"/></a></li>
-                 <li><g:link controller="Product" action="showSource" id="${product.id}"> Source </g:link></li>
-                 <li><g:link controller="Product" action="showReleases" id="${product.id}"> Releases </g:link></li>
-                 <li><g:link controller="Product" action="showLicense" id="${product.id}"> License </g:link></li>
-                 <li><g:link controller="Product" action="showFAQ" id="${product.id}"> FAQ </g:link></li>
-           </ul>
+                 <li><g:link controller="GitHubProduct" action="showSource" id="${gitHubProduct.id}"> Source </g:link></li>
+                 <li><g:link controller="GitHubProduct" action="showReleases" id="${gitHubProduct.id}"> Releases </g:link></li>
+                 <li><g:link controller="GitHubProduct" action="showLicense" id="${gitHubProduct.id}"> License </g:link></li>
+                 <li><g:link controller="GitHubProduct" action="showDocs" id="${gitHubProduct.id}"> Documentation </g:link></li>
+            </ul>
         </div>
         <div class="releases" role="main">
-        when a list of Documentation is gathered show it here.
+        when a list of FAQ is gathered show it here.
         </div>
     </body>
 </html>

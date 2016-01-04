@@ -26,6 +26,7 @@ class TaoReleaseController {
 
     def show (TaoRelease rel)
     {
+        println "TaoReleaseController rel = " + rel
         stashRelease = rel
         respond rel, model: [title: rel.product.title, logo: rel.product.logo];
     }
@@ -36,7 +37,6 @@ class TaoReleaseController {
 
     def taoDownloadLink (TaoRelease rel)
     {
-        println "rel = " + rel + " stashed release = " + stashRelease
         if (rel == null) rel = stashRelease
         println "rel version = " + rel.rlsVersion + " lastPatch = " + rel.lastPatch + " lastTarget = " + rel.lastTarget
         def pkg = rel.target(params)

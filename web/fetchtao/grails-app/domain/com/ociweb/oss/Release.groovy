@@ -8,6 +8,5 @@ import org.hibernate.mapping.Map
 class Release {
 
     static belongsTo = [product: Product]
-    def product
 
 }

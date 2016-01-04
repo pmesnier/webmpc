@@ -1,22 +1,22 @@
 package com.ociweb.oss
 
 /**
- * Created by phil on 12/25/15.
+ * Created by phil on 1/3/16.
  */
-class ProductController {
+class GitHubProductController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
     static standardScaffolding = true
 
     def index() {
-        respond Product.list(), model: []
+        redirect (controller: 'product', action: 'index')
     }
 
-    def show (Product prod) {
-        respond prod, model: []
+    def show (GitHubProduct prod) {
+        redirect (controller: 'product', action: 'show')
     }
 
-    def showSource (Product prod) {
-        println "show source, name = " + prod.name
+    def showSource (GitHubProduct prod) {
+        println "show GHsource, name = " + prod.name
         if (prod.name.equals("OCI TAO"))
             redirect (controller: 'taoRelease', action: 'index')
         String srcurl = prod.sourceURL ()
@@ -24,10 +24,10 @@ class ProductController {
         if (srcurl != null)
             redirect (url:srcurl)
         else
-            respond prod, model: []
+            respond prod
     }
 
-    def showReleases (Product prod) {
+    def showReleases (GitHubProduct prod) {
         if (prod.rlsurl && prod.rlsurl.length() > 0)
             redirect (url:prod.rlsurl)
         else if (prod.name.equals("OCI TAO"))
@@ -38,37 +38,33 @@ class ProductController {
                 rlist = []
                 rlist << [name: "none", tarball_url: "", zipball_url: ""]
             }
-            if (prod instanceof GitHubProduct) {
-                redirect (controler: 'gitHubProuct', action: 'showReleases')
-            } else {
-                respond prod, model: [rlist: rlist]
-            }
+            respond prod, model: [rlist: rlist]
         }
     }
 
-    def showLicense (Product prod) {
+    def showLicense (GitHubProduct prod) {
         String lictext = prod.fetchLicense()
         if (lictext == "" && prod.license != null && prod.license.length() > 0)
             redirect (url:prod.license)
         else
-            respond prod, model: [license: lictext]
+        respond prod, model: [license: lictext]
     }
 
-    def showDocs (Product prod) {
+    def showDocs (GitHubProduct prod) {
         if (prod.name.equals ("Grails"))
             redirect (url:prod.docs)
         else
-            respond prod, model: []
+            respond prod
     }
 
-    def showFAQ (Product prod) {
+    def showFAQ (GitHubProduct prod) {
         if (prod.name.equals ("Grails"))
             redirect (url:prod.faq)
         else
-            respond prod, model: []
+            respond prod
     }
 
-    def downloadRelease (Product prod) {
+    def downloadRelease (GitHubProduct prod) {
         if (params.format == null) {
             params.format = "tar.gz"
         }
@@ -76,5 +72,6 @@ class ProductController {
         String targeturl = prod.targetLink (params)
         redirect (url:targeturl)
     }
+
 
 }
