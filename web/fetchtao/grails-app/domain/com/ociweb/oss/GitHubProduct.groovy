@@ -14,9 +14,6 @@ class GitHubProduct extends Product {
     String tagsLastMod
     String relsLastMod
     String licLastMod
-    List tagfilter
-
-    static transients = ["tagfilter"]
 
     static constraints = {
         githublicense nullable:true
@@ -24,16 +21,8 @@ class GitHubProduct extends Product {
         tagsLastMod nullable:true
         relsLastMod nullable:true
         licLastMod nullable:true
-        tagfilter bindable:true
     }
 
-    def initRelease (params) {
-        if (params.tagfilter)
-        {
-            println params.tagfilter
-        }
-        println tagfilter
-    }
     def sourceURL () {
         if (source == null || source.length() == 0) {
             source = "https://github.com/" + githubowner + "/" + githubrepo
@@ -41,77 +30,77 @@ class GitHubProduct extends Product {
         return source
     }
 
-    def openGitHubPage (String link, String lastMod) {
-        String urlstr = (link.startsWith ("http") ) ? link : "https://api.github.com/repos/" + githubowner + "/" + githubrepo + link
-        println "openGitHubPage " + urlstr
-        URL url = new URL (urlstr)
-        HttpURLConnection con = (HttpURLConnection)url.openConnection()
-        con.addRequestProperty("Authorization", GitHubAPI.authToken)
-        println "    adding prop Authorization = " + GitHubAPI.authToken
-        if (lastMod != null && lastMod.length() > 0) {
-            con.addRequestProperty("If-Modified-Since", lastMod)
-            println "    adding prop If-Modified-Since = " + lastMod
-        }
-        con.connect()
-        return con
-    }
+//    def openGitHubPage (String link, String lastMod) {
+//        String urlstr = (link.startsWith ("http") ) ? link : "https://api.github.com/repos/" + githubowner + "/" + githubrepo + link
+//        println "openGitHubPage " + urlstr
+//        URL url = new URL (urlstr)
+//        HttpURLConnection con = (HttpURLConnection)url.openConnection()
+//        con.addRequestProperty("Authorization", GitHubAPI.authToken)
+//        println "    adding prop Authorization = " + GitHubAPI.authToken
+//        if (lastMod != null && lastMod.length() > 0) {
+//            con.addRequestProperty("If-Modified-Since", lastMod)
+//            println "    adding prop If-Modified-Since = " + lastMod
+//        }
+//        con.connect()
+//        return con
+//    }
 
-    def fetchRevInfo_i (String link) {
-        List reflist = []
-        String lastMod = null
-        if (link.equals("/tags")) {
-            lastMod = tagsLastMod == null ? "" : tagsLastMod
-        }
-        else if (link.equals("/releases")) {
-            lastMod = relsLastMod == null ? "" : relsLastMod
-        }
-
-        HttpURLConnection con = openGitHubPage (link, lastMod)
-        int code = con.getResponseCode()
-        println "fetchRevInfo_i link = " + link + " got code " + code
-        switch (code) {
-        case HttpURLConnection.HTTP_NOT_MODIFIED:
-            return null
-        case HttpURLConnection.HTTP_OK:
-            if (link.equals ("/tags")) {
-                tagsLastMod = con.getHeaderField("Last-Modified")
-            }
-            else if (link.equals ("/releases")) {
-                relsLastMod = con.getHeaderField("Last-Modified")
-                if (relsLastMod == null) {
-                    relsLastMod = con.getHeaderField("Date")
-                }
-            }
-            break
-        default:
-            return reflist
-        }
-
-        String nextPage = ""
-        String val = con.getHeaderField("Link")
-
-        if ( val != null && val.contains ("next")) {
-            def nextChunk = val.split (",").find {it.contains("rel=\"next\"")}
-            int head = nextChunk.indexOf('<') + 1;
-            int tail = nextChunk.lastIndexOf('>');
-            nextPage = nextChunk.substring (head, tail)
-        }
-        def slurp = new JsonSlurper()
-        slurp.parse (con.getContent()).each {
-            reflist << [ name: it.name, tarball_url: it.tarball_url, zipball_url: it.zipball_url]
-        }
-        if (nextPage.length() > 0) {
-            fetchRevInfo_i(nextPage).each {
-                reflist << it
-            }
-        }
-        return reflist
-    }
+//    def fetchRevInfo_i (String link) {
+//        List reflist = []
+//        String lastMod = null
+//        if (link.equals("/tags")) {
+//            lastMod = tagsLastMod == null ? "" : tagsLastMod
+//        }
+//        else if (link.equals("/releases")) {
+//            lastMod = relsLastMod == null ? "" : relsLastMod
+//        }
+//
+//        HttpURLConnection con = GitHubServiceOpenGitHubPage (link, lastMod)
+//        int code = con.getResponseCode()
+//        println "fetchRevInfo_i link = " + link + " got code " + code
+//        switch (code) {
+//        case HttpURLConnection.HTTP_NOT_MODIFIED:
+//            return null
+//        case HttpURLConnection.HTTP_OK:
+//            if (link.equals ("/tags")) {
+//                tagsLastMod = con.getHeaderField("Last-Modified")
+//            }
+//            else if (link.equals ("/releases")) {
+//                relsLastMod = con.getHeaderField("Last-Modified")
+//                if (relsLastMod == null) {
+//                    relsLastMod = con.getHeaderField("Date")
+//                }
+//            }
+//            break
+//        default:
+//            return reflist
+//        }
+//
+//        String nextPage = ""
+//        String val = con.getHeaderField("Link")
+//
+//        if ( val != null && val.contains ("next")) {
+//            def nextChunk = val.split (",").find {it.contains("rel=\"next\"")}
+//            int head = nextChunk.indexOf('<') + 1;
+//            int tail = nextChunk.lastIndexOf('>');
+//            nextPage = nextChunk.substring (head, tail)
+//        }
+//        def slurp = new JsonSlurper()
+//        slurp.parse (con.getContent()).each {
+//            reflist << [ name: it.name, tarball_url: it.tarball_url, zipball_url: it.zipball_url]
+//        }
+//        if (nextPage.length() > 0) {
+//            fetchRevInfo_i(nextPage).each {
+//                reflist << it
+//            }
+//        }
+//        return reflist
+//    }
 
     def fetchReleaseInfo () {
-        List reflist = fetchRevInfo_i ("/releases")
+        List reflist = GitHubService.fetchRevInfo_i (this, "/releases", GitHubService.InfoType.INFO_RELEASE)
         if (reflist != null && reflist.size() == 0) {
-            reflist = fetchRevInfo_i("/tags")
+            reflist = GitHubService.fetchRevInfo_i(this, "/tags", GitHubService.InfoType.INFO_TAG)
         }
         if (reflist != null) {
             reflist.each { rlsdef ->
@@ -124,27 +113,7 @@ class GitHubProduct extends Product {
     }
 
     def fetchLicense () {
-
-        HttpURLConnection con = openGitHubPage ("/contents/" + githublicense, licLastMod)
-
-        int code = con.getResponseCode()
-        if (code == HttpURLConnection.HTTP_NOT_MODIFIED)
-            return license
-        if (code == HttpURLConnection.HTTP_OK) {
-            licLastMod = con.getHeaderField("Last-Modified")
-        } else {
-            return license
-        }
-
-        def slurp = new JsonSlurper()
-        def licobj = slurp.parse (con.getContent())
-        if (licobj.encoding.equals ("base64")) {
-            byte[] decoded = licobj.content.decodeBase64()
-            license = new String(decoded)
-        }
-        else {
-            println "license string using encoding \"" + licobj.encoding + "\""
-        }
+        GitHubService.fetchLicense_i (this, "/contents/" + githublicense, GitHubService.InfoType.INFO_LICENSE)
         return license
     }
 

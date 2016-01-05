@@ -30,8 +30,6 @@ class GitHubProductController {
     def showReleases (GitHubProduct prod) {
         if (prod.rlsurl && prod.rlsurl.length() > 0)
             redirect (url:prod.rlsurl)
-        else if (prod.name.equals("OCI TAO"))
-            redirect (controller: 'taoRelease', action: 'index')
         else {
             def rlist = prod.fetchReleaseInfo()
             if (rlist == null || rlist.size() == 0) {
@@ -65,10 +63,6 @@ class GitHubProductController {
     }
 
     def downloadRelease (GitHubProduct prod) {
-        if (params.bundle == null) {
-            params.bundle = "tar.gz"
-        }
-        println "params.release: " + params.release + " bundle = " + params.bundle
         String targeturl = prod.targetLink (params)
         redirect (url:targeturl)
     }

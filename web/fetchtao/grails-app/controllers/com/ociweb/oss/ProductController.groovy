@@ -8,12 +8,11 @@ class ProductController {
     static standardScaffolding = true
 
     def index() {
-//        respond Product.list(), model: []
         [productList: Product.list()]
     }
 
     def show (Product prod) {
-        respond prod, model: []
+        respond prod
     }
 
     def showSource (Product prod) {
@@ -59,14 +58,14 @@ class ProductController {
         if (prod.name.equals ("Grails"))
             redirect (url:prod.docs)
         else
-            respond prod, model: []
+            respond prod
     }
 
     def showFAQ (Product prod) {
         if (prod.name.equals ("Grails"))
             redirect (url:prod.faq)
         else
-            respond prod, model: []
+            respond prod
     }
 
     def downloadRelease (Product prod) {

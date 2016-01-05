@@ -1,8 +1,7 @@
 
-import com.ociweb.fetchtao.TaoProduct
-import com.ociweb.fetchtao.TaoRelease
-import com.ociweb.oss.GitHubAPI
+import com.ociweb.oss.TaoProduct
 import com.ociweb.oss.GitHubProduct
+import com.ociweb.oss.GitHubService
 import com.ociweb.oss.Product
 import groovy.json.JsonSlurper
 
@@ -14,7 +13,7 @@ class BootStrap {
         def resource = getClass().getClassLoader().getResource("products.json")
         def products = jsonSlurper.parse(resource)
 
-        GitHubAPI.initAuthToken(products.gitHubAuthTokenFile)
+        GitHubService.initAuthToken(products.gitHubAuthTokenFile)
 
         if (Product.list().size == 0)
         {

@@ -1,6 +1,5 @@
-package com.ociweb.fetchtao;
+package com.ociweb.oss
 
-import com.ociweb.oss.Release
 import groovy.json.JsonSlurper
 
 /**

@@ -1,6 +1,5 @@
-package com.ociweb.fetchtao
+package com.ociweb.oss
 
-import com.ociweb.oss.Product
 import groovy.json.JsonSlurper
 
 /**
@@ -12,7 +11,7 @@ class TaoProduct extends Product {
         super.initRelease (params)
 
         def jsonSlurper = new JsonSlurper()
-        def resource = getClass().getClassLoader().getResource("taoLegacy.json")
+        def resource = getClass().getClassLoader().getResource(params.releaseInit)
         def taoConfig = jsonSlurper.parse(resource)
 
         taoConfig.taoLegacy.each { rlsdef ->

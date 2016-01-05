@@ -17,6 +17,7 @@
             "name" : "OCI TAO",
             "logo" : "TAO-logo-1.png",
             "title" : "OCI TAO, the commercial release of The ACE ORB.",
+            "releaseInit" : "taoLegacy.json",
             "descstr" : "OCI's redistribution of The ACE ORB (TAO), pronounced “dow” - C++, CORBA-compliant ORB (Object Request Broker)",
             "descref" : "summaries/ocitao.txt",
             "rlsurl" : "/taoRelease/index.html",

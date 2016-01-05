@@ -1,6 +1,4 @@
-package com.ociweb.fetchtao
-
-import com.ociweb.oss.Product
+package com.ociweb.oss
 
 /**
  * Created by phil on 12/11/15.
@@ -9,7 +7,6 @@ import grails.transaction.Transactional
 
 @Transactional(readOnly = false)
 class TaoReleaseController {
-    static productNameProperty = "OCI TAO - for reals"
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
     static standardScaffolding = true
