@@ -10,14 +10,14 @@ class TaoLegacyPackage {
     static int SOURCE_ONLY = 1
     static int PROJECT_ONLY = 2
     static int SOURCE_AND_PROJECT = 3
-    static int UNDEF_CONTENT = 4
+    static int DOXYGEN = 4
 
     static int PATCH_MASK = 248
     static int BASE_RELEASE = 8
     static int FULL_LATEST_RELEASE = 16
     static int JUMBO_PATCH = 32
     static int LEVEL_PATCH = 64
-    static int UNDEF_PATCH = 128
+    static int BASE_PLUS_CIAO = 128
 
     static int COMPRESS_MASK = 1792
     static int TGZ = 256
@@ -28,6 +28,15 @@ class TaoLegacyPackage {
     String targetName
     String md5sum
     int content
+    int patchLevel
+    String timestamp
+    int filesize
+
+    static constraints = {
+        targetName nullable:true
+        md5sum nullable:true
+        timestamp nullable: true
+    }
 
     static int defKey() {
         return SOURCE_AND_PROJECT + FULL_LATEST_RELEASE + TGZ
@@ -39,12 +48,16 @@ class TaoLegacyPackage {
             content = SOURCE_ONLY
         } else if (name.contains("_project")) {
             content = PROJECT_ONLY
+        } else if (name.contains("_dox")) {
+            content = DOXYGEN
         }
 
         if (name.contains ("with_latest_patches")) {
             content |= FULL_LATEST_RELEASE
         } else if (name.contains ("jumbo")) {
             content |= JUMBO_PATCH
+        } else if (name.contains ("+CIAO")) {
+            content |= BASE_PLUS_CIAO
         } else if (patch > 0) {
             content += patch << LEVEL_SHIFT
             String pnum = "a_p" + patch

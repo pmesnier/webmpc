@@ -19,16 +19,16 @@
         </div>
         <div class="releases" role="main">
             <p> ${gitHubProduct.descstr} </p>
-            <g:formRemote name="gitHubProductDownloadForm" url="[controller:'GitHubProduct', action:'downloadRelease']">
+            <g:form name="gitHubProductDownloadForm" url="[controller:'GitHubProduct', action:'downloadRelease']">
                 <fieldset class="form">
                     <g:hiddenField name="id" value="${gitHubProduct.id}" />
                     <p>Select a release  <g:select name="release" from="${rlist}" optionValue="name" /></p>
-                    <P>Select a format   <g:select name="format" from="['tar.gz','zip']" value="format" /></P>
+                    <P>Select a format   <g:select name="bundle" from="['tar.gz','zip']" value="tar.gz" /></P>
                <p>  <g:submitButton name="Download It!" resource="${release}"/> </p>
                </fieldset>
 
 
-            </g:formRemote>
+            </g:form>
         </div>
     </body>
 </html>

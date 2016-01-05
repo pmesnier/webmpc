@@ -65,10 +65,10 @@ class GitHubProductController {
     }
 
     def downloadRelease (GitHubProduct prod) {
-        if (params.format == null) {
-            params.format = "tar.gz"
+        if (params.bundle == null) {
+            params.bundle = "tar.gz"
         }
-        println "params.release: " + params.release + " format = " + params.format
+        println "params.release: " + params.release + " bundle = " + params.bundle
         String targeturl = prod.targetLink (params)
         redirect (url:targeturl)
     }

@@ -1,9 +1,6 @@
 {
     "gitHubAuthTokenFile" : "/tao_builds/phil/projects/webmpc/phil_auth_token",
     "product" : [
-        {
-            "name" : "OSS Product"
-        },
 
         {
             "name" : "OpenDDS",
@@ -15,13 +12,7 @@
             "githubrepo" : "OpenDDS",
             "githublicense" : "LICENSE",
             "githubdocs" : "OpenDDS-latest.pdf",
-            "tagsLastMod" : "",
-            "relsLastMod" : "",
-            "licLastMod" : "",
-            "licenseText" : "",
-            "rlss" : [],
-            "githubtags" : [],
-            "faq" : ""
+            "tagfilter" : ["one", "two"]
         },
         {
             "name" : "OCI TAO",
@@ -43,14 +34,7 @@
             "githubowner" : "DOCGroup",
             "githubrepo" : "MPC",
             "githublicense" : "docs/LICENSE",
-            "githubdocs" : "tree/master/docs",
-          "tagsLastMod" : "",
-          "relsLastMod" : "",
-          "licLastMod" : "",
-          "licenseText" : "",
-          "rlss" : [],
-          "githubtags" : [],
-            "faq" : ""
+            "githubdocs" : "tree/master/docs"
         },
         {
             "name" : "LiquiBook",
@@ -60,15 +44,7 @@
             "descref" : "summaries/liquibook.txt",
           "githubowner" : "objectcomputing",
           "githubrepo" : "liquibook",
-          "githublicense" : "license.txt",
-          "githubdocs" : "",
-          "tagsLastMod" : "",
-          "relsLastMod" : "",
-          "licLastMod" : "",
-          "licenseText" : "",
-          "rlss" : [],
-          "githubtags" : [],
-            "faq" : ""
+          "githublicense" : "license.txt"
         },
         {
             "name" : "QuickFAST",
@@ -78,15 +54,7 @@
             "descref" : "summaries/quickfast.txt",
           "githubowner" : "objectcomputing",
           "githubrepo" : "QuickFAST",
-          "githublicense" : "license.txt",
-          "githubdocs" : "",
-          "tagsLastMod" : "",
-          "relsLastMod" : "",
-          "licLastMod" : "",
-          "licenseText" : "",
-          "rlss" : [],
-          "githubtags" : [],
-            "faq" : ""
+          "githublicense" : "license.txt"
         },
         {
             "name" : "mFAST",
@@ -96,15 +64,7 @@
             "descref" : "summaries/mfast.txt",
           "githubowner" : "objectcomputing",
           "githubrepo" : "mFAST",
-          "githublicense" : "licence.txt",
-          "githubdocs" : "",
-          "tagsLastMod" : "",
-          "relsLastMod" : "",
-          "licLastMod" : "",
-          "licenseText" : "",
-          "rlss" : [],
-          "githubtags" : [],
-            "faq" : ""
+          "githublicense" : "licence.txt"
         },
         {
             "name" : "OCI JBoss",
@@ -114,9 +74,7 @@
             "descref" : "summaries/jboss.txt",
             "source" : "http://jboss.ociweb.com/download",
             "rlsurl" : "http://jboss.ociweb.com/download",
-            "license" : "http://jboss.ociweb.com/Product-Information",
-            "docs" : "",
-            "faq" : ""
+            "license" : "http://jboss.ociweb.com/Product-Information"
         },
         {
             "name" : "Grails",
@@ -127,13 +85,6 @@
           "githubowner" : "grails",
           "githubrepo" : "grails-core",
           "githublicense" : "LICENSE",
-          "githubdocs" : "",
-          "tagsLastMod" : "",
-          "relsLastMod" : "",
-          "licLastMod" : "",
-          "licenseText" : "",
-          "rlss" : [],
-          "githubtags" : [],
             "source" : "https://www.grails.org",
             "rlsurl" : "https://www.grails.org/download.html",
             "license" : "https://github.com/grails/grails-core/blob/master/LICENSE",

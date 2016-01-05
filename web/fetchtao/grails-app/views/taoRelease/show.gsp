@@ -12,6 +12,10 @@
         <div class="nav" role="navigation">
             <ul>
                 <li><a class="home" href="${createLink(uri: '/product/index')}"><g:message code="default.home.label"/></a></li>
+                <li>Source </li>
+                <li><g:link controller="TaoRelease" action="showLicense" id="${taoRelease.id}"> License </g:link></li>
+                <li><g:link controller="TaoRelease" action="showDocs" id="${taoRelease.id}"> Documentation </g:link></li>
+                <li><g:link controller="TaoRelease" action="showFAQ" id="${taoRelease.id}"> FAQ </g:link></li>
             </ul>
         </div>
         <div id="pickOptions" class="content scaffold-edit" role="main">

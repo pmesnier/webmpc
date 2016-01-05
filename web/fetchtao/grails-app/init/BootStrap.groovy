@@ -10,15 +10,14 @@ import groovy.json.JsonSlurper
 class BootStrap {
 
     def init = { servletContext ->
+        def jsonSlurper = new JsonSlurper()
+        def resource = getClass().getClassLoader().getResource("products.json")
+        def products = jsonSlurper.parse(resource)
+
+        GitHubAPI.initAuthToken(products.gitHubAuthTokenFile)
 
         if (Product.list().size == 0)
         {
-            def jsonSlurper = new JsonSlurper()
-            def resource = getClass().getClassLoader().getResource("products.json")
-            def products = jsonSlurper.parse(resource)
-
-            GitHubAPI.initAuthToken(products.gitHubAuthTokenFile)
-
             products.product.each{
                 def prod = it.name.contains ("TAO") ? new TaoProduct (it) :
                         it.githubowner != null ? new GitHubProduct(it) : new Product (it)

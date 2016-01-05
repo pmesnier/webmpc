@@ -8,7 +8,8 @@ class ProductController {
     static standardScaffolding = true
 
     def index() {
-        respond Product.list(), model: []
+//        respond Product.list(), model: []
+        [productList: Product.list()]
     }
 
     def show (Product prod) {
@@ -24,7 +25,7 @@ class ProductController {
         if (srcurl != null)
             redirect (url:srcurl)
         else
-            respond prod, model: []
+            respond prod
     }
 
     def showReleases (Product prod) {

@@ -14,6 +14,9 @@ class GitHubProduct extends Product {
     String tagsLastMod
     String relsLastMod
     String licLastMod
+    List tagfilter
+
+    static transients = ["tagfilter"]
 
     static constraints = {
         githublicense nullable:true
@@ -21,8 +24,16 @@ class GitHubProduct extends Product {
         tagsLastMod nullable:true
         relsLastMod nullable:true
         licLastMod nullable:true
+        tagfilter bindable:true
     }
 
+    def initRelease (params) {
+        if (params.tagfilter)
+        {
+            println params.tagfilter
+        }
+        println tagfilter
+    }
     def sourceURL () {
         if (source == null || source.length() == 0) {
             source = "https://github.com/" + githubowner + "/" + githubrepo
@@ -138,11 +149,11 @@ class GitHubProduct extends Product {
     }
 
     def targetLink (params) {
-        println "TargetLink params.release = " + params.release + " format = " + params.format
+        println "TargetLink params.release = " + params.release + " bundle = " + params.bundle
 
         def link = releases.find ({ if (it.toString().equals(params.release)) return it })
         if (link != null)
-            return (params.format.equals ("zip")) ? link.zipball_url : link.tarball_url
+            return (params.bundle.equals ("zip")) ? link.zipball_url : link.tarball_url
         return null
     }
 

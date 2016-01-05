@@ -21,7 +21,7 @@ class TaoReleaseController {
             if (it.name.equals ("OCI TAO"))
                 return it
         }
-        respond TaoRelease.list(), model: [pkgCount: TaoRelease.count(), title:prod.title, logo:prod.logo]
+        respond TaoRelease.list(), model: [pkgCount: TaoRelease.count(), prodid: prod.id, title:prod.title, logo:prod.logo]
     }
 
     def show (TaoRelease rel)
@@ -31,6 +31,21 @@ class TaoReleaseController {
         respond rel, model: [title: rel.product.title, logo: rel.product.logo];
     }
 
+    def showLicense (TaoProduct rel)
+    {
+        Product prod = rel.product
+        redirect (url: prod.license)
+    }
+
+    def showDocs (TaoProduct prod)
+    {
+        redirect (url: prod.docs)
+    }
+
+    def showFAQ (TaoProduct prod)
+    {
+        redirect (url: prod.faq)
+    }
     def save () {
         render "save called"
     }
@@ -41,7 +56,7 @@ class TaoReleaseController {
         println "rel version = " + rel.rlsVersion + " lastPatch = " + rel.lastPatch + " lastTarget = " + rel.lastTarget
         def pkg = rel.target(params)
 
-        render template:'downloadLinkTao', model: [urlstr: pkg.targetName, md5str: pkg.md5sum]
+        render template:'downloadLinkTao', model: [pkg: pkg, basePath: rel.basePath]
     }
 
 }

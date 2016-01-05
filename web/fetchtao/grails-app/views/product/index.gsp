@@ -101,6 +101,9 @@
                         <g:if test="${p instanceof com.ociweb.oss.GitHubProduct}">
                             <g:link controller="GitHubProduct" action="showLicense" id="${p.id}"> License </g:link>
                         </g:if>
+                        <g:elseif test="${p instanceof com.ociweb.fetchtao.TaoProduct}">
+                            <g:link controller="TaoRelease" action="showLicense" id="${p.id}"> License </g:link>
+                        </g:elseif>
                         <g:else>
                              <g:link controller="Product" action="showLicense" id="${p.id}"> License </g:link>
                         </g:else>

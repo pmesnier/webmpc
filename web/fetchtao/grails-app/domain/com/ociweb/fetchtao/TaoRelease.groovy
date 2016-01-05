@@ -1,6 +1,7 @@
 package com.ociweb.fetchtao;
 
 import com.ociweb.oss.Release
+import groovy.json.JsonSlurper
 
 /**
  * Created by phil on 12/9/15.
@@ -12,19 +13,30 @@ public class TaoRelease extends Release {
     static hasMany = [legacy:TaoLegacyPackage]
     static defaultPackage = new TaoLegacyPackage ([targetName: "Desired package not available",
                                                    md5sum    :"",
-                                                   patchLevel:0])
+                                                   patchLevel:0,
+                                                   filesize: 0,
+                                                   timestamp:"no date"])
 
     Map legacy = [:]
 
     String rlsVersion
     String basePath
     String patchesPath
-//    URL    readme
-//    URL    releaseNotes
+    String packageInit
+    String readmePath
+    String patchReadmePath
+    String relNotesPath
 
     int lastPatch
     boolean patchsrc
     int lastTarget
+
+    static constraints = {
+        packageInit nullable:true
+        readmePath nullable:true
+        patchReadmePath nullable:true
+        relNotesPath nullable:true
+    }
 
     static initMd5sums (String urlStr) {
         URL md5file = new URL (urlStr)
@@ -36,22 +48,62 @@ public class TaoRelease extends Release {
                 String filename = words[-1]
                 md5sums << [file: filename, sum: sum]
             })
-        } catch (java.net.SocketException ex) {
+        } catch (SocketException ex) {
             println "Caught " + ex + " reading " + urlStr
         }
         return md5sums
     }
 
-    def initFiles (String urlStr) {
-        URL directory = new URL (urlStr)
-        def files = []
-        directory .readLines().each ({line ->
-            def words = line.split (" ")
+    def initFromJson () {
+        def jsonSlurper = new JsonSlurper()
+        def resource = getClass().getClassLoader().getResource(packageInit)
+        def pkgs = jsonSlurper.parse(resource)
+        int i = 0
+        pkgs.taoLegacy.each { leg ->
+            String fp = leg.filePath
+            if (fp.contains("readme.txt")) {
+                readmePath = fp
+            } else if (fp.contains("OCIReleaseNotest.html") || fp.contains("releasenotes")) {
+                relNotesPath = fp
+            } else {
+                int patch = 0
+                int pno = fp.indexOf("a_p", fp.indexOf('/'))
+                if (pno > -1) {
+                    int p2 = fp.indexOf("_", pno + 3)
+                    if (p2 == -1)
+                        p2 = fp.indexOf(".", pno + 3)
+                    patch = fp.substring(pno + 3, p2).toInteger()
+                }
+                TaoLegacyPackage tlp = new TaoLegacyPackage([targetName: fp,
+                                                             md5sum    : leg.md5,
+                                                             patchLevel: patch,
+                                                             timestamp : leg.fileDate,
+                                                             filesize  : leg.fileSize])
+                def key = TaoLegacyPackage.genKey(fp, patch) as String
+                def found = legacy.get(key)
+                if (found) {
+                    println "collision at key = " + key + " fp = " + fp + " found = " + found.targetName
+                }
+                legacy.put key, tlp
+            }
+        }
 
-        })
+        println "Loaded " + legacy.size() + " elements from " + packageInit
     }
+
     def initPackages () {
         println "Init packages called for rls = " + rlsVersion
+        lastTarget = TaoLegacyPackage.defKey ()
+        if (packageInit) {
+            try {
+                initFromJson()
+                return
+            }
+            catch (Exception ex) {
+                println "caught " + ex + " trying to parse json, reverting to download "
+            }
+        }
+
         def baseSums = []
         try {
             baseSums = initMd5sums(basePath + "/TAO-" + rlsVersion + ".md5")
@@ -99,8 +151,6 @@ public class TaoRelease extends Release {
 
         }
 
-        lastTarget = TaoLegacyPackage.defKey ()
-
     }
 
     TaoLegacyPackage target (def params) {
@@ -117,13 +167,13 @@ public class TaoRelease extends Release {
                 " changesLevel = " + changesLevel +
                 " content = " + content +
                 " compress = " + compress
-                " getting legacy [" + lastTarget + "]"
+        " getting legacy [" + lastTarget + "]"
 
         if (patchLevel == TaoLegacyPackage.LEVEL_PATCH)
             lastTarget += (changesLevel << TaoLegacyPackage.LEVEL_SHIFT)
         String key = lastTarget as String
-
-        legacy.containsKey(key) ? legacy.get(key) : defaultPackage
+        TaoLegacyPackage tlp = legacy.get(key)
+        return tlp ? tlp : defaultPackage
     }
 
     String toString () {

@@ -11,6 +11,11 @@
         <div class="nav" role="navigation">
             <ul>
                 <li><a class="home" href="${createLink(uri: '/product/index')}"><g:message code="default.home.label"/></a></li>
+                <li> Source </li>
+                <li> Releases </li>
+                <li><g:link controller="TaoRelease" action="showLicense" id="${Prodid}"> License </g:link></li>
+                <li><g:link controller="TaoRelease" action="showDocs" id="${Prodid}"> Documentation </g:link></li>
+                <li><g:link controller="TaoRelease" action="showFAQ" id="${Prodid}"> FAQ </g:link></li>
             </ul>
         </div>
         <div id="list-taoRelease" class="content scaffold-edit" role="main">

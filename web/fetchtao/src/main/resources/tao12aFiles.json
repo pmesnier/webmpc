@@ -1,0 +1,36 @@
+{
+    "taoLegacy" : [
+        {"fileSize": 207452, "fileDate": "Mar  4  2002",   "md5": "a13f309fd096044e1c4e7ede93fb6c5f",  "filePath": "TAO-1.2a/ACE+TAO-1.2a-releasenotes.tar.gz"},
+        {"fileSize": 15409297, "fileDate": "Mar  1  2002", "md5": "844faf6213bb9629ef99f73d571a182f",    "filePath": "TAO-1.2a/ACE+TAO-1.2a.tar.gz"},
+        {"fileSize": 21719524, "fileDate": "Mar  5  2002", "md5": "745dc217254ad25d70d311686d140df6",    "filePath": "TAO-1.2a/ACE+TAO-1.2a.zip"},
+        {"fileSize": 16105797, "fileDate": "Apr 12  2006", "md5": "aeb9033c29217964ec68ab45d3b0ad36",    "filePath": "TAO-1.2a/ACE+TAO-1.2a_with_latest_patches.tar.gz"},
+        {"fileSize": 22508560, "fileDate": "Apr 12  2006", "md5": "497654b71ea2b64acc0d79ad66911181",    "filePath": "TAO-1.2a/ACE+TAO-1.2a_with_latest_patches.zip"},
+        {"fileSize": 43691893, "fileDate": "Mar  6  2002", "md5": "34499290c9f48a9c59e0b2f660c70723",    "filePath": "TAO-1.2a/ace_tao_dox.tar.gz"},
+        {"fileSize": 240335, "fileDate": "Apr 12  2006",   "md5": "04c8dda5e4137885beff751fb84c7849",  "filePath": "TAO-1.2a/readme.txt"},
+        {"fileSize": 4003606, "fileDate": "Apr 12  2006","md5": "c6bb6907940b7688912273d343a3c165",    "filePath": "TAO-1.2a_patches/TAO-1.2a_jumbo_patch.tar.gz"},
+        {"fileSize": 5494782, "fileDate": "Apr 12  2006","md5": "a7e41deed1e1a2d25b5ce7be080c015c",    "filePath": "TAO-1.2a_patches/TAO-1.2a_jumbo_patch.zip"},
+        {"fileSize": 893235, "fileDate": "May 28  2004", "md5": "001ecc0fb88208dfed5acd32de137bed",   "filePath": "TAO-1.2a_patches/TAO-1.2a_p10_patched_files.tar.gz"},
+        {"fileSize": 1405649, "fileDate": "May 28  2004","md5": "88d8b95c53d5584d3fb8609b2e77ce8d",    "filePath": "TAO-1.2a_patches/TAO-1.2a_p10_patched_files.zip"},
+        {"fileSize": 275535, "fileDate": "Aug 22  2005", "md5": "dae7c9983f62da2052f12ce24c7f6a3f",   "filePath": "TAO-1.2a_patches/TAO-1.2a_p11_patched_files.tar.gz"},
+        {"fileSize": 407137, "fileDate": "Aug 22  2005", "md5": "3ff1ac1292ed6db82d1a17869080f039",   "filePath": "TAO-1.2a_patches/TAO-1.2a_p11_patched_files.zip"},
+        {"fileSize": 114232, "fileDate": "Apr 12  2006", "md5": "483ff4dd0dbe481c21a63e695bdd9bad",   "filePath": "TAO-1.2a_patches/TAO-1.2a_p12_patched_files.tar.gz"},
+        {"fileSize": 129959, "fileDate": "Apr 12  2006", "md5": "812398b697e54a42841ffcd4f88af728",   "filePath": "TAO-1.2a_patches/TAO-1.2a_p12_patched_files.zip"},
+        {"fileSize": 1051369, "fileDate": "Apr  2  2002","md5": "dce11433005aac2dd3bdd6e73fe4da66",    "filePath": "TAO-1.2a_patches/TAO-1.2a_p1_patched_files.tar.gz"},
+        {"fileSize": 895335, "fileDate": "Jun 25  2002", "md5": "1af28e66539e825f4c580cb2ff18df7e",   "filePath": "TAO-1.2a_patches/TAO-1.2a_p2_patched_files.tar.gz"},
+        {"fileSize": 934501, "fileDate": "Jul 30  2002", "md5": "6186768811b7e9582796497521a2d83c",   "filePath": "TAO-1.2a_patches/TAO-1.2a_p3_patched_files.tar.gz"},
+        {"fileSize": 2143702, "fileDate": "Sep 20  2002","md5": "ab38e0d065caddf694885c227e9e392e",    "filePath": "TAO-1.2a_patches/TAO-1.2a_p4_patched_files.tar.gz"},
+        {"fileSize": 2949891, "fileDate": "Sep 25  2002","md5": "fbe167699dfc56f57517ae8ae483e90c",    "filePath": "TAO-1.2a_patches/TAO-1.2a_p4_patched_files.zip"},
+        {"fileSize": 333339, "fileDate": "Feb  4  2003", "md5": "ee57eeac2f1869304ff1ecf4be4a5a6c",   "filePath": "TAO-1.2a_patches/TAO-1.2a_p5_patched_files.tar.gz"},
+        {"fileSize": 415498, "fileDate": "Feb  4  2003", "md5": "2c146e58e2de1c57f3a20f1b61572d15",   "filePath": "TAO-1.2a_patches/TAO-1.2a_p5_patched_files.zip"},
+        {"fileSize": 1192462, "fileDate": "Apr  4  2003","md5": "396df42d4a65d497a759548ce1dad0f4",    "filePath": "TAO-1.2a_patches/TAO-1.2a_p6_patched_files.tar.gz"},
+        {"fileSize": 1771405, "fileDate": "Apr  4  2003","md5": "19b4526365a377575af0ccdb5f5908c1",    "filePath": "TAO-1.2a_patches/TAO-1.2a_p6_patched_files.zip"},
+        {"fileSize": 148326, "fileDate": "May 14  2003", "md5": "ed0e25e27f01b2915843e75d14193e13",   "filePath": "TAO-1.2a_patches/TAO-1.2a_p7_patched_files.tar.gz"},
+        {"fileSize": 158756, "fileDate": "May 14  2003", "md5": "2aeecaa8344ca5b49edbb923d6826e92",   "filePath": "TAO-1.2a_patches/TAO-1.2a_p7_patched_files.zip"},
+        {"fileSize": 301430, "fileDate": "Feb  3  2004", "md5": "cd5532d947faef1fcc4e71c98c7c5bc1",   "filePath": "TAO-1.2a_patches/TAO-1.2a_p8_patched_files.tar.gz"},
+        {"fileSize": 460312, "fileDate": "Feb  3  2004", "md5": "b3b3462ed5ecb337500b43e5386e5302",   "filePath": "TAO-1.2a_patches/TAO-1.2a_p8_patched_files.zip"},
+        {"fileSize": 868403, "fileDate": "Mar 30  2004", "md5": "dd824c661915a4b719a298dcf51c0463",   "filePath": "TAO-1.2a_patches/TAO-1.2a_p9_patched_files.tar.gz"},
+        {"fileSize": 1395446, "fileDate": "Mar 30  2004","md5": "d7707f3e37c195cc8d30205c5add0f15",    "filePath": "TAO-1.2a_patches/TAO-1.2a_p9_patched_files.zip"},
+        {"fileSize": 240465, "fileDate": "Nov 10  2006", "md5": "86c0e110344df578446671ad0b018f03",   "filePath": "TAO-1.2a_patches/readme.txt"}
+    ]
+
+}
