@@ -11,8 +11,7 @@
             "githubowner" : "objectcomputing",
             "githubrepo" : "OpenDDS",
             "githublicense" : "LICENSE",
-            "githubdocs" : "OpenDDS-latest.pdf",
-            "tagfilter" : ["one", "two"]
+            "githubdocs" : "OpenDDS-latest.pdf"
         },
         {
             "name" : "OCI TAO",
