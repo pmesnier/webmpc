@@ -14,7 +14,7 @@
                     <g:hiddenField name="id" value="${gitHubProduct.id}" />
                     <p>Select a release  <g:select name="release" from="${rlist}" optionValue="name" /></p>
                     <P>Select a format   <g:select name="bundle" from="['tar.gz','zip']" value="tar.gz" /></P>
-               <p>  <g:submitButton name="Download It!" resource="${release}"/> </p>
+               <p>  <g:submitButton name="Download It!" /> </p>
                </fieldset>
 
 

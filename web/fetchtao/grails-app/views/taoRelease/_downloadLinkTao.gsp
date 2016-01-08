@@ -7,6 +7,4 @@
     <g:elseif test="${pkg.filesize > 1024}" > <g:formatNumber number="${pkg.filesize / 1024}" format="###.##K" /> </g:elseif>
     <g:else> <g:formatNumber number="${pkg.filesize}" format="######b" /> </g:else>
     File posting date: ${pkg.timestamp} </p>
-    <P>Select a format   <g:select name="bundle" from="['tar.gz','zip']" value="tar.gz" /></P>
-
-</dif>
+</div>
