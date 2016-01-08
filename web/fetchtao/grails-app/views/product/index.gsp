@@ -98,27 +98,9 @@
                         <g:else>
                              <g:link controller="Product" action="showReleases" id="${p.id}"> Releases </g:link>
                         </g:else>
-                        <g:if test="${p instanceof com.ociweb.oss.GitHubProduct}">
-                            <g:link controller="GitHubProduct" action="showLicense" id="${p.id}"> License </g:link>
-                        </g:if>
-                        <g:elseif test="${p instanceof com.ociweb.oss.TaoProduct}">
-                            <g:link controller="TaoRelease" action="showLicense" id="${p.id}"> License </g:link>
-                        </g:elseif>
-                        <g:else>
-                             <g:link controller="Product" action="showLicense" id="${p.id}"> License </g:link>
-                        </g:else>
-                        <g:if test="${p instanceof com.ociweb.oss.GitHubProduct}">
-                            <g:link controller="GitHubProduct" action="showDocumentation" id="${p.id}"> Documentation </g:link>
-                        </g:if>
-                        <g:else>
-                             <g:link controller="Product" action="showDocumentation" id="${p.id}"> Documentation </g:link>
-                        </g:else>
-                        <g:if test="${p instanceof com.ociweb.oss.GitHubProduct}">
-                            <g:link controller="GitHubProduct" action="showFAQ" id="${p.id}"> FAQ </g:link>
-                        </g:if>
-                        <g:else>
-                             <g:link controller="Product" action="showFAQ" id="${p.id}"> FAQ </g:link>
-                        </g:else>
+                        <g:link controller="Product" action="showLicense" id="${p.id}"> License </g:link>
+                        <g:link controller="Product" action="showDocs" id="${p.id}"> Documentation </g:link>
+                        <g:link controller="Product" action="showFAQ" id="${p.id}"> FAQ </g:link>
                         <p>
                         ${p.descstr}
                         </p>

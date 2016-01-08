@@ -2,24 +2,15 @@
 <html>
     <head>
         <g:javascript library="jquery" />
-        <meta name="layout" content="taoDownload" />
+        <meta name="layout" content="prodCommon" />
         <g:set var="entityName" value="${message(code: 'taoRelease.rlsVersion', default: 'OCI TAO')}" />
         <g:set var="lastPatch" value="${taoRelease.lastPatch}" />
         <title>OCI TAO ${taoRelease.rlsVersion} Downloader</title>
     </head>
     <body>
-        <a href="#list-taoRelease" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-        <div class="nav" role="navigation">
-            <ul>
-                <li><a class="home" href="${createLink(uri: '/product/index')}"><g:message code="default.home.label"/></a></li>
-                <li>Source </li>
-                <li><g:link controller="TaoRelease" action="showLicense" id="${taoRelease.id}"> License </g:link></li>
-                <li><g:link controller="TaoRelease" action="showDocs" id="${taoRelease.id}"> Documentation </g:link></li>
-                <li><g:link controller="TaoRelease" action="showFAQ" id="${taoRelease.id}"> FAQ </g:link></li>
-            </ul>
-        </div>
         <div id="pickOptions" class="content scaffold-edit" role="main">
             <h1><g:message code="default.chooseOpts.label" args="[entityName]" /> ${taoRelease.rlsVersion} </h1>
+
             <g:formRemote name="taoDownloadForm" url="[controller:'TaoRelease', action:'taoDownloadLink']" update="download_link">
                 <g:set var="lastpatch" value="${this.taoRelease?.lastPatch}" defaultvalue="10" />
                 <fieldset class="form">
@@ -42,7 +33,7 @@
                     <p><g:radio name="compress" value="512" /> .zip </p>
                     <br>
                 </fieldset>
-                <g:submitButton name="Get Download Info" resource="${taoRelease}"/>
+                <g:submitButton name="Get Download Info"/>
 
             </g:formRemote>
 

@@ -6,6 +6,10 @@ package com.ociweb.oss
 
 class TaoLegacyPackage {
 
+    static belongsTo = [release: TaoRelease]
+
+    TaoRelease release
+
     static int CONTENT_MASK =7
     static int SOURCE_ONLY = 1
     static int PROJECT_ONLY = 2
@@ -33,6 +37,7 @@ class TaoLegacyPackage {
     int filesize
 
     static constraints = {
+        release nullable:true
         targetName nullable:true
         md5sum nullable:true
         timestamp nullable: true

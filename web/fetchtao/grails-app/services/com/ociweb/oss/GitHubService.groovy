@@ -100,7 +100,7 @@ class GitHubService {
 
     static void fetchLicense_i(GitHubProduct prod)
     {
-        HttpURLConnection con = openGitHubPage (this, "/contents/" + prod.githublicense, InfoType.INFO_LICENSE)
+        HttpURLConnection con = openGitHubPage (prod, "/contents/" + prod.githublicense, InfoType.INFO_LICENSE)
 
         int code = con.getResponseCode()
         if (code == HttpURLConnection.HTTP_OK) {
@@ -115,6 +115,46 @@ class GitHubService {
                 println "license string using encoding \"" + licobj.encoding + "\""
             }
         }
-
     }
+
+    static sourceURL (GitHubProduct ghp) {
+        if (ghp.source == null || ghp.source.length() == 0) {
+            ghp.source = "https://github.com/" + ghp.githubowner + "/" + ghp.githubrepo
+        }
+        return ghp.source
+    }
+
+    static fetchReleaseInfo (GitHubProduct ghp) {
+        List reflist = fetchRevInfo_i (ghp, "/releases", InfoType.INFO_RELEASE)
+        if (reflist != null && reflist.size() == 0) {
+            reflist = fetchRevInfo_i(ghp, "/tags", InfoType.INFO_TAG)
+        }
+        if (reflist != null) {
+            reflist.each { rlsdef ->
+                def rls =  new GitHubRelease (rlsdef)
+                ghp.addToReleases (rls)
+            }
+
+        }
+
+        return (ghp.releases == null || ghp.releases.size() == 0) ?
+             [[name: "none", tarball_url: "", zipball_url: ""]]
+             : ghp.releases
+    }
+
+    static fetchLicense (GitHubProduct ghp) {
+        fetchLicense_i (ghp)
+        return ghp.license
+    }
+
+    static targetLink (GitHubProduct ghp, def params) {
+        println "TargetLink params.release = " + params.release + " bundle = " + params.bundle
+
+        def link = ghp.releases.find ({ if (it.toString().equals(params.release)) return it })
+        if (link != null)
+            return (params.bundle.equals ("zip")) ? link.zipball_url : link.tarball_url
+        return null
+    }
+
+
 }

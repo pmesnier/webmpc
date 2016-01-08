@@ -23,8 +23,11 @@ class ProductController {
         println "showSource : " + srcurl
         if (srcurl != null)
             redirect (url:srcurl)
-        else
-            respond prod
+        else{
+            Product p = prod
+            [product:p]
+        }
+
     }
 
     def showReleases (Product prod) {
@@ -32,40 +35,42 @@ class ProductController {
             redirect (url:prod.rlsurl)
         else if (prod.name.equals("OCI TAO"))
             redirect (controller: 'taoRelease', action: 'index')
-        else {
-            def rlist = prod.fetchReleaseInfo()
-            if (rlist == null || rlist.size() == 0) {
-                rlist = []
-                rlist << [name: "none", tarball_url: "", zipball_url: ""]
-            }
-            if (prod instanceof GitHubProduct) {
-                redirect (controler: 'gitHubProuct', action: 'showReleases')
-            } else {
-                respond prod, model: [rlist: rlist]
-            }
+        else if (prod instanceof GitHubProduct) {
+            redirect (controller: 'gitHubProduct', action: 'showReleases', resource: (GitHubProduct)prod )
+        } else {
+            Product p = prod
+            [rlist: rlist, product:p]
         }
     }
 
     def showLicense (Product prod) {
-        String lictext = prod.fetchLicense()
+        String lictext = ""
+        if (prod.hasProperty("githubowner"))
+             lictext = GitHubService.fetchLicense((GitHubProduct)prod)
         if (lictext == "" && prod.license != null && prod.license.length() > 0)
             redirect (url:prod.license)
-        else
-            respond prod, model: [license: lictext]
+        else {
+            Product p = prod
+            [license: lictext, product:p]
+        }
     }
 
     def showDocs (Product prod) {
         if (prod.name.equals ("Grails"))
             redirect (url:prod.docs)
-        else
-            respond prod
+        else {
+            Product p = prod
+            [product:p]
+        }
     }
 
     def showFAQ (Product prod) {
         if (prod.name.equals ("Grails"))
             redirect (url:prod.faq)
-        else
-            respond prod
+        else {
+            Product p = prod
+            [product: p]
+        }
     }
 
     def downloadRelease (Product prod) {

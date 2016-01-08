@@ -1,5 +1,4 @@
-
-import com.ociweb.oss.TaoProduct
+import com.ociweb.oss.TaoLegacyService
 import com.ociweb.oss.GitHubProduct
 import com.ociweb.oss.GitHubService
 import com.ociweb.oss.Product
@@ -18,14 +17,15 @@ class BootStrap {
         if (Product.list().size == 0)
         {
             products.product.each{
-                def prod = it.name.contains ("TAO") ? new TaoProduct (it) :
-                        it.githubowner != null ? new GitHubProduct(it) : new Product (it)
+                def prod = it.githubowner != null ? new GitHubProduct(it) : new Product (it)
                 prod.initRelease(it)
+                if (it.name.contains ("TAO")) {
+                    TaoLegacyService.initProduct (prod, it.releaseInit)
+                }
                 prod.save(failOnError: true)
                 println "product " + it.name + " saved"
             }
         }
-        println "product list now has " + Product.list().size
     }
 
     def destroy = {

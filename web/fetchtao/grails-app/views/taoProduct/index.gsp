@@ -2,7 +2,7 @@
 <html>
     <head>
         <g:javascript library="jquery" />
-        <meta name="layout" content="taoDownload" />
+        <meta name="layout" content="prodCommon" />
         <g:set var="entityName" value="${message(code: 'taoProduct.label', default: 'OCI TAO')}" />
         <title>${productName}</title>
     </head>
