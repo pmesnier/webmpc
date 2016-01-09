@@ -10,7 +10,7 @@
            noSelection="['':'-Select Package-']"
            onChange="${remoteFunction (controller: 'TaoRelease',
                                      action: 'populateContent',
-                                     params: '\'id=\'+ escape($rid)',
+                                     params: '\'id=\'+ escape(rid) + \'&patchLevel=\' + escape(this.value)',
                                      update: 'selectContent'
                                    )}"/></p>
 </div>

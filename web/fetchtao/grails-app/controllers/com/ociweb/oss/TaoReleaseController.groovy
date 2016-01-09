@@ -41,7 +41,6 @@ class TaoReleaseController {
         def pllist = TaoLegacyService.patchlevelFor (rel)
         render template: 'selectPatchLevel', model: [rid: params.id, plList: pllist]
     }
-//    params: '\'id=\'+ escape(rid) + \'&patchLevel=\' + escape(this.value)',
 
     def populateContent (TaoRelease rel)
     {
