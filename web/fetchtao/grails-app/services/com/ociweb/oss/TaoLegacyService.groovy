@@ -27,14 +27,14 @@ class TaoLegacyService {
     static int COMPRESS_MASK = 7168
     static int TGZ = 1024
     static int ZIP = 2048
-    static int BZ2 = 4192
+    static int BZ2 = 4096
 
     static int LEVEL_SHIFT = 65536
 
     static patchList = [[name:"Base release, unpatched, full source", value: BASE_RELEASE],
                         [name:"Latest patch, full source", value: FULL_LATEST_RELEASE],
                         [name:"Jumbo patch, all patched files from base to latest", value: JUMBO_PATCH],
-                        [name:"Changed files only, for specific patch", value: LEVEL_PATCH],
+                        [name:"Changed files only, patch level ", value: LEVEL_PATCH],
                         [name:"Base release with CIAO, full source", value: BASE_PLUS_CIAO],
                         [name:"Doxygen generated documentation", value: DOXYGEN_GENERATED]]
 
@@ -257,12 +257,22 @@ class TaoLegacyService {
     }
 
     static def patchlevelFor (TaoRelease rel) {
+        if (rel == null)
+            return [name:"unknown release requested", value: 0]
+
         def names = []
         patchList.each {pl ->
-            if ( rel.legacy.find { leg ->
+            if (pl.value != LEVEL_PATCH && rel.legacy.find { leg ->
                 (leg.key as int & pl.value) == pl.value }) {
-                println " adding patch level " + pl.name
-                names << pl.name
+                names << pl
+            }
+        }
+        if (rel.lastPatch > 0) {
+            String base = patchList.find {it.value as int == LEVEL_PATCH}.name
+            (1..rel.lastPatch).each {
+                String n = base + " " + it
+                int v = LEVEL_PATCH + it * LEVEL_SHIFT
+                names << [name: n, value: v]
             }
         }
         return names
@@ -270,17 +280,12 @@ class TaoLegacyService {
 
     static def contentFor (TaoRelease rel, def params)
     {
-        int plval = patchList.find { pl ->
-            pl.name.equals(params.patchLevel)
-        }.value
-        int pnum = params.changesLevel.toInteger()
-        int fixedtest = plval + (plval == LEVEL_PATCH ? pnum * LEVEL_SHIFT : 0)
+        int plval = params.patchLevel
 
         def names = []
         contentList.each {cl ->
-            int testval = fixedtest + cl.value
+            int testval = plval + cl.value
             if (rel.legacy.find { leg -> (leg.key as int & testval) == testval } ) {
-                println " adding content  " + cl.name
                 names << cl.name
             }
 
@@ -304,8 +309,7 @@ class TaoLegacyService {
         def names = []
         compressList.each {cm ->
             int testval = fixedtest + cm.value
-            if (rel.legacy.find { leg -> (leg.key as int & testval) == testval }) {
-                println " adding compression " + cm.name
+            if (rel.legacy.find { leg -> (leg.key as int & testval) == testval } ) {
                 names << cm.name
             }
         }

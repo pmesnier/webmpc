@@ -4,6 +4,7 @@ package com.ociweb.oss
  * Created by phil on 12/11/15.
  */
 import grails.transaction.Transactional
+import grails.converters.*
 
 @Transactional(readOnly = false)
 class TaoReleaseController {
@@ -17,9 +18,11 @@ class TaoReleaseController {
             if (it.name.equals ("OCI TAO"))
                 return it
         }
-        def pllist = ["nothing", "defined", "yet"]
 
-        respond TaoRelease.list(), model: [ product: prod, plList: pllist ]
+        respond TaoRelease.list(), model: [ product: prod,
+                                            plList: TaoLegacyService.patchList,
+                                            conList: TaoLegacyService.contentList,
+                                            cmpList: TaoLegacyService.compressList ]
     }
 
     def show (TaoRelease rel)
@@ -27,15 +30,24 @@ class TaoReleaseController {
       respond rel, model: [ product: rel.product ]
     }
 
-    def populatePatchLevel (TaoRelease rel) {
-        def pllist = TaoLegacyService.patchlevelFor (rel)
-        render template: 'selectPatchLevel', model: [rls: rel, lastPatch: rel.lastPatch, plList: pllist]
+    def ajaxGetPatchLevel = {
+        def rel = TaoRelease.get(params.id)
+        if (rel)
+            render TaoLegacyService.patchlevelFor(rel) as JSON
     }
+
+    def populatePatchLevel (TaoRelease rel) {
+        params.each { println it }
+        def pllist = TaoLegacyService.patchlevelFor (rel)
+        render template: 'selectPatchLevel', model: [rid: params.id, plList: pllist]
+    }
+//    params: '\'id=\'+ escape(rid) + \'&patchLevel=\' + escape(this.value)',
 
     def populateContent (TaoRelease rel)
     {
+        params.each { println it }
         def contlist = TaoLegacyService.contentFor (rel, params)
-        render template: 'selectContent', model: [rls: rel, contList: contlist]
+        render template: 'selectContent', model: [rid: params.id, contList: contlist]
     }
 
     def populateFmt (TaoRelease rel)

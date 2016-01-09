@@ -1,12 +1,16 @@
-<div id="selectPatchLevel">
-    <div id="choose-collection" class="content scaffold-edit" role="main">
-        <g:set var="lastpatch" value="${this.taoRelease?.lastPatch}" defaultvalue="10" />
-        <h1>Select the Patch Level Package</h1>
-        <p><g:select name="patchLevel"
-               from="${plList}"
-               noSelection="patch level selector"/> </p>
-        <p>Changed files from patch
-           <g:field type="number" name="changesLevel"
-              value="${lastpatch}" min="1" max="${lastpatch}" default="${lastpatch}" /></p>
-    </div>
+<div id="selectPatchLevel" class="content scaffold-edit" role="main">
+
+    <h1>Select the Patch Level Package</h1>
+    ReleaseId = ${rid}
+    <p><g:select name="patchLevel"
+            enabled="true"
+           from="${plList}"
+           optionValue="name"
+           optionKey="value"
+           noSelection="['':'-Select Package-']"
+           onChange="${remoteFunction (controller: 'TaoRelease',
+                                     action: 'populateContent',
+                                     params: '\'id=\'+ escape($rid)',
+                                     update: 'selectContent'
+                                   )}"/></p>
 </div>
