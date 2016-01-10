@@ -1,7 +1,6 @@
 <div id="selectPatchLevel" class="content scaffold-edit" role="main">
 
     <h1>Select the Patch Level Package</h1>
-    ReleaseId = ${rid}
     <p><g:select name="patchLevel"
             enabled="true"
            from="${plList}"
@@ -10,7 +9,7 @@
            noSelection="['':'-Select Package-']"
            onChange="${remoteFunction (controller: 'TaoRelease',
                                      action: 'populateContent',
-                                     params: '\'id=\'+ escape(rid) + \'&patchLevel=\' + escape(this.value)',
+                                     params: '\'id=\'+ escape(rlsVersion.value) + \'&patchLevel=\' + escape(this.value)',
                                      update: 'selectContent'
                                    )}"/></p>
 </div>

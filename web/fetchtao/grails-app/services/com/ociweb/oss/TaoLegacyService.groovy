@@ -60,7 +60,7 @@ class TaoLegacyService {
         } else if (name.contains("_project")) {
             content = PROJECT_ONLY
         } else if (name.contains("_dox")) {
-            content = DOXYGEN | DOXYGEN_GENERATED
+            content = DOXYGEN_GENERATED
         }
 
         if (name.contains ("with_latest_patches")) {
@@ -75,6 +75,8 @@ class TaoLegacyService {
             if (name.contains (pnum)) {
                 content |= LEVEL_PATCH
             }
+        } else if (name.contains("_dox")) {
+            content |= DOXYGEN
         } else {
             content |= BASE_RELEASE
         }
@@ -230,25 +232,29 @@ class TaoLegacyService {
         if (rls.lastTarget == 0)
             rls.lastTarget = defKey()
 
-        int plval = params.patchLevel ? patchList.find { pl ->
-                pl.name.equals(params.patchLevel)
-            }.value : (rls.lastTarget & PATCH_MASK)
+        int plval = rls.lastTarget & PATCH_MASK
+        if (params.patchLevel) {
+            plval = params.patchLevel as int
+        }
+        else if (plval == LEVEL_PATCH) {
+            int pnum = rls.lastTarget / LEVEL_SHIFT
+            plval += pnum * LEVEL_SHIFT
+        }
+        int clval = rls.lastTarget & CONTENT_MASK
+        if (params.content) {
+            clval = params.content as int
+        }
 
-        int clval = params.changesLevel ? contentList.find { cl ->
-            cl.name.equals(params.content)
-        }.value : (rls.lastTarget & CONTENT_MASK)
+        int cmpval = rls.lastTarget & COMPRESS_MASK
+        if (params.compress) {
+            cmpval = params.compress as int
+        }
 
-        int cmpval = params.compress ? compressList.find {cmp ->
-            cmp.name.equals(params.compress)
-        }.value : (rls.lastTarget & COMPRESS_MASK)
-
-        int pnum = params.changesLevel ? params.changesLevel.toInteger() : (rls.lastTarget / LEVEL_SHIFT)
-        rls.lastTarget = plval + clval + cmpval + (plval == LEVEL_PATCH ? pnum * LEVEL_SHIFT : 0)
+        rls.lastTarget = plval + clval + cmpval
 
         println "target using patchLevel = " + plval +
-                " changesLevel = " + pnum +
                 " content = " + clval +
-                " compress = " + cmpval
+                " compress = " + cmpval +
         " getting legacy [" + rls.lastTarget + "]"
 
         String key = rls.lastTarget as String
@@ -280,13 +286,13 @@ class TaoLegacyService {
 
     static def contentFor (TaoRelease rel, def params)
     {
-        int plval = params.patchLevel
+        int plval = params.patchLevel as int
 
         def names = []
         contentList.each {cl ->
             int testval = plval + cl.value
             if (rel.legacy.find { leg -> (leg.key as int & testval) == testval } ) {
-                names << cl.name
+                names << cl
             }
 
         }
@@ -295,22 +301,14 @@ class TaoLegacyService {
 
     static def compressFor (TaoRelease rel, def params)
     {
-        int plval = patchList.find { pl ->
-            pl.name.equals(params.patchLevel)
-        }.value
-
-        int clval = contentList.find { cl ->
-            cl.name.equals(params.content)
-        }.value
-
-        int pnum = params.changesLevel.toInteger()
-        int fixedtest = plval + clval + (plval == LEVEL_PATCH ? pnum * LEVEL_SHIFT : 0)
+        int plval = params.patchLevel as int
+        int clval = params.content as int
 
         def names = []
         compressList.each {cm ->
-            int testval = fixedtest + cm.value
+            int testval = plval + clval + cm.value
             if (rel.legacy.find { leg -> (leg.key as int & testval) == testval } ) {
-                names << cm.name
+                names << cm
             }
         }
         return names

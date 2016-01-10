@@ -37,27 +37,32 @@ class TaoReleaseController {
     }
 
     def populatePatchLevel (TaoRelease rel) {
-        params.each { println it }
+        println "Populate Patch Level ->"
+        params.each { println " " + it }
         def pllist = TaoLegacyService.patchlevelFor (rel)
-        render template: 'selectPatchLevel', model: [rid: params.id, plList: pllist]
+        render template: 'selectPatchLevel', model: [plList: pllist]
     }
 
     def populateContent (TaoRelease rel)
     {
-        params.each { println it }
+        println "Populate Content ->"
+        params.each { println " " + it }
         def contlist = TaoLegacyService.contentFor (rel, params)
-        render template: 'selectContent', model: [rid: params.id, contList: contlist]
+        render template: 'selectContent', model: [contList: contlist]
     }
 
-    def populateFmt (TaoRelease rel)
+    def populateCompress (TaoRelease rel)
     {
-        def fmtlist = TaoLegacyService.compressFor (rel, params)
-        render template: 'selectCompress', model: [rls: rel, fmtList: fmtlist]
+        println "Populate Compress ->"
+        params.each { println " " + it }
+        def cmplist = TaoLegacyService.compressFor (rel, params)
+        render template: 'selectCompress', model: [cmpList: cmplist]
     }
 
     def taoDownloadLink (TaoRelease rel)
     {
-       // TaoRelease rel = new TaoRelease(params.rlsVersion)
+        println "Populate tao Download Link ->"
+        params.each { println " " + it }
         def pkg = TaoLegacyService.target(rel, params)
 
         render template:'downloadLinkTao', model: [pkg: pkg, basePath: rel.basePath]

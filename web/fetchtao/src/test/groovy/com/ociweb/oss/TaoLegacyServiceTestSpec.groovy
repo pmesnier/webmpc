@@ -57,14 +57,15 @@ class TaoLegacyServiceTestSpec extends Specification {
         def plist = TaoLegacyService.patchlevelFor(rls)
 
         then:
-        plist.size() == 6
+        plist.size() == 13
 
     }
 
     void "getting content"() {
         when:
-        def lev = TaoLegacyService.patchList.find {it.value == TaoLegacyService.LEVEL_PATCH}.name
-        def plist = TaoLegacyService.contentFor(rls, [patchLevel:lev, changesLevel:"8"])
+        int pnum = 8
+        def lev = TaoLegacyService.LEVEL_PATCH + pnum * TaoLegacyService.LEVEL_SHIFT
+        def plist = TaoLegacyService.contentFor(rls, [patchLevel:lev])
 
         then:
         plist.size() == 3
@@ -73,9 +74,9 @@ class TaoLegacyServiceTestSpec extends Specification {
 
     void "getting compression1"() {
         when:
-        def lev = TaoLegacyService.patchList.find {it.value == TaoLegacyService.BASE_RELEASE}.name
-        def con = TaoLegacyService.contentList.find {it.value == TaoLegacyService.SOURCE_ONLY}.name
-        def plist = TaoLegacyService.compressFor(rls, [patchLevel:lev, changesLevel:"0", content:con])
+        def lev = TaoLegacyService.BASE_RELEASE
+        def con = TaoLegacyService.SOURCE_ONLY
+        def plist = TaoLegacyService.compressFor(rls, [patchLevel:lev, content:con])
 
         then:
         plist.size() == 3
@@ -83,13 +84,27 @@ class TaoLegacyServiceTestSpec extends Specification {
     }
     void "getting compression2"() {
         when:
-        def lev = TaoLegacyService.patchList.find {it.value == TaoLegacyService.JUMBO_PATCH}.name
-        def con = TaoLegacyService.contentList.find {it.value == TaoLegacyService.SOURCE_AND_PROJECT}.name
-        def plist = TaoLegacyService.compressFor(rls, [patchLevel:lev, changesLevel:"0", content:con])
+        def lev = TaoLegacyService.JUMBO_PATCH
+        def con = TaoLegacyService.SOURCE_AND_PROJECT
+        def plist = TaoLegacyService.compressFor(rls, [patchLevel:lev, content:con])
 
         then:
         plist.size() == 2
 
     }
 
+    void "find doxy file"() {
+        when:
+        def lev = TaoLegacyService.DOXYGEN
+        def con = TaoLegacyService.DOXYGEN_GENERATED
+        def cmp = TaoLegacyService.TGZ
+        String filename = "TAO-2.2a/ACE+TAO-2.2a_dox.tar.gz"
+        def key = TaoLegacyService.genKey(filename, 0)
+        println "key = " + key
+        TaoLegacyPackage pkg = TaoLegacyService.target(rls, [patchLevel : lev, content: con, compress: cmp ])
+
+        then:
+        pkg.targetName.equals(filename)
+
+    }
 }

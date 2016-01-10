@@ -37,28 +37,40 @@
                    noSelection="['':'-Select Package-']"
                    onChange="${remoteFunction (controller: 'TaoRelease',
                                              action: 'populateContent',
-                                             params: '\'id=\' + escape(rid) + \'&patchLevel=\' + escape(this.value)',
+                                             params: '\'id=\' + escape(rlsVersion.value) + \'&patchLevel=\' + escape(this.value)',
                                              update: 'selectContent'
                                            )}"/></p>
         </div>
 
-                <div id="selectContent" class="content scaffold-edit" role="main">
-                    <h1>Select the Contents</h1>
-                    <p><g:select name="content"
-                           from="${conList}"
-                           optionValue="name"
-                           optionKey="value"
-                           noSelection="['':'-Select Contents-']"
-                           onChange=""/></p>
-                </div>
+        <div id="selectContent" class="content scaffold-edit" role="main">
+            <h1>Select the Contents</h1>
+            <p><g:select name="content"
+                   from="${conList}"
+                   optionValue="name"
+                   optionKey="value"
+                   noSelection="['':'-Select Content-']"
+                   onChange="${remoteFunction (controller: 'TaoRelease',
+                      action: 'populateCompress',
+                      params: '\'id=\' + escape(rlsVersion.value) + \'&patchLevel=\' + escape(patchLevel.value) + \'&content=\' + escape(this.value)',
+                      update: 'selectCompress'
+                    )} "/>
+            </p>
+        </div>
 
-                <div id="choose-compress" class="content scaffold-edit" role="main">
-                    <h1>Select the Archive Compression Style</h1>
-                    <p><g:select name="compress"
-                           from="${cmpList}"
-                           optionValue="name"
-                           noSelection="['':'-Select Compression-']"/></p>
-                </div>
+        <div id="selectCompress" class="content scaffold-edit" role="main">
+            <h1>Select the Archive Format</h1>
+            <p><g:select name="compress"
+                   from="${cmpList}"
+                   optionValue="name"
+                   optionKey="value"
+                   noSelection="['':'-Select Compression-']"
+                   onChange="${remoteFunction (controller: 'TaoRelease',
+                      action: 'taoDownloadLink',
+                      params: '\'id=\' + escape(rlsVersion.value) + \'&patchLevel=\' + escape(patchLevel.value) + \'&content=\' + escape(content.value) + \'&compress=\' + escape(this.value)',
+                      update: 'download_link'
+                    )}" />
+            </p>
+        </div>
 
         <h1>File To Download</h1>
         <div id="download_link">

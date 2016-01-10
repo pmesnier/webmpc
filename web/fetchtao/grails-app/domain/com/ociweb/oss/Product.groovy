@@ -19,16 +19,21 @@ class Product {
     String logo
     String title
 
+//    static transients = ["descstr", "license"]
+
     static constraints = {
-        descstr nullable:true
-        descstr maxSize:1000
+//        descstr bindable:true
+        descstr length: 1000
+        descstr nullable: true
         descref nullable: true
         source nullable:true
         rlsurl nullable:true
         docs nullable:true
+//        license bindable:true
+        license length:10000
         license nullable:true
-        license maxSize:10000
         faq nullable:true
+        license bindable:true
         logo nullable:true
         title nullable:true
     }
@@ -36,7 +41,7 @@ class Product {
     def initRelease (params) {
         if ((descstr == null || descstr.length() == 0) && (descref != null && descref.length() > 0)) {
             descstr = getClass().getClassLoader().getResourceAsStream(descref).text
-        }
+            }
     }
 
     def sourceURL () {

@@ -1,1 +1,1 @@
-QuickFAST is an implementation of the FAST protocal with C++, Java, and C# wrappers, with dynamic message definitions for greater flexability
+QuickFAST is an implementation of the FAST protocol with C++, Java, and C# wrappers, with dynamic message definitions for greater flexibility
