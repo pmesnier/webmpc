@@ -74,7 +74,8 @@
             "descref" : "summaries/jboss.txt",
             "source" : "http://jboss.ociweb.com/download",
             "rlsurl" : "http://jboss.ociweb.com/download",
-            "license" : "http://jboss.ociweb.com/Product-Information"
+            "license" : "http://jboss.ociweb.com/Product-Information",
+            "releaseInit" : "jbossLegacy.json"
         },
         {
             "name" : "Grails",

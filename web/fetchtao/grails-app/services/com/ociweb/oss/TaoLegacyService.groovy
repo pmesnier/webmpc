@@ -13,11 +13,11 @@ class TaoLegacyService {
     static int CONTENT_MASK =7
     static int SOURCE_ONLY = 1
     static int PROJECT_ONLY = 2
-    static int SOURCE_AND_PROJECT = 3
-    static int DOXYGEN = 4
+    static int SOURCE_AND_PROJECT = 4
+    static int DOXYGEN = 8
 
-    static int PATCH_MASK = 504
-    static int BASE_RELEASE = 8
+    static int PATCH_MASK = 1008
+    static int BASE_RELEASE = 512
     static int FULL_LATEST_RELEASE = 16
     static int JUMBO_PATCH = 32
     static int LEVEL_PATCH = 64
@@ -47,6 +47,11 @@ class TaoLegacyService {
                            [name:"zip", value: ZIP],
                            [name:"tar.bzip2", value: BZ2]]
 
+    static defaultPackage = new TaoLegacyPackage ([targetName: "Desired package not available",
+                                                   md5sum    :"",
+                                                   patchLevel:0,
+                                                   filesize: 0,
+                                                   timestamp:"no date"])
 
     //------------------------------------ TaoLegacyPackage functions ---------------------------------------
     static int defKey() {
@@ -112,20 +117,7 @@ class TaoLegacyService {
     //------------------------------------ TaoRelease specific functions --------------------------------------
 
     static initPackages (TaoRelease rls, String packageInit) {
-        println "Init packages called for rls = " + rls.rlsVersion
         rls.lastTarget = defKey ()
-        try {
-            if (initFromJson(rls, packageInit)) {
-                return
-            }
-        }
-        catch (Exception ex) {
-            println "caught " + ex + " trying to parse json, reverting to download "
-        }
-        initFromDownload (rls)
-    }
-
-    static initFromJson (TaoRelease rls, String packageInit) {
         if (loader == null)
             loader = rls.getClass().getClassLoader()
         def resource = loader.getResource(packageInit)
@@ -162,72 +154,6 @@ class TaoLegacyService {
 
     }
 
-    static initMd5sums (String urlStr) {
-        URL md5file = new URL (urlStr)
-        def md5sums = []
-        try {
-            md5file.readLines().each ({line ->
-                def words = line.split("  ")
-                String sum = words[0]
-                String filename = words[-1]
-                md5sums << [file: filename, sum: sum]
-            })
-        } catch (SocketException ex) {
-            println "Caught " + ex + " reading " + urlStr
-        }
-        return md5sums
-    }
-
-    static initFromDownload (TaoRelease rls) {
-        def baseSums = []
-        try {
-            baseSums = initMd5sums(rls.basePath + "/TAO-" + rls.rlsVersion + ".md5")
-            String baseRoot = "ACE+TAO-" + rls.rlsVersion
-            baseSums << [file: baseRoot + ".tar.gz", sum : "not available"]
-            baseSums << [file: baseRoot + ".zip", sum : "not available"]
-            baseSums << [file: baseRoot + "-nomake.tar.gz", sum : "not available"]
-            baseSums << [file: baseRoot + "-nomake.zip", sum : "not available"]
-        }
-        catch (FileNotFoundException ex) {
-            try {
-                baseSums = initMd5sums(rls.basePath + "/ACE+TAO-" + rls.rlsVersion + ".md5")
-            } catch (ex2) {
-
-            }
-        }
-
-        String key
-        baseSums.each({
-            key = genKey(it.file, 0) as String
-            rls.legacy.put  key, new TaoLegacyPackage( [targetName: rls.basePath + "/" + it.file,
-                                                    md5sum:it.sum, patchLevel:0,
-                                                    timestamp:it.time, size: it.fsize] )
-        })
-
-        for (int i = 1; i <= rls.lastPatch; i++) {
-            try {
-                baseSums = initMd5sums(rls.patchesPath + "/patch" + i + ".md5")
-                if (i == rls.lastPatch) {
-                    String jumboRoot = "TAO-" + rls.rlsVersion + "_jumbo_patch"
-                    baseSums << [file: jumboRoot + ".tar.gz", sum : "not available"]
-                    baseSums << [file: jumboRoot + ".zip", sum : "not available"]
-                    baseSums << [file: jumboRoot + "_NO_Makefiles.tar.gz", sum : "not available"]
-                    baseSums << [file: jumboRoot + "_NO_Makefiles.zip", sum : "not available"]
-                }
-                baseSums.each({
-                    key = genKey(it.file, i) as String
-                    def target = (it.file.contains ("latest") ? rls.basePath : rls.patchesPath) + "/" + it.file
-                    rls.legacy.put key , new TaoLegacyPackage([targetName: target, md5sum:it.sum, patchLevel:i])
-                })
-            }
-            catch (FileNotFoundException ex) {
-
-            }
-
-        }
-
-    }
-
     static TaoLegacyPackage target (TaoRelease rls, def params) {
         if (rls.lastTarget == 0)
             rls.lastTarget = defKey()
@@ -259,7 +185,7 @@ class TaoLegacyService {
 
         String key = rls.lastTarget as String
         TaoLegacyPackage tlp = rls.legacy.get(key)
-        return tlp ? tlp : rls.defaultPackage
+        return tlp ? tlp : defaultPackage
     }
 
     static def patchlevelFor (TaoRelease rel) {
@@ -268,19 +194,31 @@ class TaoLegacyService {
 
         def names = []
         patchList.each {pl ->
-            if (pl.value != LEVEL_PATCH && rel.legacy.find { leg ->
-                (leg.key as int & pl.value) == pl.value }) {
+            if (pl.value != LEVEL_PATCH && rel.legacy.find { leg -> (leg.key as int & pl.value) == pl.value }) {
                 names << pl
             }
         }
-        if (rel.lastPatch > 0) {
-            String base = patchList.find {it.value as int == LEVEL_PATCH}.name
-            (1..rel.lastPatch).each {
-                String n = base + " " + it
-                int v = LEVEL_PATCH + it * LEVEL_SHIFT
-                names << [name: n, value: v]
+
+        String base = patchList.find {it.value as int == LEVEL_PATCH}.name
+        int low = 0
+        int high = 0
+        rel.legacy.findAll {
+            ((it.key as int & LEVEL_PATCH) == LEVEL_PATCH)
+        }.each { leg ->
+            int pnum = (leg.key as int) / LEVEL_SHIFT
+            if (pnum) {
+                if (low == 0 || pnum < low)
+                    low = pnum
+                if (high == 0 || pnum > high)
+                    high = pnum
             }
         }
+        (low..high).each {
+            String n = base + " " + it
+            int v = LEVEL_PATCH + it * LEVEL_SHIFT
+            names << [name: n, value: v]
+        }
+
         return names
     }
 

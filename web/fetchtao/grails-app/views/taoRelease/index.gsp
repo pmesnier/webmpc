@@ -42,7 +42,7 @@
                                            )}"/></p>
         </div>
 
-        <div id="selectContent" class="content scaffold-edit" role="main">
+         <div id="selectContent" class="content scaffold-edit" role="main">
             <h1>Select the Contents</h1>
             <p><g:select name="content"
                    from="${conList}"

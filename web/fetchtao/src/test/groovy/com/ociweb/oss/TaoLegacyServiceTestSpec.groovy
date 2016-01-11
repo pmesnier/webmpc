@@ -12,18 +12,24 @@ import spock.lang.*
 @TestMixin(GrailsUnitTestMixin)
 class TaoLegacyServiceTestSpec extends Specification {
 
-    TaoRelease rls
+    TaoRelease rls22a
+    TaoRelease rls12a
 
     def setup() {
-        rls = new TaoRelease (["rlsVersion": "2.2a",
-                               "lastPatch": 8, "patchsrc": true,
-                               "basePath": "http://download.ociweb.com/",
-                               "patchesPath": "http://download.ociweb.com/TAO-2.2a_patches"])
-        TaoLegacyService.initPackages (rls, "tao22aFiles.json")
+        rls22a = new TaoRelease (["rlsVersion" : "2.2a",
+                                  "lastPatch"  : 8, "patchsrc": true,
+                                  "basePath"   : "http://download.ociweb.com/",
+                                  "patchesPath": "http://download.ociweb.com/TAO-2.2a_patches"])
+        TaoLegacyService.initPackages (rls22a, "tao22aFiles.json")
+        rls12a = new TaoRelease (["rlsVersion" : "1.2a",
+                                  "lastPatch"  : 8, "patchsrc": true,
+                                  "basePath"   : "http://download.ociweb.com/",
+                                  "patchesPath": "http://download.ociweb.com/TAO-1.2a_patches"])
+        TaoLegacyService.initPackages (rls12a, "tao12aFiles.json")
     }
 
     def cleanup() {
-        rls = null
+        rls22a = null
     }
 
     void "defkey creation"() {
@@ -32,13 +38,13 @@ class TaoLegacyServiceTestSpec extends Specification {
         def key = TaoLegacyService.defKey()
 
         then:
-        key == 1043
+        key == 1044
     }
 
     void "has 2.2a"() {
 
         when:
-        def ver = rls.rlsVersion
+        def ver = rls22a.rlsVersion
 
         then:
         ver.equals ("2.2a")
@@ -54,7 +60,7 @@ class TaoLegacyServiceTestSpec extends Specification {
 
     void "getting patchlevel"() {
         when:
-        def plist = TaoLegacyService.patchlevelFor(rls)
+        def plist = TaoLegacyService.patchlevelFor(rls22a)
 
         then:
         plist.size() == 13
@@ -65,18 +71,27 @@ class TaoLegacyServiceTestSpec extends Specification {
         when:
         int pnum = 8
         def lev = TaoLegacyService.LEVEL_PATCH + pnum * TaoLegacyService.LEVEL_SHIFT
-        def plist = TaoLegacyService.contentFor(rls, [patchLevel:lev])
+        def plist = TaoLegacyService.contentFor(rls22a, [patchLevel:lev])
 
         then:
         plist.size() == 3
+    }
 
+    void "getting content 12a"() {
+        when:
+        int pnum = 8
+        def lev = TaoLegacyService.LEVEL_PATCH + pnum * TaoLegacyService.LEVEL_SHIFT
+        def plist = TaoLegacyService.contentFor(rls12a, [patchLevel:lev])
+
+        then:
+        plist.size() == 1
     }
 
     void "getting compression1"() {
         when:
         def lev = TaoLegacyService.BASE_RELEASE
         def con = TaoLegacyService.SOURCE_ONLY
-        def plist = TaoLegacyService.compressFor(rls, [patchLevel:lev, content:con])
+        def plist = TaoLegacyService.compressFor(rls22a, [patchLevel:lev, content:con])
 
         then:
         plist.size() == 3
@@ -86,7 +101,7 @@ class TaoLegacyServiceTestSpec extends Specification {
         when:
         def lev = TaoLegacyService.JUMBO_PATCH
         def con = TaoLegacyService.SOURCE_AND_PROJECT
-        def plist = TaoLegacyService.compressFor(rls, [patchLevel:lev, content:con])
+        def plist = TaoLegacyService.compressFor(rls22a, [patchLevel:lev, content:con])
 
         then:
         plist.size() == 2
@@ -101,10 +116,11 @@ class TaoLegacyServiceTestSpec extends Specification {
         String filename = "TAO-2.2a/ACE+TAO-2.2a_dox.tar.gz"
         def key = TaoLegacyService.genKey(filename, 0)
         println "key = " + key
-        TaoLegacyPackage pkg = TaoLegacyService.target(rls, [patchLevel : lev, content: con, compress: cmp ])
+        TaoLegacyPackage pkg = TaoLegacyService.target(rls22a, [patchLevel: lev, content: con, compress: cmp ])
 
         then:
         pkg.targetName.equals(filename)
 
     }
+
 }

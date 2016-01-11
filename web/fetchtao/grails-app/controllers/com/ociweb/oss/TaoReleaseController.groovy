@@ -37,34 +37,45 @@ class TaoReleaseController {
     }
 
     def populatePatchLevel (TaoRelease rel) {
-        println "Populate Patch Level ->"
-        params.each { println " " + it }
         def pllist = TaoLegacyService.patchlevelFor (rel)
         render template: 'selectPatchLevel', model: [plList: pllist]
     }
 
     def populateContent (TaoRelease rel)
     {
-        println "Populate Content ->"
-        params.each { println " " + it }
         def contlist = TaoLegacyService.contentFor (rel, params)
         render template: 'selectContent', model: [contList: contlist]
     }
 
+    def populateContent2 (TaoRelease rel)
+    {
+        String tname = params.template ? params.template : 'taoLegacyOptions'
+        String changeFuncBody = "\${remoteFunction(controller: 'TaoRelease', " +
+                                "action: 'populateCompress', " +
+                                "params: '\\'id=\\'+ escape(rlsVersion.value) + \\'&patchLevel=\\' + escape(patchLevel.value) + \\'&content=\\' + escape(this.value)', " +
+                                "update: 'selectCompress')}"
+        def contlist = TaoLegacyService.contentFor (rel, params)
+        def optionDescriptor = [header:"Choose contents for " + TaoLegacyService.patchList.find { it.value.equals (params.patchLevel) }?.name,
+                                selectlabel: "content",
+                                nvlist: contlist,
+                                deflabel: "['" + "':'-Select Content-']",
+                                changeFunc: changeFuncBody]
+        def optionMap = [content: optionDescriptor]
+//        def keyOrder = ["rlsver", "plevel", "content", "compress", "download"]
+        def keyOrder = ["content"]
+        def model = [keys : keyOrder, options: optionMap]
+        render template: tname, model: model
+    }
+
     def populateCompress (TaoRelease rel)
     {
-        println "Populate Compress ->"
-        params.each { println " " + it }
         def cmplist = TaoLegacyService.compressFor (rel, params)
         render template: 'selectCompress', model: [cmpList: cmplist]
     }
 
     def taoDownloadLink (TaoRelease rel)
     {
-        println "Populate tao Download Link ->"
-        params.each { println " " + it }
         def pkg = TaoLegacyService.target(rel, params)
-
         render template:'downloadLinkTao', model: [pkg: pkg, basePath: rel.basePath]
     }
 

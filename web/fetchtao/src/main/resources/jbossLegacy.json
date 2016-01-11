@@ -1,0 +1,23 @@
+{
+  "disclaimer" : ["JBoss and Red Hat are registered trademarks of Red Hat, Inc. in the United States and other countries.",
+    "All other trademarks are property of their respective owners."],
+  "basePath": "http://download.ociweb.com/",
+  "releasesPath": "jboss/release",
+  "olderPath" : "jboss/release/previous-releases",
+  "jbossLegacy" : [
+    {
+      "rlsVersion":"4.2a",
+      "fileNameRoot" : ["jboss-4.2a","jboss-4.2b"]
+    },
+    {
+      "rlsVersion":"5.1.0a",
+      "fileNameRoot" :["jboss-5.1.0"]
+
+    },
+    {
+      "rlsVersion": "7.1.3a",
+      "fileNameRoot" : ["jboss-7.1.3a","jboss-as-7.1.3a"]
+    }
+  ]
+}
+
