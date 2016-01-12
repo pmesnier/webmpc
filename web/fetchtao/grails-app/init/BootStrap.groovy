@@ -12,7 +12,7 @@ class BootStrap {
         def resource = getClass().getClassLoader().getResource("products.json")
         def products = jsonSlurper.parse(resource)
 
-        GitHubService.initAuthToken(products.gitHubAuthTokenFile)
+        GitHubService.initAuthToken(products.gitHubAuthToken)
 
         if (Product.list().size == 0)
         {

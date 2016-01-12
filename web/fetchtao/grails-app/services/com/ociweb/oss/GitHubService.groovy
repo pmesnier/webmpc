@@ -17,10 +17,10 @@ class GitHubService {
 
     static String authToken
 
-    static void initAuthToken(String filename) {
-        println "GitHubService initAuthToken called, filename = " + filename + " token null? " + (authToken == null)
+    static void initAuthToken(String token) {
+        println "GitHubService initAuthToken called, token = " + token + " token null? " + (authToken == null)
         if (authToken == null) {
-            authToken = new File(filename).text
+            authToken = token
         }
     }
 
