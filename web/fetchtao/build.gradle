@@ -11,6 +11,8 @@ buildscript {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
         classpath 'com.bertramlabs.plugins:asset-pipeline-gradle:2.5.0'
         classpath "org.grails.plugins:hibernate:4.3.10.5"
+        classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.12.1"
+        classpath 'com.netflix.nebula:gradle-ospackage-plugin:3.1.0'
     }
 }
 
@@ -28,6 +30,8 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: "org.grails.grails-web"
 apply plugin: "org.grails.grails-gsp"
+apply plugin: "com.github.hierynomus.license"
+apply plugin: 'nebula.ospackage-base'
 
 ext {
     grailsVersion = project.grailsVersion
@@ -50,8 +54,8 @@ dependencyManagement {
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-starter-actuator"
-    compile "org.springframework.boot:spring-boot-autoconfigure"
-    provided "org.springframework.boot:spring-boot-starter-tomcat"
+    compile "org.springframework.boot:spring-boot-autoconfigure" 
+   provided "org.springframework.boot:spring-boot-starter-tomcat"
     compile "org.grails:grails-dependencies"
     compile "org.grails:grails-web-boot"
 
@@ -79,4 +83,27 @@ repositories {
 
 task wrapper(type: Wrapper) {
     gradleVersion = gradleWrapperVersion
+}
+
+task packDeb(type: Deb, dependsOn: assemble) {
+
+  packageName = project.name
+  version = '1'
+  release '1'
+
+  requires('openjdk-7-jre-headless')
+  from('build/libs/.') {
+    into "/opt/${project.name}"
+  }
+
+  // installer scripts
+  preInstall = file('pkg_scripts/preInstall.sh')
+  postInstall = file('pkg_scripts/postInstall.sh')
+
+  from(file('pkg_scripts/fetchtao.conf')) {
+    into('/etc/init')
+    user = 'root'
+    permissionGroup = 'root'
+    fileType = CONFIG | NOREPLACE
+  }
 }
