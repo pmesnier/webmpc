@@ -22,18 +22,15 @@ class Product {
 //    static transients = ["descstr", "license"]
 
     static constraints = {
-//        descstr bindable:true
-        descstr length: 1000
-        descstr nullable: true
+//        descstr bindable:true, nullable: true
+        descstr maxSize: 1000, nullable: true
         descref nullable: true
         source nullable:true
         rlsurl nullable:true
         docs nullable:true
-//        license bindable:true
-        license length:10000
-        license nullable:true
+//        license bindable:true, nullable: true
+        license maxSize:10000, nullable:true
         faq nullable:true
-        license bindable:true
         logo nullable:true
         title nullable:true
     }
@@ -44,7 +41,7 @@ class Product {
             }
     }
 
-    def sourceURL () {
+     def sourceURL () {
          return source
     }
 

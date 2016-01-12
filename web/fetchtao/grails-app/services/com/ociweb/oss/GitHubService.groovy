@@ -14,6 +14,7 @@ class GitHubService {
         INFO_NONE
     }
 
+    static def slurp = new JsonSlurper()
 
     static String authToken
 
@@ -30,8 +31,10 @@ class GitHubService {
         println "openGitHubPage " + urlstr
         URL url = new URL(urlstr)
         HttpURLConnection con = (HttpURLConnection) url.openConnection()
-        con.addRequestProperty("Authorization", authToken)
-        println "    adding prop Authorization = " + authToken
+        if (authToken) {
+            con.addRequestProperty("Authorization", authToken)
+            println "    adding prop Authorization = " + authToken
+        }
         String lastMod
         switch (info) {
             case InfoType.INFO_TAG:
@@ -86,7 +89,7 @@ class GitHubService {
             int tail = nextChunk.lastIndexOf('>');
             nextPage = nextChunk.substring(head, tail)
         }
-        def slurp = new JsonSlurper()
+
         slurp.parse(con.getContent()).each {
             reflist << [name: it.name, tarball_url: it.tarball_url, zipball_url: it.zipball_url]
         }
@@ -105,7 +108,6 @@ class GitHubService {
         int code = con.getResponseCode()
         if (code == HttpURLConnection.HTTP_OK) {
             prod.licLastMod = con.getHeaderField("Last-Modified")
-            def slurp = new JsonSlurper()
             def licobj = slurp.parse (con.getContent())
             if (licobj.encoding.equals ("base64")) {
                 byte[] decoded = licobj.content.decodeBase64()
@@ -130,6 +132,7 @@ class GitHubService {
             reflist = fetchRevInfo_i(ghp, "/tags", InfoType.INFO_TAG)
         }
         if (reflist != null) {
+            ghp.releases.clear()
             reflist.each { rlsdef ->
                 def rls =  new GitHubRelease (rlsdef)
                 ghp.addToReleases (rls)

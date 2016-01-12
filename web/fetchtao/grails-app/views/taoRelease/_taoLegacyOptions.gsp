@@ -1,32 +1,76 @@
 <div id="taoLegacyOptions" class="content scaffold-edit" role="main">
-Starting taoLegacyOptions div
-<g:each var="okey" in="${keys}">
-      key = ${okey}
-    <g:set var="opt" value="${options.get(okey)}" />
-      <p>opt = ${opt}</p>
-    <g:if test="${opt != null}" >
-    <p>opt is not nil</p>
-    <h1>${opt.header}</h1>
-    <p>
-    <g:if test="${opt.nvlist.size() == 1}">
-    <g:select name="${opt.selectlabel}"
-              from="${opt.nvlist}"
-              optionValue="name"
-              optionKey="value"
-              onChange="${opt.changeFunc}"/>
-    </g:if>
-    <g:else>
-    <g:select name="${opt.selectlabel}"
-              from="${opt.nvlist}"
-              optionValue="name"
-              optionKey="value"
-              noSelection="${opt.deflabel}"
-              onChange="${opt.changeFunc}" />
-    </g:else>
-    </p>
-    </g:if>
-    <g:else>
-    test for opt not equal nil
-    </g:else>
-</g:each>
+
+    <div id="selectPatchLevel" class="content scaffold-edit" role="main">
+        <h1>Select the Patch Level Package</h1>
+        <p>
+        <g:if test="${plList.size() > 1}" >
+            <g:select name="patchLevel" from="${plList}" optionValue="name"  optionKey="value"
+                value="${plsel ? plsel :''}"
+                noSelection="['':'-Select Package-']"
+                onChange="${remoteFunction (controller: 'TaoRelease',
+                                            action: 'updateTaoSelector',
+                                            params: '\'id=\' + escape(rlsVersion.value) + \'&patchLevel=\' + escape(this.value) + \'&content=\' + escape(content.value) + \'&compress=\' + escape(compress.value)',
+                                            update: 'taoLegacyOptions'
+                                           )}"/>
+        </g:if>
+        <g:else>
+            <g:select name="patchLevel" from="${plList}" optionValue="name"  optionKey="value"/>
+        </g:else>
+        </p>
+    </div>
+
+    <div id="selectContent" class="content scaffold-edit" role="main">
+        <h1>Select the Contents</h1>
+        <p>
+        <g:if test="${conList.size() > 1}" >
+            <g:select name="content" from="${conList}" optionValue="name" optionKey="value"
+                value="${consel ? consel :''}"
+                noSelection="['':'-Select Content-']"
+                onChange="${remoteFunction (controller: 'TaoRelease',
+                                            action: 'updateTaoSelector',
+                                            params: '\'id=\' + escape(rlsVersion.value) + \'&patchLevel=\' + escape(patchLevel.value) + \'&content=\' + escape(this.value) + \'&compress=\' + escape(compress.value)',
+                                            update: 'taoLegacyOptions'
+                                           )} "/>
+        </g:if>
+        <g:else>
+            <g:select name="content" from="${conList}" optionValue="name"  optionKey="value"/>
+        </g:else>
+        </p>
+    </div>
+
+    <div id="selectCompress" class="content scaffold-edit" role="main">
+        <h1>Select the Archive Format</h1>
+        <p>
+        <g:if test="${cmpList.size() > 1}" >
+            <g:select name="compress" from="${cmpList}" optionValue="name" optionKey="value"
+                value="${cmpsel ? cmpsel : ''}"
+                noSelection="['':'-Select Compression-']"
+                onChange="${remoteFunction (controller: 'TaoRelease',
+                                            action: 'updateTaoSelector',
+                                            params: '\'id=\' + escape(rlsVersion.value) + \'&patchLevel=\' + escape(patchLevel.value) + \'&content=\' + escape(content.value) + \'&compress=\' + escape(this.value)',
+                                            update: 'taoLegacyOptions'
+                                           )}" />
+        </g:if>
+        <g:else>
+            <g:select name="compress" from="${cmpList}" optionValue="name"  optionKey="value"/>
+        </g:else>
+        </p>
+    </div>
+
+    <div id="download_link">
+        <h1>File To Download</h1>
+        <g:if test="${basePath != null}" >
+            <p> Click on the link to begin your download </p>
+            <p><a href="${basePath}${pkg.targetName}">${pkg.targetName}</a></p>
+            <p>md5sum ${pkg.md5sum} </p>
+            <p>file size =
+            <g:if test="${pkg.filesize > 1048576}" > <g:formatNumber number="${pkg.filesize / 1048576}" format="###.##M" /> </g:if>
+            <g:elseif test="${pkg.filesize > 1024}" > <g:formatNumber number="${pkg.filesize / 1024}" format="###.##K" /> </g:elseif>
+            <g:else> <g:formatNumber number="${pkg.filesize}" format="######b" /> </g:else>
+            File posting date: ${pkg.timestamp} </p>
+        </g:if >
+        <g:else>
+            <p> File details will appear when all options are selcted above </p>
+        </g:else>
+    </div>
 </div>

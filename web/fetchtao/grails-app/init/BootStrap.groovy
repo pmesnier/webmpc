@@ -12,13 +12,16 @@ class BootStrap {
         def resource = getClass().getClassLoader().getResource("products.json")
         def products = jsonSlurper.parse(resource)
 
-        GitHubService.initAuthToken(products.gitHubAuthToken)
+        if (products.gitHubAuthTokenFile)
+            GitHubService.initAuthToken(products.gitHubAuthTokenFile)
+        else
+            GitHubService.initAuthToken(products.gitHubAuthToken)
 
         if (Product.list().size == 0)
         {
             products.product.each{
                 def prod = it.githubowner != null ? new GitHubProduct(it) : new Product (it)
-                prod.initRelease(it)
+//                prod.initRelease(it)
                 if (it.name.contains ("TAO")) {
                     TaoLegacyService.initProduct (prod, it.releaseInit)
                 }
