@@ -21,60 +21,76 @@
                   valueMessagePrefix="OCI Tao Version "
                   noSelection="['':'-Select Release-']"
                   onChange="${remoteFunction (controller: 'TaoRelease',
-                                              action: 'populatePatchLevel',
+                                              action: 'updateTaoSelector',
                                               params: '\'id=\' + escape(this.value)',
-                                              update: 'selectPatchLevel'
+                                              update: 'taoLegacyOptions'
                                             )}"/></p>
         </div>
+        <div id="taoLegacyOptions" class="content scaffold-edit" role="main">
 
-        <div id="selectPatchLevel" class="content scaffold-edit" role="main">
-            <h1>Select the Patch Level Package</h1>
-            <p><g:select name="patchLevel"
-                    enabled="false"
-                   from="${plList}"
-                   optionValue="name"
-                   optionKey="value"
-                   noSelection="['':'-Select Package-']"
-                   onChange="${remoteFunction (controller: 'TaoRelease',
-                                             action: 'populateContent',
-                                             params: '\'id=\' + escape(rlsVersion.value) + \'&patchLevel=\' + escape(this.value)',
-                                             update: 'selectContent'
-                                           )}"/></p>
+            <div id="selectPatchLevel" class="content scaffold-edit" role="main">
+                <h1>Select the Patch Level Package</h1>
+                <p>
+                <g:if test="${plList.size() > 1}" >
+                    <g:select name="patchLevel" from="${plList}" optionValue="name"  optionKey="value"
+                        value="${plsel ? plsel :''}"
+                        noSelection="['':'-Select Package-']"
+                        onChange="${remoteFunction (controller: 'TaoRelease',
+                                                    action: 'updateTaoSelector',
+                                                    params: '\'id=\' + escape(rlsVersion.value) + \'&patchLevel=\' + escape(this.value)',
+                                                    update: 'taoLegacyOptions'
+                                                   )}"/>
+                </g:if>
+                <g:else>
+                    <g:select name="patchLevel" from="${plList}" optionValue="name"  optionKey="value"/>
+                </g:else>
+                </p>
+            </div>
+
+            <div id="selectContent" class="content scaffold-edit" role="main">
+                <h1>Select the Contents</h1>
+                <p>
+                <g:if test="${conList.size() > 1}" >
+                    <g:select name="content" from="${conList}" optionValue="name" optionKey="value"
+                        value="${consel ? consel :''}"
+                        noSelection="['':'-Select Content-']"
+                        onChange="${remoteFunction (controller: 'TaoRelease',
+                                                    action: 'updateTaoSelector',
+                                                    params: '\'id=\' + escape(rlsVersion.value) + \'&patchLevel=\' + escape(patchLevel.value) + \'&content=\' + escape(this.value)',
+                                                    update: 'taoLegacyOptions'
+                                                   )} "/>
+                </g:if>
+                <g:else>
+                    <g:select name="content" from="${conList}" optionValue="name"  optionKey="value"/>
+                </g:else>
+                </p>
+            </div>
+
+            <div id="selectCompress" class="content scaffold-edit" role="main">
+                <h1>Select the Archive Format</h1>
+                <p>
+                <g:if test="${cmpList.size() > 1}" >
+                    <g:select name="compress" from="${cmpList}" optionValue="name" optionKey="value"
+                        val="${cmpsel ? cmpsel : ''}"
+                        noSelection="['':'-Select Compression-']"
+                        onChange="${remoteFunction (controller: 'TaoRelease',
+                                                    action: 'updateTaoSelector',
+                                                    params: '\'id=\' + escape(rlsVersion.value) + \'&patchLevel=\' + escape(patchLevel.value) + \'&content=\' + escape(content.value) + \'&compress=\' + escape(this.value)',
+                                                    update: 'taoLegacyOptions'
+                                                   )}" />
+                </g:if>
+                <g:else>
+                    <g:select name="compress" from="${cmpList}" optionValue="name"  optionKey="value"/>
+                </g:else>
+                </p>
+            </div>
+
+            <div id="download_link">
+                <h1>File To Download</h1>
+                <p> File details will appear when all options are selcted above </p>
+
+            </div>
         </div>
 
-         <div id="selectContent" class="content scaffold-edit" role="main">
-            <h1>Select the Contents</h1>
-            <p><g:select name="content"
-                   from="${conList}"
-                   optionValue="name"
-                   optionKey="value"
-                   noSelection="['':'-Select Content-']"
-                   onChange="${remoteFunction (controller: 'TaoRelease',
-                      action: 'populateCompress',
-                      params: '\'id=\' + escape(rlsVersion.value) + \'&patchLevel=\' + escape(patchLevel.value) + \'&content=\' + escape(this.value)',
-                      update: 'selectCompress'
-                    )} "/>
-            </p>
-        </div>
-
-        <div id="selectCompress" class="content scaffold-edit" role="main">
-            <h1>Select the Archive Format</h1>
-            <p><g:select name="compress"
-                   from="${cmpList}"
-                   optionValue="name"
-                   optionKey="value"
-                   noSelection="['':'-Select Compression-']"
-                   onChange="${remoteFunction (controller: 'TaoRelease',
-                      action: 'taoDownloadLink',
-                      params: '\'id=\' + escape(rlsVersion.value) + \'&patchLevel=\' + escape(patchLevel.value) + \'&content=\' + escape(content.value) + \'&compress=\' + escape(this.value)',
-                      update: 'download_link'
-                    )}" />
-            </p>
-        </div>
-
-        <h1>File To Download</h1>
-        <div id="download_link">
-        Link to download file is here
-        </div>
     </body>
 </html>

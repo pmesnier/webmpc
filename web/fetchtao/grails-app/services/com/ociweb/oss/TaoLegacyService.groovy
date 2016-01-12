@@ -239,8 +239,15 @@ class TaoLegacyService {
 
     static def compressFor (TaoRelease rel, def params)
     {
-        int plval = params.patchLevel as int
-        int clval = params.content as int
+        int plval = 0
+        int clval = 0
+        try {
+            plval = params.patchLevel as int
+            clval = params.content as int
+        }
+        catch (NumberFormatException nfe) {
+            return []
+        }
 
         def names = []
         compressList.each {cm ->
