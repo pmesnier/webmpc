@@ -10,8 +10,6 @@
     <body>
         <div id="pickOptions" class="content scaffold-edit" role="main">
             <h1><g:message code="default.chooseOpts.label" args="[entityName]" /> ${taoRelease.rlsVersion} </h1>
-<div id="taoLegacyOptions">
-</div>
         </div>
     </body>
 </html>

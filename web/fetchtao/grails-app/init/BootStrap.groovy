@@ -1,7 +1,4 @@
-import com.ociweb.oss.TaoLegacyService
-import com.ociweb.oss.GitHubProduct
-import com.ociweb.oss.GitHubService
-import com.ociweb.oss.Product
+import com.ociweb.oss.ProductService
 import groovy.json.JsonSlurper
 
 
@@ -12,23 +9,7 @@ class BootStrap {
         def resource = getClass().getClassLoader().getResource("products.json")
         def products = jsonSlurper.parse(resource)
 
-        if (products.gitHubAuthTokenFile)
-            GitHubService.initAuthToken(products.gitHubAuthTokenFile)
-        else
-            GitHubService.initAuthToken(products.gitHubAuthToken)
-
-        if (Product.list().size == 0)
-        {
-            products.product.each{
-                def prod = it.githubowner != null ? new GitHubProduct(it) : new Product (it)
-//                prod.initRelease(it)
-                if (it.name.contains ("TAO")) {
-                    TaoLegacyService.initProduct (prod, it.releaseInit)
-                }
-                prod.save(failOnError: true)
-                println "product " + it.name + " saved"
-            }
-        }
+        ProductService.initAll (products)
     }
 
     def destroy = {
