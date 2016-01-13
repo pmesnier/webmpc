@@ -100,18 +100,22 @@ class TaoLegacyService {
 
     //------------------------------------ TaoProduct specific functions --------------------------------------
 
-    static initProduct (Product prod, String resourceInfo) {
+    static initProduct (Product prod, def params) {
+        String resourceInfo = params.legacyInit
+        if (resourceInfo) {
+            if (loader == null)
+                loader = prod.getClass().getClassLoader()
+            def resource = loader.getResource(resourceInfo)
+            def taoConfig = jsonSlurper.parse(resource)
 
-        if (loader == null)
-            loader = prod.getClass().getClassLoader()
-        def resource = loader.getResource(resourceInfo)
-        def taoConfig = jsonSlurper.parse(resource)
+            taoConfig.taoLegacy.each { rlsdef ->
+                def rls =  new TaoRelease (rlsdef)
+                initPackages (rls, rlsdef.packageInit)
+                prod.addToReleases (rls)
+            }
 
-        taoConfig.taoLegacy.each { rlsdef ->
-            def rls =  new TaoRelease (rlsdef)
-            initPackages (rls, rlsdef.packageInit)
-            prod.addToReleases (rls)
         }
+
     }
 
     //------------------------------------ TaoRelease specific functions --------------------------------------

@@ -15,6 +15,22 @@ class ProductController {
         respond prod
     }
 
+    def showName () {
+        println "request for " + params.pname
+
+        def prod = Product.findByNameIlike (params.pname)
+        if (!prod) {
+            prod = Product.findByUriIlike (params.pname)
+        }
+        if (prod) {
+            showReleases(prod)
+        }
+        else {
+            println "could not find named product"
+            redirect (url:"/notFound")
+        }
+    }
+
     def showSource (Product prod) {
         println "show source, name = " + prod.name
         if (prod.name.equals("OCI TAO"))

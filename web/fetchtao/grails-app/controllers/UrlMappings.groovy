@@ -8,9 +8,7 @@ class UrlMappings {
         }
 
         "/"(controller:'Product', action:'index')
-        "/taoRelease/populatePatchLevel/$id" (controller:'TaoRelease', action:'populatePatchLevel')
-        "/taoRelease/populateContent/$id/$patchLevel" (controller:'TaoRelease', action:'populateContent')
-        "/taoRelease/populateCompress/$id/$patchLevel/$content" (controller:'TaoRelease', action:'populateCompress')
+        "/products/download/$pname" (controller:'Product', action:'showName')
         "/taoRelease/updateTaoSelector/$id/$patchLevel?/$content?/$compress?" (controller:'TaoRelease', action:'updateTaoSelector')
         "500"(view:'/error')
         "404"(view:'/notFound')

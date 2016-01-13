@@ -9,6 +9,7 @@ class Product {
     List releases
 
     String name
+    String uri
     String descstr
     String descref
     String source
@@ -22,6 +23,7 @@ class Product {
 //    static transients = ["descstr", "license"]
 
     static constraints = {
+        uri nullable: true
 //        descstr bindable:true, nullable: true
         descstr maxSize: 1000, nullable: true
         descref nullable: true
@@ -36,6 +38,11 @@ class Product {
     }
 
     def initRelease (params) {
+        if (params.name.contains ("TAO")) {
+            TaoLegacyService.initProduct (this, params)
+            TaoActiveService.initProduct (this, params)
+        }
+
         if ((descstr == null || descstr.length() == 0) && (descref != null && descref.length() > 0)) {
             descstr = getClass().getClassLoader().getResourceAsStream(descref).text
             }
