@@ -107,7 +107,7 @@ task packDeb(type: Deb, dependsOn: assemble) {
     fileType = CONFIG | NOREPLACE
   }
 
-  from(file('pkg_scripts/fetchdao')) {
+  from(file('pkg_scripts/fetchtao')) {
     into('/etc/logrotate.d')
     user = 'root'
     permissionGroup = 'root'
