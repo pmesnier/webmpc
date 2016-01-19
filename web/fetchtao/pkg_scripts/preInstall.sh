@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# sudo add-apt-repository -y ppa:openjdk-r/ppa
-# # deb repo should live
-# sudo apt-get update
-# sudo apt-get install -y openjdk-8-jdk
+sudo hostname "$(hostname | cut -c1-63)"
+sed -e "s/^\\(127\\.0\\.0\\.1.*\\)/\\1 $(hostname | cut -c1-63)/" /etc/hosts | sudo tee /etc/hosts
 
 /usr/bin/update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java 1
 /usr/bin/update-alternatives --set java /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java
