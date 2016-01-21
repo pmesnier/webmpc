@@ -152,6 +152,7 @@ class TaoLegacyService {
                 if (found) {
                     println "collision at key = " + key + " fp = " + fp + " found = " + found.targetName
                 }
+                tlp.release = rls
                 rls.legacy.put key, tlp
             }
         }

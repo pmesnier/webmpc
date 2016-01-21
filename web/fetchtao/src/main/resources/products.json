@@ -13,18 +13,22 @@
       "githubdocs": "OpenDDS-latest.pdf"
     },
     {
+      "name": "OCI ACE",
+      "uri" : "ociace",
+      "logo": "TAO-logo-1.png",
+      "title": "OCI ACE",
+      "descstr": "OCI's distribution of ACE, A framework for distributed object computing, separate from TAO and OpenDDS "
+    },
+    {
       "name": "OCI TAO",
       "uri" : "ocitao",
       "logo": "TAO-logo-1.png",
       "title": "OCI TAO, the commercial release of The ACE ORB.",
       "legacyInit": "taoLegacy.json",
       "activeInit": "taoActive.json",
-      "descstr": "OCI's redistribution of The ACE ORB (TAO), pronounced “dow” - C++, CORBA-compliant ORB (Object Request Broker)",
+      "descstr": "OCI's redistribution of The ACE ORB (TAO), an open source C++ CORBA library",
       "descref": "summaries/ocitao.txt",
-      "rlsurl": "/taoRelease/index.html",
-      "license": "http://theaceorb.com/product/license.html",
-      "docs": "http://theaceorb.com/purchase/index.html",
-      "faq": "http://theaceorb.com/faq/index.html"
+      "rlsurl": "/taoRelease/index.html"
     },
     {
       "name": "MPC",

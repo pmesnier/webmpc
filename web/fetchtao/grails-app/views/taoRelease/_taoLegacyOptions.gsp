@@ -1,7 +1,7 @@
 <div id="taoLegacyOptions" class="content scaffold-edit" role="main">
 
     <div id="selectPatchLevel" class="content scaffold-edit" role="main">
-        <h1>Select the Patch Level Package</h1>
+        <h3>Select the Patch Level Package</h3>
         <p>
         <g:if test="${plList.size() > 1}" >
             <g:select name="patchLevel" from="${plList}" optionValue="name"  optionKey="value"
@@ -20,7 +20,7 @@
     </div>
 
     <div id="selectContent" class="content scaffold-edit" role="main">
-        <h1>Select the Contents</h1>
+        <h3>Select the Contents</h3>
         <p>
         <g:if test="${conList.size() > 1}" >
             <g:select name="content" from="${conList}" optionValue="name" optionKey="value"
@@ -39,7 +39,7 @@
     </div>
 
     <div id="selectCompress" class="content scaffold-edit" role="main">
-        <h1>Select the Archive Format</h1>
+        <h3>Select the Archive Format</h3>
         <p>
         <g:if test="${cmpList.size() > 1}" >
             <g:select name="compress" from="${cmpList}" optionValue="name" optionKey="value"
@@ -58,7 +58,7 @@
     </div>
 
     <div id="download_link">
-        <h1>File To Download</h1>
+        <h3>File To Download</h3>
         <g:if test="${basePath != null}" >
             <p> Click on the link to begin your download </p>
             <p><a href="${basePath}${pkg.targetName}">${pkg.targetName}</a></p>

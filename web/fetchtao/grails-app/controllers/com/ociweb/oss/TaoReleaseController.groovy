@@ -30,6 +30,17 @@ class TaoReleaseController {
         respond rel, model: [product: rel.product]
     }
 
+    def showMpc(TaoRelease rel) {
+        respond rel
+    }
+
+    def showReleaseNotes(TaoRelease rel) {
+        String rnurl = rel.relNotesPath
+        if (rnurl != null)
+            redirect (url:rnurl)
+            redirect (url:rnurl)
+    }
+
     def updateTaoSelector(TaoRelease rel) {
         def model = [:]
         int val = 0

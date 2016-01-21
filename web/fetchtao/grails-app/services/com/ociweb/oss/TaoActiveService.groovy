@@ -10,9 +10,10 @@ class TaoActiveService {
     static def loader = null
     static def jsonSlurper = new JsonSlurper()
 
-    String ACE_ROOT = "/tao_builds/phil/ocitao/tao22a/build/native/OCI"
-    String TAO_ROOT
-    String MWC_CMD
+    static collectionList = []
+    static taoFeatureLibList = []
+    static orbServiceClientList = []
+    static orbServiceServerList = []
 
     static def run_shell_command (String cmd) {
         cmd.execute().text
@@ -31,13 +32,39 @@ class TaoActiveService {
             def resource = loader.getResource(resourceInfo)
             def taoConfig = jsonSlurper.parse(resource)
 
-            taoConfig.taoLegacy.each { rlsdef ->
-                def rls =  new TaoRelease (rlsdef)
+            collectionList = taoConfig.collectionList;
+            taoFeatureLibList = taoConfig.taoFeatureLibList;
+            orbServiceClientList = taoConfig.orbServiceClientList;
+            orbServiceServerList = taoConfig.orbServiceServerList;
+
+            taoConfig.taoActive.each { rlsdef ->
+                def rls =  prod.releases.find {
+                    it.rlsVersion.equals(rlsdef.rlsVersion)
+                }
+                boolean addit = rls == null
+                if (addit)
+                    rls = new TaoRelease (rlsdef)
                 initPackages (rls, rlsdef.packageInit)
-                prod.addToReleases (rls)
+                if (addit)
+                    prod.addToReleases (rls)
             }
 
         }
+    }
+
+    static String genkey (TaoActivePackage pkg) {
+        long svcKey = 0
+        pkg.components.each{ cmp ->
+            services += taoComponentFindName(cmp).value
+        }
+    }
+
+    static void initPackages (def rls, def params) {
+        String key = "dummy"
+        def tap = new TaoActivePackage(params)
+        tap.release = rls
+        tap.env = params.env
+        rls.active.put (key, tap)
     }
 
 }

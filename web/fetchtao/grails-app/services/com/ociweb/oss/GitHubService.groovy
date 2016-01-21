@@ -91,7 +91,8 @@ class GitHubService {
         }
 
         slurp.parse(con.getContent()).each {
-            reflist << [name: it.name, tarball_url: it.tarball_url, zipball_url: it.zipball_url]
+            reflist << it
+            //reflist << [name: it.name, tarball_url: it.tarball_url, zipball_url: it.zipball_url]
         }
         if (nextPage.length() > 0) {
             fetchRevInfo_i(prod, nextPage, info).each {

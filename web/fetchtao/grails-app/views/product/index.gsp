@@ -1,6 +1,10 @@
 <!doctype html>
 <html>
     <head>
+
+    https://objectcomputing.github.io/stylesheets/stylesheet.css
+        <link rel="stylesheet" type="text/css" href="http://www.ociweb.com/concrete/css/ccm.base.css" />
+
         <meta name="layout" content="main"/>
         <title>OCI Download Portal</title>
         <style type="text/css" media="screen">
@@ -87,20 +91,11 @@
                     <g:each var="p" in="${productList}">
                     <li>${p.name}
                         <g:if test="${p instanceof com.ociweb.oss.GitHubProduct}">
-                            <g:link controller="GitHubProduct" action="showSource" id="${p.id}"> Source </g:link>
+                            <g:link controller="GitHubProduct" action="showReleases" id="${p.id}"> Download </g:link>
                         </g:if>
                         <g:else>
-                             <g:link controller="Product" action="showSource" id="${p.id}"> Source </g:link>
+                             <g:link controller="Product" action="showReleases" id="${p.id}"> Download </g:link>
                         </g:else>
-                        <g:if test="${p instanceof com.ociweb.oss.GitHubProduct}">
-                            <g:link controller="GitHubProduct" action="showReleases" id="${p.id}"> Releases </g:link>
-                        </g:if>
-                        <g:else>
-                             <g:link controller="Product" action="showReleases" id="${p.id}"> Releases </g:link>
-                        </g:else>
-                        <g:link controller="Product" action="showLicense" id="${p.id}"> License </g:link>
-                        <g:link controller="Product" action="showDocs" id="${p.id}"> Documentation </g:link>
-                        <g:link controller="Product" action="showFAQ" id="${p.id}"> FAQ </g:link>
                         <p>
                         ${p.descstr}
                         </p>

@@ -8,8 +8,9 @@ import groovy.json.JsonSlurper
 
 public class TaoRelease extends Release {
 
-    static hasMany = [legacy:TaoLegacyPackage]
+    static hasMany = [legacy:TaoLegacyPackage, active:TaoActivePackage]
     Map legacy = [:]
+    Map active = [:]
 
     String rlsVersion
     String basePath
