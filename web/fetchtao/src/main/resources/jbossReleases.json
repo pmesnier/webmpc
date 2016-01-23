@@ -4,18 +4,30 @@
   "basePath": "http://download.ociweb.com/",
   "releasesPath": "jboss/release",
   "olderPath" : "jboss/release/previous-releases",
-  "jbossLegacy" : [
+  "ociAssets" : [
     {
       "rlsVersion":"4.2a",
+      "basePath": "http://download.ociweb.com/jboss/release",
+      "assetInit": "jboss42aFiles.json",
+      "fileNameRoot" : ["jboss-4.2a","jboss-4.2b"]
+    },
+    {
+      "rlsVersion":"4.2b",
+      "basePath": "http://download.ociweb.com/jboss/release",
+      "assetInit": "jboss42bFiles.json",
       "fileNameRoot" : ["jboss-4.2a","jboss-4.2b"]
     },
     {
       "rlsVersion":"5.1.0a",
+      "basePath": "http://download.ociweb.com/jboss/release",
+      "assetInit": "jboss510aFiles.json",
       "fileNameRoot" :["jboss-5.1.0"]
 
     },
     {
       "rlsVersion": "7.1.3a",
+      "basePath": "http://download.ociweb.com/jboss/release",
+      "assetInit": "jboss713aFiles.json",
       "fileNameRoot" : ["jboss-7.1.3a","jboss-as-7.1.3a"]
     }
   ]

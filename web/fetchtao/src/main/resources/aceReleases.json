@@ -1,0 +1,42 @@
+{
+  "ociAssets" : [
+    {
+      "rlsVersion":"5.2a",
+      "basePath": "http://download.ociweb.com/",
+      "assetInit": "ace52aFiles.json"
+    },
+    {
+      "rlsVersion":"5.3a",
+      "basePath": "http://download.ociweb.com/",
+      "assetInit": "ace53aFiles.json"
+    },
+    {
+      "rlsVersion": "5.4a",
+      "basePath": "http://download.ociweb.com/",
+      "assetInit": "ace54aFiles.json"
+    },
+    {
+      "rlsVersion": "5.5a",
+      "basePath": "http://download.ociweb.com/",
+      "assetInit": "ace55aFiles.json"
+    },
+    {
+      "rlsVersion": "5.6a",
+      "basePath": "http://download.ociweb.com/",
+      "assetInit": "ace56aFiles.json"
+    },
+    {
+      "rlsVersion": "6.0a",
+      "basePath": "http://download.ociweb.com/",
+      "assetInit": "ace60aFiles.json"
+    },
+    {
+      "rlsVersion": "6.2a",
+      "basePath": "http://download.ociweb.com/",
+      "assetInit": "ace62aFiles.json",
+      "vcs" : "svn",
+      "repourl" : "svn+ssh://svn.ociweb.com/ocitao/branches/tao-2_2_0"
+    }
+  ]
+}
+

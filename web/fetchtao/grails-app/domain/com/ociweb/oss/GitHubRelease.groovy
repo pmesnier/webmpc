@@ -4,8 +4,8 @@ package com.ociweb.oss
  * Created by phil on 1/2/16.
  */
 class GitHubRelease extends Release {
-    static hasMany = [asset : GitHubAsset]
-    Map assets = [:]
+    static hasMany = [ghAssets : GitHubAsset]
+    Map ghAssets = [:]
 
     String name
     String tarball_url

@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <title>Download :: OCI TAO :: OCI</title>
-    <g:set var="entityName" value="${message(code: 'taoRelease.label', default: 'OCI TAO')}" />
+    <g:set var="entityName" value="${message(code: 'ociRelease.label', default: 'OCI TAO')}" />
     <meta name="description" content="OCI's distribution of The ACE ORB (TAO) - C++, CORBA-compliant ORB" />
     <meta name="generator" content="concrete5 - 5.6.3.1" />
     <script type="text/javascript">
@@ -106,135 +106,7 @@
 	</div>
 </nav>
 
-<header class="ws-header">
-  <div class="container">
-    <h1 class="page_title">OCI TAO Downloads</h1>  </div>
-</header>
-<nav class="ws-pathnav">
-  <div class="container">
-    <ol class="breadcrumb">
-    <li><a href="http://www.ociweb.com">Home</a></li>
-    <li><a href="http://www.ociweb.com/products">Products</a></li>
-    <li><a href="http://www.ociweb.com/products/tao">OCI TAO</a></li>
-    <li>Downloads</li>
-    </ol>
-  </div>
-</nav>
-
-<main>
-	<div class="container page-sidebar">
-		<div class="row">
-			<section class="body col-sm-8">
-
-       <div id="list-taoRelease" class="content scaffold-edit" role="main">
-        </div>
-        <div class="content scaffold-edit" id="choose-version" >
-            <h2><g:message code="taoRelease.select.label" args="[entityName]" /></h2>
-            <g:if test="${flash.message}">
-                <div class="message" role="status">${flash.message}</div>
-            </g:if>
-            <div class="row">
-            <p><g:select name="rlsVersion"
-                  from="${taoReleaseList}"
-                  optionValue="rlsVersion"
-                  optionKey="id"
-                  valueMessagePrefix="OCI Tao Version "
-                  noSelection="['':'-Select Release-']"
-                  onChange="${remoteFunction (controller: 'TaoRelease',
-                                              action: 'updateTaoSelector',
-                                              params: '\'id=\' + escape(this.value)',
-                                              update: 'taoLegacyOptions'
-                                            )}"/>
-            </p>
-        </div>
-        <div id="taoLegacyOptions" class="content scaffold-edit" role="main">
-
-            <div id="selectPatchLevel" class="content scaffold-edit" role="main">
-                <h3>Select the Patch Level Package</h3>
-                <p>
-                <g:if test="${plList.size() > 1}" >
-                    <g:select name="patchLevel" from="${plList}" optionValue="name"  optionKey="value"
-                        value="${plsel ? plsel :''}"
-                        noSelection="['':'-Select Package-']"
-                        onChange="${remoteFunction (controller: 'TaoRelease',
-                                                    action: 'updateTaoSelector',
-                                                    params: '\'id=\' + escape(rlsVersion.value) + \'&patchLevel=\' + escape(this.value)',
-                                                    update: 'taoLegacyOptions'
-                                                   )}"/>
-                </g:if>
-                <g:else>
-                    <g:select name="patchLevel" from="${plList}" optionValue="name"  optionKey="value"/>
-                </g:else>
-                </p>
-            </div>
-
-            <div id="selectContent" class="content scaffold-edit" role="main">
-                <h3>Select the Contents</h3>
-                <p>
-                <g:if test="${conList.size() > 1}" >
-                    <g:select name="content" from="${conList}" optionValue="name" optionKey="value"
-                        value="${consel ? consel :''}"
-                        noSelection="['':'-Select Content-']"
-                        onChange="${remoteFunction (controller: 'TaoRelease',
-                                                    action: 'updateTaoSelector',
-                                                    params: '\'id=\' + escape(rlsVersion.value) + \'&patchLevel=\' + escape(patchLevel.value) + \'&content=\' + escape(this.value)',
-                                                    update: 'taoLegacyOptions'
-                                                   )} "/>
-                </g:if>
-                <g:else>
-                    <g:select name="content" from="${conList}" optionValue="name"  optionKey="value"/>
-                </g:else>
-                </p>
-            </div>
-
-            <div id="selectCompress" class="content scaffold-edit" role="main">
-                <h3>Select the Archive Format</h3>
-                <p>
-                <g:if test="${cmpList.size() > 1}" >
-                    <g:select name="compress" from="${cmpList}" optionValue="name" optionKey="value"
-                        val="${cmpsel ? cmpsel : ''}"
-                        noSelection="['':'-Select Compression-']"
-                        onChange="${remoteFunction (controller: 'TaoRelease',
-                                                    action: 'updateTaoSelector',
-                                                    params: '\'id=\' + escape(rlsVersion.value) + \'&patchLevel=\' + escape(patchLevel.value) + \'&content=\' + escape(content.value) + \'&compress=\' + escape(this.value)',
-                                                    update: 'taoLegacyOptions'
-                                                   )}" />
-                </g:if>
-                <g:else>
-                    <g:select name="compress" from="${cmpList}" optionValue="name"  optionKey="value"/>
-                </g:else>
-                </p>
-            </div>
-
-            <div id="download_link">
-                <h3>File To Download</h3>
-                <p> File details will appear when all options are selcted above </p>
-
-            </div>
-        </div>
-
-    </section>
-	<aside class="sidebar col-sm-4">
-	    <div id="blockStyle15228Sidebar122" class=" ccm-block-styles" >
-             <img border="0" class="ccm-image-block" alt="TAO-logo" src="http://www.ociweb.com/files/5314/4951/2508/TAO_dog_logo.png" width="2400" height="1982" />
-        </div>
-        <div id="blockStyle6946Main42" class="text-banner ccm-block-styles" >
-            <h3><a title="Commercial Product Support" href="/services/commercial-product-support/">Commercial Product Support</a></h3>
-            <p><a title="Commercial Product Support" href="/services/commercial-product-support/">
-            OCI’s Subject Matter Experts (SMEs) are available to provide technical support for many open source and commercial products.</a></p>
-            <h4><a href="mailto:info@ociweb.com?subject=Support%20Inquiry" target="_blank"><strong>Ask about Commercial Support.</strong></a></h4>
-        </div>
-        <div id="blockStyle2561Main42" class="text-banner ccm-block-styles" >
-            <h3><a title="OCI Training" href="/services/training/"><strong>OCI Training</strong></a></h3>
-            <p><a title="OCI Training" href="/services/training/">
-               OCI Training is a leading provider of software engineering technology training in the Midwest. </a>
-            </p>
-         </div>
-     </aside>
-     </div>
-	 </div>
-</main>
-
+<g:layoutBody />
 
 <footer>
 	<div class="fat-footer">
@@ -242,7 +114,9 @@
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="row">
-						<div class="col-md-6 footer-logo"><img border="0" class="ccm-image-block" alt="" src="/images/logo-circle.png" width="550" height="550" /></div>
+						<div class="col-md-6 footer-logo">
+                        <asset:image border="0" class="ccm-image-block" src="logo-circle.png" alt="OCI" width="550" height="550"/>
+						</div>
 						<div class="col-md-6 footer-news">
 <div class="ws_posts_list">
 
@@ -329,7 +203,6 @@
   </div>
 </footer>
 
-<a href="/websanity-top-secret" style="display:none">WebSanity Top Secret</a>
 </body>
 </html>
 

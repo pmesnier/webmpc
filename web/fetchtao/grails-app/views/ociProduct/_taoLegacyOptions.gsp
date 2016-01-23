@@ -7,7 +7,7 @@
             <g:select name="patchLevel" from="${plList}" optionValue="name"  optionKey="value"
                 value="${plsel ? plsel :''}"
                 noSelection="['':'-Select Package-']"
-                onChange="${remoteFunction (controller: 'TaoRelease',
+                onChange="${remoteFunction (controller: 'OciProduct',
                                             action: 'updateTaoSelector',
                                             params: '\'id=\' + escape(rlsVersion.value) + \'&patchLevel=\' + escape(this.value) + \'&content=\' + escape(content.value) + \'&compress=\' + escape(compress.value)',
                                             update: 'taoLegacyOptions'
@@ -26,7 +26,7 @@
             <g:select name="content" from="${conList}" optionValue="name" optionKey="value"
                 value="${consel ? consel :''}"
                 noSelection="['':'-Select Content-']"
-                onChange="${remoteFunction (controller: 'TaoRelease',
+                onChange="${remoteFunction (controller: 'OciProduct',
                                             action: 'updateTaoSelector',
                                             params: '\'id=\' + escape(rlsVersion.value) + \'&patchLevel=\' + escape(patchLevel.value) + \'&content=\' + escape(this.value) + \'&compress=\' + escape(compress.value)',
                                             update: 'taoLegacyOptions'
@@ -45,7 +45,7 @@
             <g:select name="compress" from="${cmpList}" optionValue="name" optionKey="value"
                 value="${cmpsel ? cmpsel : ''}"
                 noSelection="['':'-Select Compression-']"
-                onChange="${remoteFunction (controller: 'TaoRelease',
+                onChange="${remoteFunction (controller: 'OciProduct',
                                             action: 'updateTaoSelector',
                                             params: '\'id=\' + escape(rlsVersion.value) + \'&patchLevel=\' + escape(patchLevel.value) + \'&content=\' + escape(content.value) + \'&compress=\' + escape(this.value)',
                                             update: 'taoLegacyOptions'

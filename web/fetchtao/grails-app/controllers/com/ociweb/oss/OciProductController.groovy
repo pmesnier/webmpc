@@ -4,47 +4,40 @@ package com.ociweb.oss
  * Created by phil on 12/11/15.
  */
 import grails.transaction.Transactional
-import grails.converters.*
 
 @Transactional(readOnly = false)
-class TaoReleaseController {
+class OciProductController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
     static standardScaffolding = true
 
-
-    def index() {
-        def prod = Product.list().find {
-            if (it.name.equals("OCI TAO"))
-                return it
-        }
-
-        respond TaoRelease.list(), model: [product: prod,
-                                           plList : TaoLegacyService.patchList,
-                                           conList: TaoLegacyService.contentList,
-                                           cmpList: TaoLegacyService.compressList
+    def show(OciProduct prod) {
+        println "OCIProductController.show, prod = " + prod.name + " and has " + prod.releases.size() + " entries "
+        respond prod.releases,  model: [product: prod,
+                                        updateAction: prod.updateAction,
+                                        dynamicDivId: prod.dynamicDivId,
+                                        ociReleases: prod.releases,
+                                        plList : OciAssetService.patchList,
+                                        conList: OciAssetService.contentList,
+                                        cmpList: OciAssetService.compressList
         ]
     }
 
-    def show(TaoRelease rel) {
-        respond rel, model: [product: rel.product]
-    }
-
-    def showMpc(TaoRelease rel) {
+    def showMpc(OciRelease rel) {
         respond rel
     }
 
-    def showReleaseNotes(TaoRelease rel) {
+    def showReleaseNotes(OciRelease rel) {
         String rnurl = rel.relNotesPath
         if (rnurl != null)
             redirect (url:rnurl)
             redirect (url:rnurl)
     }
 
-    def updateTaoSelector(TaoRelease rel) {
+    def updateTaoSelector(OciRelease rel) {
         def model = [:]
         int val = 0
-        def nvlist = TaoLegacyService.patchlevelFor(rel)
+        def nvlist = OciAssetService.patchlevelFor(rel)
         model << [plList: nvlist]
         if (params.patchLevel) {
             val = params.patchLevel as int
@@ -61,7 +54,7 @@ class TaoReleaseController {
         if (val > 0) {
             model << [plsel: val]
 
-            nvlist = TaoLegacyService.contentFor(rel, params)
+            nvlist = OciAssetService.contentFor(rel, params)
             model << [conList: nvlist]
             if (params.content) {
                 val = params.content as int
@@ -79,7 +72,7 @@ class TaoReleaseController {
 
             if (val > 0) {
                 model << [consel: val]
-                nvlist = TaoLegacyService.compressFor(rel, params)
+                nvlist = OciAssetService.compressFor(rel, params)
                 model << [cmpList: nvlist]
                 if (params.compress) {
                     val = params.compress as int
@@ -97,21 +90,21 @@ class TaoReleaseController {
 
                 if (val > 0) {
                     model << [cmpsel  : val,
-                              pkg     : TaoLegacyService.target(rel, params),
+                              pkg     : OciAssetService.target(rel, params),
                               basePath: rel.basePath]
                 }
             } else {
-                model << [cmpList: TaoLegacyService.compressList]
+                model << [cmpList: OciAssetService.compressList]
             }
         } else {
-            model << [conList: TaoLegacyService.contentList,
-                      cmpList: TaoLegacyService.compressList]
+            model << [conList: OciAssetService.contentList,
+                      cmpList: OciAssetService.compressList]
         }
 
         render template: 'taoLegacyOptions', model: model
     }
 
-    def runMPC(TaoRelease rel) {
+    def runMPC(OciRelease rel) {
 
     }
 }

@@ -1,39 +1,41 @@
 {
-  "taoLegacy" : [
+  "ociAssets" : [
     {
       "rlsVersion":"1.2a",
       "basePath": "http://download.ociweb.com/",
-      "packageInit": "tao12aFiles.json"
+      "assetInit": "tao12aFiles.json"
     },
     {
       "rlsVersion":"1.3a",
       "basePath": "http://download.ociweb.com/",
-      "packageInit": "tao13aFiles.json"
+      "assetInit": "tao13aFiles.json"
     },
     {
       "rlsVersion": "1.4a",
       "basePath": "http://download.ociweb.com/",
-      "packageInit": "tao14aFiles.json"
+      "assetInit": "tao14aFiles.json"
     },
     {
       "rlsVersion": "1.5a",
       "basePath": "http://download.ociweb.com/",
-      "packageInit": "tao15aFiles.json"
+      "assetInit": "tao15aFiles.json"
     },
     {
       "rlsVersion": "1.6a",
       "basePath": "http://download.ociweb.com/",
-      "packageInit": "tao16aFiles.json"
+      "assetInit": "tao16aFiles.json"
     },
     {
       "rlsVersion": "2.0a",
       "basePath": "http://download.ociweb.com/",
-      "packageInit": "tao20aFiles.json"
+      "assetInit": "tao20aFiles.json"
     },
     {
       "rlsVersion": "2.2a",
       "basePath": "http://download.ociweb.com/",
-      "packageInit": "tao22aFiles.json"
+      "assetInit": "tao22aFiles.json",
+      "vcs" : "svn",
+      "repourl" : "svn+ssh://svn.ociweb.com/ocitao/branches/tao-2_2_0"
     }
   ]
 }

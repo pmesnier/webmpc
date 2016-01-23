@@ -91,10 +91,13 @@
                     <g:each var="p" in="${productList}">
                     <li>${p.name}
                         <g:if test="${p instanceof com.ociweb.oss.GitHubProduct}">
-                            <g:link controller="GitHubProduct" action="showReleases" id="${p.id}"> Download </g:link>
+                            <g:link controller="GitHubProduct" action="showReleases" id="${p.id}"> Download github product </g:link>
                         </g:if>
+                        <g:elseif test="${p instanceof com.ociweb.oss.OciProduct}">
+                            <g:link controller="OciProduct" action="show" id="${p.id}"> Download OCI product </g:link>
+                        </g:elseif>
                         <g:else>
-                             <g:link controller="Product" action="showReleases" id="${p.id}"> Download </g:link>
+                            <g:link controller="Product" action="showReleases" id="${p.id}"> Download </g:link>
                         </g:else>
                         <p>
                         ${p.descstr}

@@ -97,19 +97,6 @@
     "tao/Valuetype/Valuetype.mpc",
     "tao/XtResource/XtResource.mpc",
     "tao/ZIOP/ZIOP.mpc"
-  ],
-
-  "taoActive": [
-    {
-      "rlsVersion" : "1.2a",
-      "packageInit" : {
-        "cache" : "/tao_builds/webmpc/cache",
-        "workspace" : "/tao_builds/webmpc/workspace",
-        "source" : "/tao_builds/webmpc/source",
-        "vcs" : "svn",
-        "repourl" : "svn+ssh://svn.ociweb.com/ocitao/branches/tao-2_2_0",
-        "env" : {"name" : "MPC_ROOT", "value" : "/tao_builds/webmpc/MPC"}
-      }
-    }
   ]
+
 }

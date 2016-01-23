@@ -9,7 +9,9 @@ class UrlMappings {
 
         "/"(controller:'Product', action:'index')
         "/products/download/$pname" (controller:'Product', action:'showName')
-        "/taoRelease/updateTaoSelector/$id/$patchLevel?/$content?/$compress?" (controller:'TaoRelease', action:'updateTaoSelector')
+        "/ociProduct/updateTaoSelector/$id/$patchLevel?/$content?/$compress?" (controller:'OciProduct', action:'updateTaoSelector')
+        "/ociProduct/updateAceSelector/$id/$patchLevel?/$content?/$compress?" (controller:'OciProduct', action:'updateTaoSelector')
+        "/ociProduct/updateJbossSelector/$id/$patchLevel?/$content?/$compress?" (controller:'OciProduct', action:'updateJbossSelector')
         "500"(view:'/error')
         "404"(view:'/notFound')
     }

@@ -13,22 +13,38 @@
       "githubdocs": "OpenDDS-latest.pdf"
     },
     {
-      "name": "OCI ACE",
-      "uri" : "ociace",
-      "logo": "TAO-logo-1.png",
-      "title": "OCI ACE",
+      "name": "Ace",
+      "logo": "ACE-logo-1.png",
+      "updateAction": "updateAceSelector",
+      "dynamicDivId": "aceLegacyOptions",
+      "ociReleaseInit": "aceReleases.json",
+      "title": "OCI ACE, A framework for distributed object computing",
       "descstr": "OCI's distribution of ACE, A framework for distributed object computing, separate from TAO and OpenDDS "
     },
     {
-      "name": "OCI TAO",
-      "uri" : "ocitao",
+      "name": "Tao",
       "logo": "TAO-logo-1.png",
+      "label": "OCI TAO",
       "title": "OCI TAO, the commercial release of The ACE ORB.",
-      "legacyInit": "taoLegacy.json",
-      "activeInit": "taoActive.json",
+      "ociReleaseInit": "taoReleases.json",
+      "updateAction": "updateTaoSelector",
+      "dynamicDivId": "taoLegacyOptions",
+      "webMpcInit": "taoMpcOptions.json",
       "descstr": "OCI's redistribution of The ACE ORB (TAO), an open source C++ CORBA library",
-      "descref": "summaries/ocitao.txt",
-      "rlsurl": "/taoRelease/index.html"
+      "descref": "summaries/ocitao.txt"
+    },
+    {
+      "name": "Jboss",
+      "logo": "OCI-logo-1.jpg",
+      "title": "JBoss, the Application Server",
+      "descstr": "OCI’s redistribution of Red Hat’s commercial JBoss application server",
+      "descref": "summaries/jboss.txt",
+      "source": "http://jboss.ociweb.com/download",
+      "rlsurl": "http://jboss.ociweb.com/download",
+      "license": "http://jboss.ociweb.com/Product-Information",
+      "updateAction": "updateJbossSelector",
+      "dynamicDivId": "jbossLegacyOptions",
+      "ociReleaseInit": "jbossReleases.json"
     },
     {
       "name": "MPC",
@@ -70,17 +86,6 @@
       "githubowner": "objectcomputing",
       "githubrepo": "mFAST",
       "githublicense": "licence.txt"
-    },
-    {
-      "name": "OCI JBoss",
-      "logo": "OCI-logo-1.jpg",
-      "title": "JBoss, the Application Server",
-      "descstr": "OCI’s redistribution of Red Hat’s commercial JBoss application server",
-      "descref": "summaries/jboss.txt",
-      "source": "http://jboss.ociweb.com/download",
-      "rlsurl": "http://jboss.ociweb.com/download",
-      "license": "http://jboss.ociweb.com/Product-Information",
-      "staticInit": "jbossLegacy.json"
     },
     {
       "name": "Grails",

@@ -1,22 +1,20 @@
 package com.ociweb.oss
-
-import groovy.json.JsonSlurper
-
 /**
  * Created by phil on 12/9/15.
  */
 
-public class TaoRelease extends Release {
+public class OciRelease extends Release {
 
-    static hasMany = [legacy:TaoLegacyPackage, active:TaoActivePackage]
+    static hasMany = [legacy:OciAsset]
     Map legacy = [:]
-    Map active = [:]
 
     String rlsVersion
     String basePath
     String readmePath
     String patchReadmePath
     String relNotesPath
+    String vcs
+    String repourl
 
     int lastTarget
 
@@ -24,6 +22,9 @@ public class TaoRelease extends Release {
         readmePath nullable:true
         patchReadmePath nullable:true
         relNotesPath nullable:true
+
+        vcs nullable:true
+        repourl nullable:true
     }
 
 }

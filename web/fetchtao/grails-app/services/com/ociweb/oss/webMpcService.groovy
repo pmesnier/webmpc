@@ -5,7 +5,7 @@ import groovy.json.JsonSlurper
 /**
  * Created by phil on 1/12/16.
  */
-class TaoActiveService {
+class webMpcService {
 
     static def loader = null
     static def jsonSlurper = new JsonSlurper()
@@ -20,7 +20,7 @@ class TaoActiveService {
     }
 
 
-    static invokeMPC (TaoRelease rel, def params) {
+    static invokeMPC (OciRelease rel, def params) {
         String cmd = ""
     }
 
@@ -43,7 +43,7 @@ class TaoActiveService {
                 }
                 boolean addit = rls == null
                 if (addit)
-                    rls = new TaoRelease (rlsdef)
+                    rls = new OciRelease (rlsdef)
                 initPackages (rls, rlsdef.packageInit)
                 if (addit)
                     prod.addToReleases (rls)
@@ -52,19 +52,5 @@ class TaoActiveService {
         }
     }
 
-    static String genkey (TaoActivePackage pkg) {
-        long svcKey = 0
-        pkg.components.each{ cmp ->
-            services += taoComponentFindName(cmp).value
-        }
-    }
-
-    static void initPackages (def rls, def params) {
-        String key = "dummy"
-        def tap = new TaoActivePackage(params)
-        tap.release = rls
-        tap.env = params.env
-        rls.active.put (key, tap)
-    }
 
 }

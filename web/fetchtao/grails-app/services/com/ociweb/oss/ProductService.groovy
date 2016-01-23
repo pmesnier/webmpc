@@ -21,12 +21,24 @@ class ProductService {
     static loadProduct (def params) {
         def prod = Product.findByName (params.name);
         if (prod == null) {
-            prod = params.githubowner ? new GitHubProduct (params) : new Product(params)
-            prod.initRelease(params)
+            prod = params.githubowner ? new GitHubProduct (params) :
+                    params.ociReleaseInit ? new OciProduct (params) : new Product(params)
+            initProduct(prod,params)
         }
         else
             prod.refresh (params)
         prod.save(failOnError: true)
         println "product " + params.name + " saved"
     }
+
+    static initProduct (prod, params) {
+        if (prod instanceof OciProduct) {
+            OciAssetService.initProduct (prod, params)
+        }
+
+        if (!(prod.descstr && prod.descstr.length() > 0) && (prod.descref && prod.descref.length() > 0)) {
+            prod.descstr = getClass().getClassLoader().getResourceAsStream(prod.descref).text
+        }
+    }
+
 }

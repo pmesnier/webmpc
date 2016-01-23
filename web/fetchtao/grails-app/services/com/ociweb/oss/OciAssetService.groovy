@@ -5,7 +5,7 @@ import groovy.json.JsonSlurper
 /**
  * Created by phil on 1/7/16.
  */
-class TaoLegacyService {
+class OciAssetService {
 
     static def loader = null
     static def jsonSlurper = new JsonSlurper()
@@ -47,13 +47,13 @@ class TaoLegacyService {
                            [name:"zip", value: ZIP],
                            [name:"tar.bzip2", value: BZ2]]
 
-    static defaultPackage = new TaoLegacyPackage ([targetName: "Desired package not available",
-                                                   md5sum    :"",
-                                                   patchLevel:0,
-                                                   filesize: 0,
-                                                   timestamp:"no date"])
+    static defaultPackage = new OciAsset ([targetName: "Desired package not available",
+                                           md5sum    :"",
+                                           patchLevel:0,
+                                           filesize  : 0,
+                                           timestamp :"no date"])
 
-    //------------------------------------ TaoLegacyPackage functions ---------------------------------------
+    //------------------------------------ OciAsset functions ---------------------------------------
     static int defKey() {
         return SOURCE_AND_PROJECT + FULL_LATEST_RELEASE + TGZ
     }
@@ -100,17 +100,26 @@ class TaoLegacyService {
 
     //------------------------------------ TaoProduct specific functions --------------------------------------
 
-    static initProduct (Product prod, def params) {
-        String resourceInfo = params.legacyInit
+    static initProduct (OciProduct prod, def params) {
+        String resourceInfo = params.ociReleaseInit
         if (resourceInfo) {
             if (loader == null)
                 loader = prod.getClass().getClassLoader()
             def resource = loader.getResource(resourceInfo)
-            def taoConfig = jsonSlurper.parse(resource)
+            def releases = jsonSlurper.parse(resource)
 
-            taoConfig.taoLegacy.each { rlsdef ->
-                def rls =  new TaoRelease (rlsdef)
-                initPackages (rls, rlsdef.packageInit)
+            releases.ociAssets.each { rlsdef ->
+                def rls =  new OciRelease (rlsdef)
+                rls.lastTarget = defKey ()
+                resource = rlsdef.assetInit ? loader.getResource(rlsdef.assetInit) : null
+                if (resource) {
+                    if (prod.name.equals ("Tao"))
+                        initTaoAssets (rls, resource)
+                    else if (prod.name.equals ("Ace"))
+                        initAceAssets (rls, resource)
+                    else if (prod.name.equals ("Jboss"))
+                        initJbossAssets (rls, resource)
+                }
                 prod.addToReleases (rls)
             }
 
@@ -118,14 +127,33 @@ class TaoLegacyService {
 
     }
 
-    //------------------------------------ TaoRelease specific functions --------------------------------------
+    //------------------------------------ OciRelease specific functions --------------------------------------
 
-    static initPackages (TaoRelease rls, String packageInit) {
-        rls.lastTarget = defKey ()
-        if (loader == null)
-            loader = rls.getClass().getClassLoader()
-        def resource = loader.getResource(packageInit)
+    static initJbossAssets(OciRelease rls, def resource) {
         def pkgs = jsonSlurper.parse(resource)
+        if (pkgs == null)
+            return
+        int i = 0
+        pkgs.jbossLegacy.each { leg ->
+            String fp = leg.filePath
+        }
+    }
+
+    static initAceAssets(OciRelease rls, def resource) {
+        def pkgs = jsonSlurper.parse(resource)
+        if (pkgs == null)
+            return
+        int i = 0
+        pkgs.aceLegacy.each { leg ->
+            String fp = leg.filePath
+        }
+    }
+
+    static initTaoAssets(OciRelease rls, def resource) {
+        def pkgs = jsonSlurper.parse(resource)
+        if (pkgs == null)
+            return
+
         int i = 0
         pkgs.taoLegacy.each { leg ->
             String fp = leg.filePath
@@ -142,11 +170,11 @@ class TaoLegacyService {
                         p2 = fp.indexOf(".", pno + 3)
                     patch = fp.substring(pno + 3, p2).toInteger()
                 }
-                TaoLegacyPackage tlp = new TaoLegacyPackage([targetName: fp,
-                                                             md5sum    : leg.md5,
-                                                             patchLevel: patch,
-                                                             timestamp : leg.fileDate,
-                                                             filesize  : leg.fileSize])
+                OciAsset tlp = new OciAsset([targetName: fp,
+                                             md5sum    : leg.md5,
+                                             patchLevel: patch,
+                                             timestamp : leg.fileDate,
+                                             filesize  : leg.fileSize])
                 def key = genKey(fp, patch) as String
                 def found = rls.legacy.get(key)
                 if (found) {
@@ -159,7 +187,7 @@ class TaoLegacyService {
 
     }
 
-    static TaoLegacyPackage target (TaoRelease rls, def params) {
+    static OciAsset target (OciRelease rls, def params) {
         if (rls.lastTarget == 0)
             rls.lastTarget = defKey()
 
@@ -189,11 +217,11 @@ class TaoLegacyService {
         " getting legacy [" + rls.lastTarget + "]"
 
         String key = rls.lastTarget as String
-        TaoLegacyPackage tlp = rls.legacy.get(key)
+        OciAsset tlp = rls.legacy.get(key)
         return tlp ? tlp : defaultPackage
     }
 
-    static def patchlevelFor (TaoRelease rel) {
+    static def patchlevelFor (OciRelease rel) {
         if (rel == null)
             return [name:"unknown release requested", value: 0]
 
@@ -227,7 +255,7 @@ class TaoLegacyService {
         return names
     }
 
-    static def contentFor (TaoRelease rel, def params)
+    static def contentFor (OciRelease rel, def params)
     {
         int plval = params.patchLevel as int
 
@@ -242,7 +270,7 @@ class TaoLegacyService {
         return names
     }
 
-    static def compressFor (TaoRelease rel, def params)
+    static def compressFor (OciRelease rel, def params)
     {
         int plval = 0
         int clval = 0
