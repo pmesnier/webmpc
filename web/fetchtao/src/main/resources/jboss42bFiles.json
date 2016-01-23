@@ -1,0 +1,7 @@
+{
+  "jbossLegacy": [
+    { "fileSize": 101678039, "fileDate": "Jan  7  2016", "md5": "6bf287fcddf6cc9a56ffa3e801e40a65", "sha1": "9f8b648e268ba475a57abd3cac09474c9c729ab1", "filePath": "jboss-4.2b_p7.OCI-src.tar.gz"},
+    { "fileSize": 100943481, "fileDate": "Jan  7  2016", "md5": "a0a22e30fbcc4da69e626a0917ef54ca", "sha1": "dbc52c0dd2f495c352cbe4eaca0ad89555ed83cf", "filePath": "jboss-4.2b_p7.OCI.tar.gz"},
+    { "fileSize": 101433926, "fileDate": "Jan  7  2016", "md5": "9d7bcedb935a831e225ba9e73c7aad1f", "sha1": "331d663e17561706915cac82893968942972619c", "filePath": "jboss-4.2b_p7.OCI.zip"}
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "jbossLegacy": [
+    { "fileSize": 100724846, "fileDate": "Apr  7  2011", "md5": "", "sha1": "74b1888f59f666a1a3fe84b3e3a7f1f354dcd3f0", "filePath": "jboss-4.2a_p5.OCI-src.tar.gz"},
+    { "fileSize": 99000154, "fileDate": "Apr  7  2011", "md5": "c470016aa640dc4fe39aac49abc7e6c4", "sha1": "45728385be50c7af3a3ad8d944c3ea5a09f1a15c", "filePath": "jboss-4.2a_p5.OCI.tar.gz"},
+    { "fileSize": 99498301, "fileDate": "Apr  7  2011", "md5": "", "sha1": "", "filePath": "jboss-4.2a_p5.OCI.zip"},
+    { "fileSize": 100358987, "fileDate": "Apr 22  2010", "md5": "f387b6599bb6c9c49d65cc80f9bac1ee", "sha1": "a82894923aaed61b9f839337f012b1a777a94a92", "filePath": "previous-releases/jboss-4.2a_p3.OCI-src.tar.gz"},
+    { "fileSize": 107629682, "fileDate": "Apr 22  2010", "md5": "44ce74ea9ca8f08377cf21cccef7328c", "sha1": "86e4ff40f542ffd1b8c826e0cfd1701e35e4d691", "filePath": "previous-releases/jboss-4.2a_p3.OCI.tar.gz"},
+    { "fileSize": 108683426, "fileDate": "Apr 22  2010", "md5": "6f14dcae79fd785d099ffec0da31fb91", "sha1": "57010c7fb8bd8149fc470774fa025523866720c7", "filePath": "previous-releases/jboss-4.2a_p3.OCI.zip"},
+    { "fileSize": 100361238, "fileDate": "May 19  2010", "md5": "587aea0b93b7263024a75a87effbdcc9", "sha1": "746a631cf32f1f1a056902a066dbd34fa2929082", "filePath": "previous-releases/jboss-4.2a_p4.OCI-src.tar.gz"},
+    { "fileSize": 98976369, "fileDate": "May 19  2010", "md5": "96d172f649d22e71157563ab4b4c38a2", "sha1": "268720772fb5cde22c0dbb3a42b94d02d9be236e", "filePath": "previous-releases/jboss-4.2a_p4.OCI.tar.gz"},
+    { "fileSize": 99473714, "fileDate": "May 19  2010", "md5": "954df16df36716983f9564e329c45873", "sha1": "ff7e544b4d3aaff8c68dfa27c5c7b7d75f25a5a1", "filePath": "previous-releases/jboss-4.2a_p4.OCI.zip"}
+  ]
+}
