@@ -34,23 +34,20 @@ class OciProductController {
     def updateOciSelector(OciRelease rel) {
         def model = [product: rel.product]
         def tmpl = rel.product.dynamicDivId
-        def nvlist = []
-        rel.plList.each { p->
-            nvlist.add([name: message(code: "ociPatchBase.${p.patchKind}", args: [p.patchNum, p.testNum]), value: ociService.targetKey(p)])
-        }
 
-        model << [plSelector: nvlist]
-        OciSelectorInfo osi
+        model << [plSelector: rel.plList.collect() { p->
+            [name: message(code: "ociPatchBase.${p.patchKind}", args: [p.patchNum, p.testNum]), value: ociService.targetKey(p)]
+        } ]
+        OciSelectorInfo osi = null
 
-        if (nvlist.size() == 1) {
+        if (rel.plList.size() == 1) {
             osi = rel.plList[0]
-            params << [patchLevel: nvlist[0].value]
+            params << [patchLevel: model.plSelector[0].value]
         }
         else {
             if (params.patchLevel) {
                 osi = rel.plList.find { p ->
-                    String testval = ociService.targetKey(p)
-                    params.patchLevel.equals(testval)
+                    params.patchLevel.equals(ociService.targetKey(p))
                 }
                 if (osi == null) {
                     params.remove('patchLevel')
@@ -61,20 +58,16 @@ class OciProductController {
         if (params.patchLevel) {
             model << [plsel: params.patchLevel]
 
-            nvlist = []
-            osi.contentKind.each { c ->
-                String n = message (code : "ociContent.${c}")
-                nvlist.add ([name: n, value: "C:${c}"])
-            }
+            model << [conList: osi.contentKind.collect { c ->
+                [name: message (code : "ociContent.${c}"), value: "C:${c}"]
+            } ]
 
-            model << [conList: nvlist]
-            if (nvlist.size() == 1) {
-                params << [content: nvlist[0].value]
+            if (osi.contentKind.size() == 1) {
+                params << [content: model.conList[0].value]
             }
             else if (params.content) {
-                if (!osi.contentKind.find {
-                        String testVal = "C:${it}"
-                        params.content.equals (testVal)}) {
+                if (!osi.contentKind.contains (params.content.substring (2) as OciContent)) {
+                    //find { params.content.equals ("C:${it}") }) {
                     params.remove('content')
                 }
             }
@@ -86,9 +79,7 @@ class OciProductController {
             }
         }
         else {
-            nvlist = []
-            nvlist.add ([name: "-Select Content-", value: ""])
-            model << [conList: nvlist]
+            model << [conList: [[name: "-Select Content-", value: ""]] ]
         }
 
         render template: tmpl, model: model
