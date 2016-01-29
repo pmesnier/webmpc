@@ -4,9 +4,10 @@ package com.ociweb.oss
  */
 
 public class OciRelease extends Release {
+    static ociService
 
-    static hasMany = [legacy:OciAsset]
-    Map legacy = [:]
+    static hasMany = [legacy:OciAsset, plList:OciSelectorInfo]
+    SortedSet<OciSelectorInfo> plList
 
     String rlsVersion
     String basePath
@@ -16,7 +17,10 @@ public class OciRelease extends Release {
     String vcs
     String repourl
 
-    int lastTarget
+    int major
+    int minor
+    int micro
+    char ext
 
     static constraints = {
         readmePath nullable:true
@@ -27,4 +31,8 @@ public class OciRelease extends Release {
         repourl nullable:true
     }
 
+    @Override
+    int compareTo(Release o) {
+        return -1 * ociService.compareRelease (this, o)
+    }
 }

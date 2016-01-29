@@ -1,34 +1,46 @@
 {
   "disclaimer" : ["JBoss and Red Hat are registered trademarks of Red Hat, Inc. in the United States and other countries.",
     "All other trademarks are property of their respective owners."],
-  "basePath": "http://download.ociweb.com/",
+  "basePath": "http://download.ociweb.com",
   "releasesPath": "jboss/release",
   "olderPath" : "jboss/release/previous-releases",
-  "ociAssets" : [
+  "releases" : [
     {
       "rlsVersion":"4.2a",
+      "major":"4",
+      "minor":"2",
+      "micro":"0",
+      "ext":"a",
       "basePath": "http://download.ociweb.com/jboss/release",
-      "assetInit": "jboss42aFiles.json",
-      "fileNameRoot" : ["jboss-4.2a","jboss-4.2b"]
+      "assetInit": "jboss42aFiles.json"
     },
     {
       "rlsVersion":"4.2b",
+      "major":"4",
+      "minor":"2",
+      "micro":"0",
+      "ext":"b",
       "basePath": "http://download.ociweb.com/jboss/release",
-      "assetInit": "jboss42bFiles.json",
-      "fileNameRoot" : ["jboss-4.2a","jboss-4.2b"]
+      "assetInit": "jboss42bFiles.json"
     },
     {
       "rlsVersion":"5.1.0a",
+      "major":"5",
+      "minor":"1",
+      "micro":"0",
+      "ext":"a",
       "basePath": "http://download.ociweb.com/jboss/release",
-      "assetInit": "jboss510aFiles.json",
-      "fileNameRoot" :["jboss-5.1.0"]
+      "assetInit": "jboss510aFiles.json"
 
     },
     {
       "rlsVersion": "7.1.3a",
+      "major":"7",
+      "minor":"1",
+      "micro":"3",
+      "ext":"a",
       "basePath": "http://download.ociweb.com/jboss/release",
-      "assetInit": "jboss713aFiles.json",
-      "fileNameRoot" : ["jboss-7.1.3a","jboss-as-7.1.3a"]
+      "assetInit": "jboss713aFiles.json"
     }
   ]
 }

@@ -2,11 +2,7 @@ package com.ociweb.oss
 
 import org.hibernate.mapping.Map
 
-/**
- * Created by phil on 12/18/15.
- */
-class Release {
+abstract class Release implements Comparable<Release> {
 
     static belongsTo = [product: Product]
-
 }

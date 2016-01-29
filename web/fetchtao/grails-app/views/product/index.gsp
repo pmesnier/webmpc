@@ -89,19 +89,11 @@
                 <h2>OCI open source products:</h2>
                 <ul>
                     <g:each var="p" in="${productList}">
+                    <g:set var="cname" value="${p.getClass().simpleName}" />
+
                     <li>${p.name}
-                        <g:if test="${p instanceof com.ociweb.oss.GitHubProduct}">
-                            <g:link controller="GitHubProduct" action="showReleases" id="${p.id}"> Download github product </g:link>
-                        </g:if>
-                        <g:elseif test="${p instanceof com.ociweb.oss.OciProduct}">
-                            <g:link controller="OciProduct" action="show" id="${p.id}"> Download OCI product </g:link>
-                        </g:elseif>
-                        <g:else>
-                            <g:link controller="Product" action="showReleases" id="${p.id}"> Download </g:link>
-                        </g:else>
-                        <p>
-                        ${p.descstr}
-                        </p>
+                        <g:link controller="${cname}" action="show" id="${p.id}"> Download ${cname} </g:link>
+                        <p>${p.descstr}</p>
                     </li>
                     </g:each>
                 </ul>

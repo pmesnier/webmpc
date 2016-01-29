@@ -1,5 +1,5 @@
 {
-    "aceLegacy" : [
+    "legacy" : [
         {"fileSize": 92000436, "fileDate": "Oct 11  2011", "md5": "4baba4ed1069f28720ee2da3f2e32960", "filePath": "TAO-2.0a/ACE+TAO+CIAO-2.0a.tar.gz"},
         {"fileSize": 139019206, "fileDate": "Oct 11  2011", "md5": "198ce388d7c46053c7876c3a109e375e", "filePath": "TAO-2.0a/ACE+TAO+CIAO-2.0a.zip"},
         {"fileSize": 55188838, "fileDate": "Oct 13  2011", "md5": "47830e5a09f56ce97e9ee16a60b96753", "filePath": "TAO-2.0a/ACE+TAO-2.0a.tar.gz"},

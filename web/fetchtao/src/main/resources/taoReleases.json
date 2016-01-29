@@ -1,41 +1,69 @@
 {
-  "ociAssets" : [
+  "releases" : [
     {
       "rlsVersion":"1.2a",
-      "basePath": "http://download.ociweb.com/",
+      "major":"1",
+      "minor":"2",
+      "micro":"0",
+      "ext":"a",
+      "basePath": "http://download.ociweb.com",
       "assetInit": "tao12aFiles.json"
     },
     {
       "rlsVersion":"1.3a",
-      "basePath": "http://download.ociweb.com/",
+      "major":"1",
+      "minor":"3",
+      "micro":"0",
+      "ext":"a",
+      "basePath": "http://download.ociweb.com",
       "assetInit": "tao13aFiles.json"
     },
     {
       "rlsVersion": "1.4a",
-      "basePath": "http://download.ociweb.com/",
+      "major":"1",
+      "minor":"4",
+      "micro":"0",
+      "ext":"a",
+      "basePath": "http://download.ociweb.com",
       "assetInit": "tao14aFiles.json"
     },
     {
       "rlsVersion": "1.5a",
-      "basePath": "http://download.ociweb.com/",
+      "major":"1",
+      "minor":"5",
+      "micro":"0",
+      "ext":"a",
+      "basePath": "http://download.ociweb.com",
       "assetInit": "tao15aFiles.json"
     },
     {
       "rlsVersion": "1.6a",
-      "basePath": "http://download.ociweb.com/",
+      "major":"1",
+      "minor":"6",
+      "micro":"0",
+      "ext":"a",
+      "basePath": "http://download.ociweb.com",
       "assetInit": "tao16aFiles.json"
     },
     {
       "rlsVersion": "2.0a",
-      "basePath": "http://download.ociweb.com/",
+      "major":"2",
+      "minor":"0",
+      "micro":"0",
+      "ext":"a",
+      "basePath": "http://download.ociweb.com",
       "assetInit": "tao20aFiles.json"
     },
     {
       "rlsVersion": "2.2a",
-      "basePath": "http://download.ociweb.com/",
+      "major":"2",
+      "minor":"2",
+      "micro":"0",
+      "ext":"a",
+      "basePath": "http://download.ociweb.com",
       "assetInit": "tao22aFiles.json",
       "vcs" : "svn",
-      "repourl" : "svn+ssh://svn.ociweb.com/ocitao/branches/tao-2_2_0"
+      "repourl" : "svn+ssh://svn.ociweb.comocitao/branches/tao-2_2_0"
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-    "aceLegacy" : [
+    "legacy" : [
         {"fileSize": 41476657, "fileDate": "Jun  5  2009", "md5": "1abc69d146fe8e17ac90e04d644445ca",    "filePath": "TAO-1.6a/ACE+TAO-1.6a.tar.gz"},
         {"fileSize": 64346262, "fileDate": "Jun  5  2009", "md5": "9095c4077955c446869c9a04489094db",    "filePath": "TAO-1.6a/ACE+TAO-1.6a.zip"},
         {"fileSize": 97661965, "fileDate": "Jun  5  2009", "md5": "8716f703125cce4dbdce3a24240da518",    "filePath": "TAO-1.6a/ACE+TAO-1.6a_dox.tar.gz"},

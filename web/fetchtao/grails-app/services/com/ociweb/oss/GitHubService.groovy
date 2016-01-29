@@ -14,11 +14,11 @@ class GitHubService {
         INFO_NONE
     }
 
-    static def slurp = new JsonSlurper()
+    def slurp = new JsonSlurper()
 
-    static String authToken
+    String authToken
 
-    static void initAuthToken(String token) {
+    void initAuthToken(String token) {
         println "GitHubService initAuthToken called, token = " + token + " token null? " + (authToken == null)
         if (authToken == null) {
             authToken = token
@@ -26,7 +26,7 @@ class GitHubService {
     }
 
 
-    static def openGitHubPage(GitHubProduct prod, String link, InfoType info) {
+    def openGitHubPage(GitHubProduct prod, String link, InfoType info) {
         String urlstr = (link.startsWith("http")) ? link : "https://api.github.com/repos/" + prod.githubowner + "/" + prod.githubrepo + link
         println "openGitHubPage " + urlstr
         URL url = new URL(urlstr)
@@ -57,9 +57,23 @@ class GitHubService {
         return con
     }
 
-    static def fetchRevInfo_i(GitHubProduct prod, String link, InfoType info) {
-        List reflist = []
+    def fetchLatest_i (GitHubProduct prod) {
+        HttpURLConnection con = openGitHubPage(prod, "/releases/latest", InfoType.INFO_RELEASE)
+        int code = con.getResponseCode()
+        println "fetch latest returnd code = ${code} "
+        if (code == HttpURLConnection.HTTP_OK) {
+            def latestProps = slurp.parse (con.getContent())
+            println "latest name = ${latestProps.name} created at ${latestProps.created_at}"
+            prod.relsLastMod = latestProps.created_at
+        }
 
+        return code
+
+    }
+
+    def fetchRevInfo_i(GitHubProduct prod, String link, InfoType info) {
+        List reflist = []
+        def lastMod
         HttpURLConnection con = openGitHubPage(prod, link, info)
         int code = con.getResponseCode()
         println "fetchRevInfo_i link = " + link + " got code " + code
@@ -67,12 +81,10 @@ class GitHubService {
             case HttpURLConnection.HTTP_NOT_MODIFIED:
                 return null
             case HttpURLConnection.HTTP_OK:
-                if (info == InfoType.INFO_TAG) {
-                    prod.tagsLastMod = con.getHeaderField("Last-Modified")
-                } else if (info == InfoType.INFO_RELEASE) {
-                    prod.relsLastMod = con.getHeaderField("Last-Modified")
-                    if (prod.relsLastMod == null) {
-                        prod.relsLastMod = con.getHeaderField("Date")
+                lastMod = con.getHeaderField("Last-Modified")
+                if (info == InfoType.INFO_RELEASE) {
+                    if (lastMod == null) {
+                        lastMod = con.getHeaderField("Date")
                     }
                 }
                 break
@@ -92,17 +104,21 @@ class GitHubService {
 
         slurp.parse(con.getContent()).each {
             reflist << it
-            //reflist << [name: it.name, tarball_url: it.tarball_url, zipball_url: it.zipball_url]
         }
         if (nextPage.length() > 0) {
             fetchRevInfo_i(prod, nextPage, info).each {
                 reflist << it
             }
         }
+        if (info == InfoType.INFO_RELEASE) {
+            prod.relsLastMod = lastMod
+        } else if (info == InfoType.INFO_TAG) {
+            prod.tagsLastMod = lastMod
+        }
         return reflist
     }
 
-    static void fetchLicense_i(GitHubProduct prod)
+    void fetchLicense_i(GitHubProduct prod)
     {
         HttpURLConnection con = openGitHubPage (prod, "/contents/" + prod.githublicense, InfoType.INFO_LICENSE)
 
@@ -120,45 +136,68 @@ class GitHubService {
         }
     }
 
-    static sourceURL (GitHubProduct ghp) {
+    def sourceURL (GitHubProduct ghp) {
         if (ghp.source == null || ghp.source.length() == 0) {
             ghp.source = "https://github.com/" + ghp.githubowner + "/" + ghp.githubrepo
         }
         return ghp.source
     }
 
-    static fetchReleaseInfo (GitHubProduct ghp) {
-        List reflist = fetchRevInfo_i (ghp, "/releases", InfoType.INFO_RELEASE)
-        if (reflist != null && reflist.size() == 0) {
-            reflist = fetchRevInfo_i(ghp, "/tags", InfoType.INFO_TAG)
+    def fetchReleaseInfo (GitHubProduct ghp) {
+        int res = fetchLatest_i(ghp)
+        if (res == HttpURLConnection.HTTP_NOT_MODIFIED) {
+            return ghp.releases
         }
+
+        List reflist = (res == HttpURLConnection.HTTP_OK) ?
+             fetchRevInfo_i(ghp, "/releases", InfoType.INFO_RELEASE) :
+                fetchRevInfo_i(ghp, "/tags", InfoType.INFO_TAG)
+
         if (reflist != null) {
             ghp.releases.clear()
             reflist.each { rlsdef ->
-                def rls =  new GitHubRelease (rlsdef)
-                ghp.addToReleases (rls)
+                def ghr = new GitHubRelease(rlsdef)
+                ghp.addToReleases(ghr)
             }
-
         }
 
         return (ghp.releases == null || ghp.releases.size() == 0) ?
-             [[name: "none", tarball_url: "", zipball_url: ""]]
+             [[name: "none", tarball_url: "", zipball_url: "", created_at: "", body: ""]]
              : ghp.releases
     }
 
-    static fetchLicense (GitHubProduct ghp) {
+    def fetchLicense (GitHubProduct ghp) {
         fetchLicense_i (ghp)
         return ghp.license
     }
 
-    static targetLink (GitHubProduct ghp, def params) {
-        println "TargetLink params.release = " + params.release + " bundle = " + params.bundle
-
-        def link = ghp.releases.find ({ if (it.toString().equals(params.release)) return it })
-        if (link != null)
-            return (params.bundle.equals ("zip")) ? link.zipball_url : link.tarball_url
-        return null
+    def truncate (String full_url, boolean minimum) {
+        int pos = full_url.lastIndexOf('/')
+        if (!minimum) {
+            pos = full_url.lastIndexOf('/', pos-1)
+            pos = full_url.lastIndexOf('/', pos-1)
+        }
+        return full_url.substring(pos + 1)
     }
 
+    def target (GitHubRelease ghr, def params) {
+        List result = []
+
+        if (ghr.assets) {
+            ghr.assets.each { ass ->
+                result.add([targetName: ass.browser_download_url,
+                            displayName: truncate(ass.browser_download_url, true),
+                            fileSize: ass.fmtFileSize, timeStamp: ghr.createdAtDate])
+            }
+        }
+        else {
+            result.addAll ([[targetName: ghr.zipball_url, displayName: truncate(ghr.zipball_url,false),
+                             fileSize: "n/a", timeStamp: ghr.createdAtDate],
+                            [targetName: ghr.tarball_url, displayName: truncate(ghr.tarball_url,false),
+                             fileSize: "n/a", timeStamp: ghr.createdAtDate]])
+        }
+
+        return result
+    }
 
 }

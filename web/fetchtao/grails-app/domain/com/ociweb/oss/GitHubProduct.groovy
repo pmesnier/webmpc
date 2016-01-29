@@ -14,6 +14,7 @@ class GitHubProduct extends Product {
     String tagsLastMod
     String relsLastMod
     String licLastMod
+//    GitHubRelease latest
 
     static constraints = {
         githublicense nullable:true
@@ -21,6 +22,7 @@ class GitHubProduct extends Product {
         tagsLastMod nullable:true
         relsLastMod nullable:true
         licLastMod nullable:true
+//        latest nullable:true
     }
 
 }

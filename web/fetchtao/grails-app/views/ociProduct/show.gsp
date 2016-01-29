@@ -24,36 +24,36 @@
 </nav>
 
 <main>
-	<div class="container page-sidebar">
-		<div class="row">
-			<section class="body col-sm-8">
+    <div class="container page-sidebar">
+        <div class="row">
+            <section class="body col-sm-8">
+             <p> ${product.descstr} </p>
+               <div class="content scaffold-edit" id="choose-version" >
+                    <div class="row">
+                        <h2><g:message code="ociRelease.select.label" args="[entityName]" /></h2>
+                        <p><g:select name="releaseSelector"
+                          id="releaseSelector"
+                          from="${product.releases}"
+                          optionValue="rlsVersion"
+                          optionKey="id"
+                          noSelection="['':'-Select Release-']"
+                          onChange="${remoteFunction (controller: 'ociProduct',
+                                                      action: "${product.updateAction}",
+                                                      params: '\'id=\' + escape(this.value)',
+                                                      update: "${product.dynamicDivId}"
+                                                    )}"
+                            />
 
-       <div id="list-ociRelease" class="content scaffold-edit" role="main">
-        </div>
-        <div class="content scaffold-edit" id="choose-version" >
-            <h2><g:message code="ociRelease.select.label" args="[entityName]" /></h2>
-            <g:if test="${flash.message}">
-                <div class="message" role="status">${flash.message}</div>
-            </g:if>
-            <div class="row">
-            <p><g:select name="rlsVersion"
-                  from="${ociReleases}"
-                  optionValue="rlsVersion"
-                  optionKey="id"
-                  noSelection="['':'-Select Release-']"
-                  onChange="${remoteFunction (controller: 'ociProduct',
-                                              action: "${updateAction}",
-                                              params: '\'id=\' + escape(this.value)',
-                                              update: "${dynamicDivId}"
-                                            )}"/>
-            </p>
-        </div>
-        <div id="${dynamicDivId}" class="content scaffold-edit" role="main">
-            <g:render template="${dynamicDivId}" />
-        </div>
+                        <button value="Release Notes" onClick="findRelNotes()"> Release Notes </button>
+                        </p>
+                         <div id="${product.dynamicDivId}" >
+                            <g:render template="${product.dynamicDivId}" />
+                        </div>
+                    </div>
+                </div>
 
-    </section>
-	<aside class="sidebar col-sm-4">
+            </section>
+        <aside class="sidebar col-sm-4">
 	    <div id="blockStyle15228Sidebar122" class=" ccm-block-styles" >
           <asset:image border="0" class="ccm-image-block" src="${product.logo}" alt="OCI" width="2400" height="1982"/>
 

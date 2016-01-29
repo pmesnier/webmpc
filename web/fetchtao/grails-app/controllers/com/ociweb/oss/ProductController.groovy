@@ -19,7 +19,7 @@ class ProductController {
         if (prod instanceof OciProduct)
             redirect (controller: 'ociProduct', action: "show", resource: (OciProduct)prod)
         else if (prod instanceof GitHubProduct) {
-            redirect (controller: 'gitHubProduct', action: 'showReleases', resource: (GitHubProduct)prod )
+            redirect (controller: 'gitHubProduct', action: 'show', resource: (GitHubProduct)prod )
         }
         else if (prod.rlsurl && prod.rlsurl.length() > 0) {
             redirect(url: prod.rlsurl)

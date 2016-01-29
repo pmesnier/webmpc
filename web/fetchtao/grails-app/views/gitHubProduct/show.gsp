@@ -4,7 +4,7 @@
         <g:javascript library="jquery" />
         <meta name="layout" content="ociwebmock" />
         <g:set var="entityName" value="${product.name}" />
-        <title>${gitHubProduct.name} Downloader</title>
+        <title>${product.name} Downloader</title>
     </head>
     <body>
 
@@ -28,20 +28,28 @@
 		<div class="row">
 			<section class="body col-sm-8">
         <div class="releases" role="main">
-            <p> ${gitHubProduct.descstr} </p>
-            <g:form name="gitHubProductDownloadForm" url="[controller:'GitHubProduct', action:'downloadRelease']">
-                <fieldset class="form">
-                Action Data goes here...
+            <p> ${product.descstr} </p>
 
-                    <g:hiddenField name="id" value="${gitHubProduct.id}" />
-                    <p>Select a release  <g:select name="release" from="${rlist}" optionValue="name" /></p>
-                    <P>Select a format   <g:select name="bundle" from="['tar.gz','zip']" value="tar.gz" /></P>
-               <p>  <g:submitButton name="Download It!" /> </p>
-               </fieldset>
+            <h2><g:message code="ociRelease.select.label" args="[entityName]" /></h2>
 
+            <p><g:select name="releaseSelector"
+              id="releaseSelector"
+              from="${rlist}"
+              optionValue="name"
+              optionKey="id"
+              noSelection="['':'-Select Release-']"
+              onChange="${remoteFunction (controller: 'gitHubProduct',
+                                          action: "${product.updateAction}",
+                                          params: '\'id=\' + escape(this.value)',
+                                          update: "${product.dynamicDivId}"
+                                        )}"
+                />
 
-            </g:form>
-        </div>
+            </p>
+             <div id="${product.dynamicDivId}" >
+                <g:render template="${product.dynamicDivId}" />
+            </div>
+         </div>
 
     </section>
 

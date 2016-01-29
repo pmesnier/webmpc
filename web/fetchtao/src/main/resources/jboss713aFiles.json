@@ -1,5 +1,5 @@
 {
-  "jbossLegacy": [
+  "legacy": [
     { "fileSize": 11905255, "fileDate": "Apr  8  2015", "md5": "", "sha1": "", "filePath": "jboss-as-7.1.3a_p1.OCI-src.tar.gz"},
     { "fileSize": 122517302, "fileDate": "Apr  8  2015", "md5": "", "sha1": "", "filePath": "jboss-as-7.1.3a_p1.OCI.tar.gz"},
     { "fileSize": 123033033, "fileDate": "Apr  8  2015", "md5": "", "sha1": "", "filePath": "jboss-as-7.1.3a_p1.OCI.zip"},

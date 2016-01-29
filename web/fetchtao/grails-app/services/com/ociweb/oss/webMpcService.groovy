@@ -15,16 +15,16 @@ class webMpcService {
     static orbServiceClientList = []
     static orbServiceServerList = []
 
-    static def run_shell_command (String cmd) {
+    def run_shell_command (String cmd) {
         cmd.execute().text
     }
 
 
-    static invokeMPC (OciRelease rel, def params) {
+    void invokeMPC (OciRelease rel, def params) {
         String cmd = ""
     }
 
-    static initProduct (Product prod, def params) {
+    void initProduct (Product prod, def params) {
         String resourceInfo = params.activeInit
         if (resourceInfo) {
             if (loader == null)

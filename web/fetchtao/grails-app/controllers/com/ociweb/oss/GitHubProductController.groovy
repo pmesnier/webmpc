@@ -6,30 +6,29 @@ package com.ociweb.oss
 class GitHubProductController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
     static standardScaffolding = true
+    def gitHubService
 
     def index() {
-        showReleases (prod)
+        show (prod)
     }
 
     def show (GitHubProduct prod) {
-        showReleases (prod)
-    }
-
-    def showReleases (GitHubProduct prod) {
         if (prod.rlsurl && prod.rlsurl.length() > 0)
             redirect (url:prod.rlsurl)
         else {
-
             Product p = prod
-            def rlist = GitHubService.fetchReleaseInfo(prod)
+            def rlist = gitHubService.fetchReleaseInfo(prod)
             respond prod, model: [rlist : rlist , product : p ]
         }
     }
 
-    def downloadRelease (GitHubProduct prod) {
-        String targeturl = GitHubService.targetLink (prod,params)
-        redirect (url:targeturl)
-    }
+    def updateGitHubSelector (GitHubRelease rel) {
+        def model = [product: rel.product]
+        def tmpl = rel.product.dynamicDivId
+        def pkg = gitHubService.target(rel, params)
+        model << [pkg : pkg ]
 
+        render template: tmpl, model: model
+    }
 
 }

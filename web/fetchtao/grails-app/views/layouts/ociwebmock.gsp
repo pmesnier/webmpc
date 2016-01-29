@@ -46,6 +46,7 @@
   <asset:stylesheet src="bootstrap.css" />
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <asset:stylesheet src="ocimain.css" />
+  <asset:stylesheet src="dltable.css" />
   <asset:javascript src="bootstrap.min.js"/>
   <asset:javascript src="modernizr.js"/>
 </head>

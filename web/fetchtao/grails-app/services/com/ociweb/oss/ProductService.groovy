@@ -4,12 +4,14 @@ package com.ociweb.oss
  * Created by phil on 1/13/16.
  */
 class ProductService {
+    def gitHubService
+    def ociService
 
-    static initAll (def products) {
+    void initAll (def products) {
         if (products.gitHubAuthTokenFile)
-            GitHubService.initAuthToken(products.gitHubAuthTokenFile)
+            gitHubService.initAuthToken(products.gitHubAuthTokenFile)
         else
-            GitHubService.initAuthToken(products.gitHubAuthToken)
+            gitHubService.initAuthToken(products.gitHubAuthToken)
 
         if (Product.list().size == 0)
         {
@@ -18,7 +20,7 @@ class ProductService {
 
     }
 
-    static loadProduct (def params) {
+    void loadProduct (def params) {
         def prod = Product.findByName (params.name);
         if (prod == null) {
             prod = params.githubowner ? new GitHubProduct (params) :
@@ -31,9 +33,9 @@ class ProductService {
         println "product " + params.name + " saved"
     }
 
-    static initProduct (prod, params) {
+    void initProduct (prod, params) {
         if (prod instanceof OciProduct) {
-            OciAssetService.initProduct (prod, params)
+            ociService.initProduct (prod, params)
         }
 
         if (!(prod.descstr && prod.descstr.length() > 0) && (prod.descref && prod.descref.length() > 0)) {

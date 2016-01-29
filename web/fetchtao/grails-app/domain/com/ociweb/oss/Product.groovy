@@ -4,7 +4,7 @@ package com.ociweb.oss
  */
 class Product {
     static hasMany = [releases: Release]
-    List releases
+    SortedSet<Release> releases
 
     String name
     String descstr
@@ -16,21 +16,21 @@ class Product {
     String faq
     String logo
     String title
-
-//    static transients = ["descstr", "license"]
+    String updateAction
+    String dynamicDivId
 
     static constraints = {
-//        descstr bindable:true, nullable: true
         descstr maxSize: 1000, nullable: true
         descref nullable: true
         source nullable:true
         rlsurl nullable:true
         docs nullable:true
-//        license bindable:true, nullable: true
         license maxSize:10000, nullable:true
         faq nullable:true
         logo nullable:true
         title nullable:true
+        updateAction nullable:true
+        dynamicDivId nullable:true
 
     }
 }

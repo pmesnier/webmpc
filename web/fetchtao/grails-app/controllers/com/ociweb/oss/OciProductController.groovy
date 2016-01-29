@@ -5,103 +5,93 @@ package com.ociweb.oss
  */
 import grails.transaction.Transactional
 
-@Transactional(readOnly = false)
+@Transactional
 class OciProductController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [] //save: "POST", update: "PUT", delete: "DELETE"]
     static standardScaffolding = true
+    def ociService
 
     def show(OciProduct prod) {
-        println "OCIProductController.show, prod = " + prod.name + " and has " + prod.releases.size() + " entries "
+        def nvlist = []
+        nvlist.add ([name: "Select a release version first", value: ""])
         respond prod.releases,  model: [product: prod,
-                                        updateAction: prod.updateAction,
-                                        dynamicDivId: prod.dynamicDivId,
-                                        ociReleases: prod.releases,
-                                        plList : OciAssetService.patchList,
-                                        conList: OciAssetService.contentList,
-                                        cmpList: OciAssetService.compressList
-        ]
+                                        plSelector: nvlist,
+                                        conList: nvlist]
     }
 
     def showMpc(OciRelease rel) {
         respond rel
     }
 
-    def showReleaseNotes(OciRelease rel) {
-        String rnurl = rel.relNotesPath
+    def viewRelNotes(OciRelease rel) {
+        String rnurl = rel?.relNotesPath
         if (rnurl != null)
             redirect (url:rnurl)
-            redirect (url:rnurl)
+
     }
 
-    def updateTaoSelector(OciRelease rel) {
-        def model = [:]
-        int val = 0
-        def nvlist = OciAssetService.patchlevelFor(rel)
-        model << [plList: nvlist]
+    def updateOciSelector(OciRelease rel) {
+        def model = [product: rel.product]
+        def tmpl = rel.product.dynamicDivId
+        def nvlist = []
+        rel.plList.each { p->
+            nvlist.add([name: message(code: "ociPatchBase.${p.patchKind}", args: [p.patchNum, p.testNum]), value: ociService.targetKey(p)])
+        }
+
+        model << [plSelector: nvlist]
+        OciSelectorInfo osi
+
+        if (nvlist.size() == 1) {
+            osi = rel.plList[0]
+            params << [patchLevel: nvlist[0].value]
+        }
+        else {
+            if (params.patchLevel) {
+                osi = rel.plList.find { p ->
+                    String testval = ociService.targetKey(p)
+                    params.patchLevel.equals(testval)
+                }
+                if (osi == null) {
+                    params.remove('patchLevel')
+                }
+            }
+        }
+
         if (params.patchLevel) {
-            val = params.patchLevel as int
-            if (nvlist.find { it.value as int == val } == null) {
-                params.remove('patchLevel')
-                val = 0
+            model << [plsel: params.patchLevel]
+
+            nvlist = []
+            osi.contentKind.each { c ->
+                String n = message (code : "ociContent.${c}")
+                nvlist.add ([name: n, value: "C:${c}"])
             }
-        }
-        if (val == 0 && nvlist.size() == 1) {
-            val = nvlist[0].value as int
-            params << [patchLevel: val]
-        }
 
-        if (val > 0) {
-            model << [plsel: val]
-
-            nvlist = OciAssetService.contentFor(rel, params)
             model << [conList: nvlist]
-            if (params.content) {
-                val = params.content as int
-                if (nvlist.find { it.value as int == val } == null) {
+            if (nvlist.size() == 1) {
+                params << [content: nvlist[0].value]
+            }
+            else if (params.content) {
+                if (!osi.contentKind.find {
+                        String testVal = "C:${it}"
+                        params.content.equals (testVal)}) {
                     params.remove('content')
-                    val = 0
                 }
-            } else
-                val = 0
-
-            if (val == 0 && nvlist.size() == 1) {
-                val = nvlist[0].value as int
-                params << [content: val]
             }
 
-            if (val > 0) {
-                model << [consel: val]
-                nvlist = OciAssetService.compressFor(rel, params)
-                model << [cmpList: nvlist]
-                if (params.compress) {
-                    val = params.compress as int
-                    if (nvlist.find { it.value as int == val } == null) {
-                        params.remove('compress')
-                        val = 0
-                    }
-                } else
-                    val = 0
-
-                if (val == 0 && nvlist.size() == 1) {
-                    val = nvlist[0].value as int
-                    params << [compress: val]
-                }
-
-                if (val > 0) {
-                    model << [cmpsel  : val,
-                              pkg     : OciAssetService.target(rel, params),
-                              basePath: rel.basePath]
-                }
-            } else {
-                model << [cmpList: OciAssetService.compressList]
+            if (params.content) {
+                def pkg = ociService.target(rel, params)
+                model << [consel: params.content,
+                          pkg   : pkg ]
             }
-        } else {
-            model << [conList: OciAssetService.contentList,
-                      cmpList: OciAssetService.compressList]
+        }
+        else {
+            nvlist = []
+            nvlist.add ([name: "-Select Content-", value: ""])
+            model << [conList: nvlist]
         }
 
-        render template: 'taoLegacyOptions', model: model
+        render template: tmpl, model: model
     }
 
     def runMPC(OciRelease rel) {

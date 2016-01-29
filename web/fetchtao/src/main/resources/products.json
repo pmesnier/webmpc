@@ -10,13 +10,15 @@
       "githubowner": "objectcomputing",
       "githubrepo": "OpenDDS",
       "githublicense": "LICENSE",
-      "githubdocs": "OpenDDS-latest.pdf"
+      "githubdocs": "OpenDDS-latest.pdf",
+      "updateAction": "updateGitHubSelector",
+      "dynamicDivId": "ghAssetOptions"
     },
     {
       "name": "Ace",
       "logo": "ACE-logo-1.png",
-      "updateAction": "updateAceSelector",
-      "dynamicDivId": "aceLegacyOptions",
+      "updateAction": "updateOciSelector",
+      "dynamicDivId": "ociAssetOptions",
       "ociReleaseInit": "aceReleases.json",
       "title": "OCI ACE, A framework for distributed object computing",
       "descstr": "OCI's distribution of ACE, A framework for distributed object computing, separate from TAO and OpenDDS "
@@ -27,8 +29,8 @@
       "label": "OCI TAO",
       "title": "OCI TAO, the commercial release of The ACE ORB.",
       "ociReleaseInit": "taoReleases.json",
-      "updateAction": "updateTaoSelector",
-      "dynamicDivId": "taoLegacyOptions",
+      "updateAction": "updateOciSelector",
+      "dynamicDivId": "ociAssetOptions",
       "webMpcInit": "taoMpcOptions.json",
       "descstr": "OCI's redistribution of The ACE ORB (TAO), an open source C++ CORBA library",
       "descref": "summaries/ocitao.txt"
@@ -42,8 +44,8 @@
       "source": "http://jboss.ociweb.com/download",
       "rlsurl": "http://jboss.ociweb.com/download",
       "license": "http://jboss.ociweb.com/Product-Information",
-      "updateAction": "updateJbossSelector",
-      "dynamicDivId": "jbossLegacyOptions",
+      "updateAction": "updateOciSelector",
+      "dynamicDivId": "ociAssetOptions",
       "ociReleaseInit": "jbossReleases.json"
     },
     {
@@ -55,7 +57,9 @@
       "githubowner": "DOCGroup",
       "githubrepo": "MPC",
       "githublicense": "docs/LICENSE",
-      "githubdocs": "tree/master/docs"
+      "githubdocs": "tree/master/docs",
+      "updateAction": "updateGitHubSelector",
+      "dynamicDivId": "ghAssetOptions"
     },
     {
       "name": "LiquiBook",
@@ -65,17 +69,21 @@
       "descref": "summaries/liquibook.txt",
       "githubowner": "objectcomputing",
       "githubrepo": "liquibook",
-      "githublicense": "license.txt"
+      "githublicense": "license.txt",
+      "updateAction": "updateGitHubSelector",
+      "dynamicDivId": "ghAssetOptions"
     },
     {
       "name": "QuickFAST",
-      "logo": "grails_logo.png",
+      "logo": "OCI-logo-1.jpg",
       "title": "QuickFAST, C++ implementation of the FAST protocol",
       "descstr": "C++ implementation of the FAST protocol",
       "descref": "summaries/quickfast.txt",
       "githubowner": "objectcomputing",
       "githubrepo": "QuickFAST",
-      "githublicense": "license.txt"
+      "githublicense": "license.txt",
+      "updateAction": "updateGitHubSelector",
+      "dynamicDivId": "ghAssetOptions"
     },
     {
       "name": "mFAST",
@@ -85,7 +93,9 @@
       "descref": "summaries/mfast.txt",
       "githubowner": "objectcomputing",
       "githubrepo": "mFAST",
-      "githublicense": "licence.txt"
+      "githublicense": "licence.txt",
+      "updateAction": "updateGitHubSelector",
+      "dynamicDivId": "ghAssetOptions"
     },
     {
       "name": "Grails",

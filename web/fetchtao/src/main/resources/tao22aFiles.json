@@ -1,5 +1,5 @@
 {
-  "taoLegacy": [
+  "legacy": [
     { "fileSize": 36934733, "fileDate": "Jun 13  2013",  "md5": "87b4a4a71421ba3ce819e6ea22b22aea",   "filePath": "TAO-2.2a/ACE+TAO+CIAO-2.2a-nomake.tar.bz2"},
     { "fileSize": 45403143, "fileDate": "Jun 13  2013",  "md5": "6dae7271cb329cea2ff953b2b66b7f72",   "filePath": "TAO-2.2a/ACE+TAO+CIAO-2.2a-nomake.tar.gz"},
     { "fileSize": 57953549, "fileDate": "Jun 13  2013",  "md5": "757e678fbe667324e638355505358c0b",   "filePath": "TAO-2.2a/ACE+TAO+CIAO-2.2a-nomake.zip"},
