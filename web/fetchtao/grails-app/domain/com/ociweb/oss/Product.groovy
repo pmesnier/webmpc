@@ -3,34 +3,39 @@ package com.ociweb.oss
  * Created by phil on 12/18/15.
  */
 class Product {
-    static hasMany = [releases: Release]
+    static productService
+    static hasMany = [releases: Release, lastMod: String]
     SortedSet<Release> releases
+    Map lastMod
 
     String name
-    String descstr
-    String descref
+    String label
     String source
     String rlsurl
-    String docs
-    String license
-    String faq
+    String descstr
     String logo
     String title
     String updateAction
     String dynamicDivId
 
     static constraints = {
-        descstr maxSize: 1000, nullable: true
-        descref nullable: true
+        label nullable:true
         source nullable:true
         rlsurl nullable:true
-        docs nullable:true
-        license maxSize:10000, nullable:true
-        faq nullable:true
+        descstr maxSize: 1000, nullable:true
         logo nullable:true
         title nullable:true
         updateAction nullable:true
         dynamicDivId nullable:true
-
     }
+    static transients = ['latest','licenseText']
+    Release getLatest ()
+    {
+        releases?.getAt(0)
+    }
+
+    String getLicenseText () {
+        productService.getLicenseText (this)
+    }
+
 }

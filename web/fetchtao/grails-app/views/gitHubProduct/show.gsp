@@ -37,7 +37,6 @@
               from="${rlist}"
               optionValue="name"
               optionKey="id"
-              noSelection="['':'-Select Release-']"
               onChange="${remoteFunction (controller: 'gitHubProduct',
                                           action: "${product.updateAction}",
                                           params: '\'id=\' + escape(this.value)',

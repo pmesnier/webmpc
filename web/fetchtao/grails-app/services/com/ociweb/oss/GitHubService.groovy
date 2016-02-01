@@ -6,90 +6,81 @@ import groovy.json.JsonSlurper
  * Created by phil on 1/5/16.
  */
 class GitHubService {
-    static enum InfoType {
-        INFO_TAG,
-        INFO_RELEASE,
-        INFO_DOCS,
-        INFO_LICENSE,
-        INFO_NONE
-    }
-
+    def formatter = new Formatter()
     def slurp = new JsonSlurper()
-
     String authToken
 
     void initAuthToken(String token) {
-        println "GitHubService initAuthToken called, token = " + token + " token null? " + (authToken == null)
         if (authToken == null) {
             authToken = token
         }
     }
 
 
-    def openGitHubPage(GitHubProduct prod, String link, InfoType info) {
-        String urlstr = (link.startsWith("http")) ? link : "https://api.github.com/repos/" + prod.githubowner + "/" + prod.githubrepo + link
-        println "openGitHubPage " + urlstr
+    def openGitHubPage(Map args) {
+        if (args.perpage == null)
+            args.perpage = ""
+        String urlstr = (args.link.startsWith("http")) ? args.link :
+                "https://api.github.com/repos/${args.githubowner}/${args.githubrepo}${args.link}${args.perpage}"
+        //println "openGitHubPage " + urlstr
         URL url = new URL(urlstr)
         HttpURLConnection con = (HttpURLConnection) url.openConnection()
         if (authToken) {
             con.addRequestProperty("Authorization", authToken)
-            println "    adding prop Authorization = " + authToken
+            //println "    adding prop Authorization = " + authToken
         }
-        String lastMod
-        switch (info) {
-            case InfoType.INFO_TAG:
-                lastMod = prod.tagsLastMod
-                break
-            case InfoType.INFO_RELEASE:
-                lastMod = prod.relsLastMod
-                break
-            case InfoType.INFO_LICENSE:
-                lastMod = prod.licLastMod
-                break
-            default:
-                break
-        }
-        if (lastMod != null && lastMod.length() > 0) {
-            con.addRequestProperty("If-Modified-Since", lastMod)
-            println "    adding prop If-Modified-Since = " + lastMod
+       if (args.lastmod) {
+            con.addRequestProperty("If-Modified-Since", args.lastmod)
+            //println "    adding prop If-Modified-Since = " + args.lastmod
         }
         con.connect()
         return con
     }
 
-    def fetchLatest_i (GitHubProduct prod) {
-        HttpURLConnection con = openGitHubPage(prod, "/releases/latest", InfoType.INFO_RELEASE)
+    def fetchLatest_i (Map args ) { //GitHubProduct prod) {
+        HttpURLConnection con = openGitHubPage(args)
         int code = con.getResponseCode()
-        println "fetch latest returnd code = ${code} "
+        //println "fetch latest returnd code = ${code} "
         if (code == HttpURLConnection.HTTP_OK) {
             def latestProps = slurp.parse (con.getContent())
-            println "latest name = ${latestProps.name} created at ${latestProps.created_at}"
-            prod.relsLastMod = latestProps.created_at
+            //println "latest name = ${latestProps.name} created at ${latestProps.created_at}"
+            args.lastmod = latestProps.created_at //prod.lastMod.releases = latestProps.created_at
         }
 
         return code
 
     }
 
-    def fetchRevInfo_i(GitHubProduct prod, String link, InfoType info) {
-        List reflist = []
-        def lastMod
-        HttpURLConnection con = openGitHubPage(prod, link, info)
+
+    void fetchTagCommitInfo_i (Map args) {
+        HttpURLConnection con = openGitHubPage(args)
         int code = con.getResponseCode()
-        println "fetchRevInfo_i link = " + link + " got code " + code
+        //println "fetchTagCommitInfo_i link = ${args.link} got code ${code}"
+        if (code == HttpURLConnection.HTTP_OK) {
+            def data;
+            data = slurp.parse (con.getContent());
+            args.created_at = data?.commit?.committer?.date
+            if (!args.created_at)
+                args.created_at = data?.commit?.author?.date
+            //println "Found created_at date = ${args.created_at}"
+        }
+    }
+
+    def fetchRevInfo_i(Map args) {
+        HttpURLConnection con = openGitHubPage(args)
+        int code = con.getResponseCode()
+        //println "fetchRevInfo_i link = ${args.link} got code ${code}"
         switch (code) {
             case HttpURLConnection.HTTP_NOT_MODIFIED:
                 return null
             case HttpURLConnection.HTTP_OK:
-                lastMod = con.getHeaderField("Last-Modified")
-                if (info == InfoType.INFO_RELEASE) {
-                    if (lastMod == null) {
-                        lastMod = con.getHeaderField("Date")
-                    }
-                }
+                if (args.lastmod_i)
+                    break
+                if ((args.lastmod_i = con.getHeaderField("Last-Modified")) == null)
+                    args.lastmod_i = con.getHeaderField("Date")
                 break
             default:
-                return reflist
+                return []
         }
 
         String nextPage = ""
@@ -99,65 +90,64 @@ class GitHubService {
             def nextChunk = val.split(",").find { it.contains("rel=\"next\"") }
             int head = nextChunk.indexOf('<') + 1;
             int tail = nextChunk.lastIndexOf('>');
-            nextPage = nextChunk.substring(head, tail)
+            args.link = nextChunk.substring(head, tail)
+            //println "Next page = " + args.link
+        }
+        else {
+            args.remove ("link")
         }
 
-        slurp.parse(con.getContent()).each {
-            reflist << it
-        }
-        if (nextPage.length() > 0) {
-            fetchRevInfo_i(prod, nextPage, info).each {
-                reflist << it
-            }
-        }
-        if (info == InfoType.INFO_RELEASE) {
-            prod.relsLastMod = lastMod
-        } else if (info == InfoType.INFO_TAG) {
-            prod.tagsLastMod = lastMod
+        List reflist = []
+        reflist.addAll( slurp.parse(con.getContent()))
+        if (args.link) {
+            def extra = fetchRevInfo_i(args)
+            if (extra)
+                reflist.addAll(extra)
         }
         return reflist
     }
 
-    void fetchLicense_i(GitHubProduct prod)
-    {
-        HttpURLConnection con = openGitHubPage (prod, "/contents/" + prod.githublicense, InfoType.INFO_LICENSE)
-
-        int code = con.getResponseCode()
-        if (code == HttpURLConnection.HTTP_OK) {
-            prod.licLastMod = con.getHeaderField("Last-Modified")
-            def licobj = slurp.parse (con.getContent())
-            if (licobj.encoding.equals ("base64")) {
-                byte[] decoded = licobj.content.decodeBase64()
-                prod.license = new String(decoded)
-            }
-            else {
-                println "license string using encoding \"" + licobj.encoding + "\""
-            }
-        }
-    }
-
     def sourceURL (GitHubProduct ghp) {
         if (ghp.source == null || ghp.source.length() == 0) {
-            ghp.source = "https://github.com/" + ghp.githubowner + "/" + ghp.githubrepo
+            ghp.source = "https://github.com/${ghp.githubowner}/${ghp.githubrepo}"
         }
         return ghp.source
     }
 
     def fetchReleaseInfo (GitHubProduct ghp) {
-        int res = fetchLatest_i(ghp)
+        Map args = [githubowner:ghp.githubowner,
+                    githubrepo: ghp.githubrepo,
+                    link: "/releases/latest",
+                    lastmod: ghp.lastMod.releases]
+        String lmkey = 'releases'
+        int res = fetchLatest_i(args)
         if (res == HttpURLConnection.HTTP_NOT_MODIFIED) {
             return ghp.releases
         }
+        if (res == HttpURLConnection.HTTP_OK) {
+            args.link = "/releases"
+        }
+        else {
+            args.link = "/tags"
+            args.lastmod = ghp.lastMod.tags
+            lmkey = 'tags'
+        }
+        args.perpage="?per_page=100"
 
-        List reflist = (res == HttpURLConnection.HTTP_OK) ?
-             fetchRevInfo_i(ghp, "/releases", InfoType.INFO_RELEASE) :
-                fetchRevInfo_i(ghp, "/tags", InfoType.INFO_TAG)
-
+        List reflist = fetchRevInfo_i(args)
+        ghp.lastMod."${lmkey}" = args.lastmod_i
         if (reflist != null) {
             ghp.releases.clear()
             reflist.each { rlsdef ->
                 def ghr = new GitHubRelease(rlsdef)
+                if (rlsdef?.commit) {
+                    args.link = rlsdef.commit?.url
+                    if (args.link)
+                        fetchTagCommitInfo_i (args)
+                    ghr.created_at = args.created_at
+                }
                 ghp.addToReleases(ghr)
+
             }
         }
 
@@ -166,9 +156,28 @@ class GitHubService {
              : ghp.releases
     }
 
-    def fetchLicense (GitHubProduct ghp) {
-        fetchLicense_i (ghp)
-        return ghp.license
+    def getLicenseText (ProductService pi, GitHubProduct ghp) {
+        Map args = [githubowner:ghp.githubowner,
+                    githubrepo: ghp.githubrepo,
+                    link: "/contents/${ghp.githublicense}",
+                    lastmod: ghp.lastMod.license]
+
+        HttpURLConnection con = openGitHubPage (args)
+
+        int code = con.getResponseCode()
+        if (code == HttpURLConnection.HTTP_OK) {
+            ghp.addToLastMod([license:con.getHeaderField("Last-Modified")])
+
+            def licobj = slurp.parse (con.getContent())
+            if (licobj.encoding.equals ("base64")) {
+                byte[] decoded = licobj.content.decodeBase64()
+                pi.licenseCache."${prod}" = new String(decoded)
+            }
+            else {
+                println "license string using encoding \"" + licobj.encoding + "\""
+            }
+        }
+        return pi.licenseCache."${prod}"
     }
 
     def truncate (String full_url, boolean minimum) {
@@ -180,14 +189,14 @@ class GitHubService {
         return full_url.substring(pos + 1)
     }
 
-    def target (GitHubRelease ghr, def params) {
+    def target (GitHubRelease ghr) {
         List result = []
 
         if (ghr.assets) {
             ghr.assets.each { ass ->
                 result.add([targetName: ass.browser_download_url,
                             displayName: truncate(ass.browser_download_url, true),
-                            fileSize: ass.fmtFileSize, timeStamp: ghr.createdAtDate])
+                            fileSize: formatter.fmtFileSize (ass.size), timeStamp: ghr.createdAtDate])
             }
         }
         else {

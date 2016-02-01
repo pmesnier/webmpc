@@ -30,21 +30,21 @@
              <p> ${product.descstr} </p>
                <div class="content scaffold-edit" id="choose-version" >
                     <div class="row">
-                        <h2><g:message code="ociRelease.select.label" args="[entityName]" /></h2>
+                        <h2><g:message code="ociRelease.select.label" args="[product.name]" /></h2>
                         <p><g:select name="releaseSelector"
                           id="releaseSelector"
                           from="${product.releases}"
                           optionValue="rlsVersion"
                           optionKey="id"
-                          noSelection="['':'-Select Release-']"
+                          value="${latest}"
                           onChange="${remoteFunction (controller: 'ociProduct',
                                                       action: "${product.updateAction}",
-                                                      params: '\'id=\' + escape(this.value)',
+                                                      params: '\'id=\' + escape(this.value)  + \'&patchLevel=\' + escape(patchLevel.value) + \'&content=\' + escape(content.value)',
                                                       update: "${product.dynamicDivId}"
                                                     )}"
                             />
 
-                        <button value="Release Notes" onClick="findRelNotes()"> Release Notes </button>
+                        <button value="View License" onClick="findRelNotes()"> Release Notes </button>
                         </p>
                          <div id="${product.dynamicDivId}" >
                             <g:render template="${product.dynamicDivId}" />
@@ -58,18 +58,8 @@
           <asset:image border="0" class="ccm-image-block" src="${product.logo}" alt="OCI" width="2400" height="1982"/>
 
         </div>
-        <div id="blockStyle6946Main42" class="text-banner ccm-block-styles" >
-            <h3><a title="Product License" href="/services/commercial-product-support/">Product License here</a></h3>
-            <p><a title="Product License" href="/services/commercial-product-support/">
-            Put the license terms for ${product.name} in this panel</a></p>
-            <h4><a href="mailto:info@ociweb.com?subject=Support%20Inquiry" target="_blank"><strong>Ask about Commercial Support.</strong></a></h4>
-        </div>
-        <div id="blockStyle2561Main42" class="text-banner ccm-block-styles" >
-            <h3><a title="OCI Training" href="/services/training/"><strong>OCI Training</strong></a></h3>
-            <p><a title="OCI Training" href="/services/training/">
-               Put readme file here </a>
-            </p>
-         </div>
+
+
      </aside>
      </div>
 	 </div>

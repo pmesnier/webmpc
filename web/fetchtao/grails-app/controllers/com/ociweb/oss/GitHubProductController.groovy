@@ -16,19 +16,25 @@ class GitHubProductController {
         if (prod.rlsurl && prod.rlsurl.length() > 0)
             redirect (url:prod.rlsurl)
         else {
-            Product p = prod
             def rlist = gitHubService.fetchReleaseInfo(prod)
-            respond prod, model: [rlist : rlist , product : p ]
+            def pkg = gitHubService.target(prod.latest)
+            respond prod, model: [rlist : rlist ,
+                                  product : prod,
+                                  pkg : pkg]
         }
     }
 
     def updateGitHubSelector (GitHubRelease rel) {
         def model = [product: rel.product]
         def tmpl = rel.product.dynamicDivId
-        def pkg = gitHubService.target(rel, params)
+        def pkg = gitHubService.target(rel)
         model << [pkg : pkg ]
 
         render template: tmpl, model: model
+    }
+
+    def licenseFor (GitHubProduct prod ) {
+        render prod.licenseText
     }
 
 }

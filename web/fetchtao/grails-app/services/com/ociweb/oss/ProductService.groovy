@@ -1,11 +1,15 @@
 package com.ociweb.oss
 
+import java.text.DecimalFormat
+
 /**
  * Created by phil on 1/13/16.
  */
 class ProductService {
     def gitHubService
     def ociService
+
+    Map licenseCache = [:]
 
     void initAll (def products) {
         if (products.gitHubAuthTokenFile)
@@ -33,13 +37,23 @@ class ProductService {
         println "product " + params.name + " saved"
     }
 
-    void initProduct (prod, params) {
+    void initProduct (def prod, def params) {
         if (prod instanceof OciProduct) {
             ociService.initProduct (prod, params)
         }
 
-        if (!(prod.descstr && prod.descstr.length() > 0) && (prod.descref && prod.descref.length() > 0)) {
-            prod.descstr = getClass().getClassLoader().getResourceAsStream(prod.descref).text
+    }
+
+    void initRelease (def prod, def release) {
+        release.orderName = prod.orderName
+    }
+
+    String getLicenseText (Product prod) {
+        if (prod instanceof GitHubProduct) {
+            return gitHubService.fetchLicense (this, prod)
+        }
+        else {
+            return ociService.fetchLicense (this, prod)
         }
     }
 

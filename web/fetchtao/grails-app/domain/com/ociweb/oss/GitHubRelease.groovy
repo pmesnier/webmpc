@@ -23,14 +23,20 @@ class GitHubRelease extends Release {
     }
 
     String getCreatedAtDate () {
-        if (created_at == null)
-            return "n/a"
-        Date.parse("yyyy-mm-dd'T'hh:mm:ss", created_at).toString()
+        created_at ?
+                Date.parse("yyyy-mm-dd'T'hh:mm:ss", created_at).toString() :
+                "n/a"
+
     }
 
     @Override
     int compareTo(Release o) { // reverse order
-        return -1 * name.compareTo(o.name)
+        if (created_at && ((GitHubRelease)o).created_at) {
+            Date me = Date.parse("yyyy-mm-dd'T'hh:mm:ss", created_at)
+            Date other = Date.parse("yyyy-mm-dd'T'hh:mm:ss", ((GitHubRelease)o).created_at)
+            -1 * me.compareTo(other)
+        } else
+            -1 * name.compareTo(o.name)
     }
 
 }

@@ -14,10 +14,25 @@ class OciProductController {
 
     def show(OciProduct prod) {
         def nvlist = []
-        nvlist.add ([name: "Select a release version first", value: ""])
+        nvlist.add ([name: "-Select Content-", value: ""])
+        OciRelease rel = prod.latest
+        def defPlList = rel.plList.collect() { p->
+            [name: message(code: "ociPatchBase.${p.patchKind}",
+                    args: [p.patchNum, p.testNum]),
+             value: ociService.targetKey(p)]}
+        params.patchLevel = defPlList[0].value
+        OciSelectorInfo osi = rel.plList[0]
+        def defConList = osi.contentKind.collect { c ->
+            [name: message (code : "ociContent.${c}"), value: "C:${c}"]}
+        params.content = defConList[0].value
+        def pkg = ociService.target(rel, params)
         respond prod.releases,  model: [product: prod,
-                                        plSelector: nvlist,
-                                        conList: nvlist]
+                                        latest: prod.latest,
+                                        plSelector: defPlList,
+                                        plsel: defPlList[0].value,
+                                        conList: defConList,
+                                        consel: defConList[0].value,
+                                        pkg: pkg]
     }
 
     def showMpc(OciRelease rel) {
@@ -40,47 +55,28 @@ class OciProductController {
         } ]
         OciSelectorInfo osi = null
 
-        if (rel.plList.size() == 1) {
-            osi = rel.plList[0]
-            params << [patchLevel: model.plSelector[0].value]
-        }
-        else {
-            if (params.patchLevel) {
-                osi = rel.plList.find { p ->
-                    params.patchLevel.equals(ociService.targetKey(p))
-                }
-                if (osi == null) {
-                    params.remove('patchLevel')
-                }
-            }
-        }
-
         if (params.patchLevel) {
-            model << [plsel: params.patchLevel]
-
-            model << [conList: osi.contentKind.collect { c ->
-                [name: message (code : "ociContent.${c}"), value: "C:${c}"]
-            } ]
-
-            if (osi.contentKind.size() == 1) {
-                params << [content: model.conList[0].value]
-            }
-            else if (params.content) {
-                if (!osi.contentKind.contains (params.content.substring (2) as OciContent)) {
-                    //find { params.content.equals ("C:${it}") }) {
-                    params.remove('content')
-                }
-            }
-
-            if (params.content) {
-                def pkg = ociService.target(rel, params)
-                model << [consel: params.content,
-                          pkg   : pkg ]
+            osi = rel.plList.find { p ->
+                params.patchLevel.equals(ociService.targetKey(p))
             }
         }
-        else {
-            model << [conList: [[name: "-Select Content-", value: ""]] ]
+
+        if (osi == null) {
+            osi = rel.plList[0]
+            params.patchLevel = model.plSelector[0].value
         }
+
+        model << [plsel: params.patchLevel]
+        model << [conList: osi.contentKind.collect { c ->
+            [name: message (code : "ociContent.${c}"), value: "C:${c}"]
+        } ]
+
+        if (!params.content || !osi.contentKind.contains(params.content.substring(2) as OciContent)) {
+            params.content = model.conList[0].value
+        }
+
+        def pkg = ociService.target(rel, params)
+        model << [consel: params.content, pkg: pkg ]
 
         render template: tmpl, model: model
     }

@@ -26,13 +26,12 @@
     {
       "name": "Tao",
       "logo": "TAO-logo-1.png",
-      "label": "OCI TAO",
-      "title": "OCI TAO, the commercial release of The ACE ORB.",
+      "title": "OCI TAO, The ACE ORB, an open source C++ CORBA toolset.",
       "ociReleaseInit": "taoReleases.json",
       "updateAction": "updateOciSelector",
       "dynamicDivId": "ociAssetOptions",
       "webMpcInit": "taoMpcOptions.json",
-      "descstr": "OCI's redistribution of The ACE ORB (TAO), an open source C++ CORBA library",
+      "descstr": "OCI's distribution of The ACE ORB (TAO), an open source C++ CORBA library",
       "descref": "summaries/ocitao.txt"
     },
     {
@@ -59,7 +58,8 @@
       "githublicense": "docs/LICENSE",
       "githubdocs": "tree/master/docs",
       "updateAction": "updateGitHubSelector",
-      "dynamicDivId": "ghAssetOptions"
+      "dynamicDivId": "ghAssetOptions",
+      "tagFilter": ["TAO_*","ACE_*"]
     },
     {
       "name": "LiquiBook",
@@ -83,13 +83,14 @@
       "githubrepo": "QuickFAST",
       "githublicense": "license.txt",
       "updateAction": "updateGitHubSelector",
-      "dynamicDivId": "ghAssetOptions"
+      "dynamicDivId": "ghAssetOptions",
+      "tagFilter": ["V1_.*"]
     },
     {
       "name": "mFAST",
       "logo": "OCI-logo-1.jpg",
       "title": "mFAST, a very efficient C++ implementation of the FAST protocol",
-      "descstr": " newly released C++ implementation of the FAST protocol",
+      "descstr": "C++ implementation of the FAST protocol",
       "descref": "summaries/mfast.txt",
       "githubowner": "objectcomputing",
       "githubrepo": "mFAST",

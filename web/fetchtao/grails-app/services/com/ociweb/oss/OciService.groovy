@@ -6,6 +6,7 @@ import groovy.json.JsonSlurper
  * Created by phil on 1/7/16.
  */
 class OciService {
+    def formatter = new Formatter()
 
     def loader = null
     def jsonSlurper = new JsonSlurper()
@@ -23,6 +24,7 @@ class OciService {
 
             prodInfo.releases.each { rlsdef ->
                 def rls = new OciRelease (rlsdef)
+                //productService.initRelease (prod, rls)
                 prod.addToReleases (rls)
                 if (rlsdef.assetInit) {
                     resource = loader.getResource(rlsdef.assetInit)
@@ -211,7 +213,7 @@ class OciService {
             if (oa) {
                 result.add([targetName: "${rls.basePath}/${oa.filePath}",
                             displayName: oa.shortUrlName,
-                            fileSize: oa.fmtFileSize,
+                            fileSize: formatter.fmtFileSize (oa.fileSize),
                             md5sum: oa.md5,
                             timeStamp: oa.fileDate ])
             }
