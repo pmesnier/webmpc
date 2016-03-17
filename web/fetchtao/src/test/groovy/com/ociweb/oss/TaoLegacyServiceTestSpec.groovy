@@ -101,7 +101,7 @@ class TaoLegacyServiceTestSpec extends Specification {
         def rnote2 = rls22a.relNotesPath
 
         then:
-        rnote1 != null && rnote1.length() > 0 && rnote2 != null && rnote1.length() > 0
+        rnote1 && rnote2
     }
 
 }

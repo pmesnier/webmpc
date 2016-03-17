@@ -1,0 +1,21 @@
+{
+  "project" : {
+    "name" : "TAO_IDL_GEN",
+    "after" : [
+
+    ],
+
+    "exeout" : "",
+    "libout" : ".",
+
+    "requires" : [
+              "tao_idl_fe_gen"
+          ],
+    "avoids" : [
+          ],
+    "buildFiles" : "",
+    "inheritance" : {
+      "TAO_IDL_GEN" : "/tao_builds/phil/ocitao/tao22a/build/mpctest/TAO/TAO_IDL/tao_idl_fe.mpc",
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "project" : {
+    "name" : "IDL_Test_NDDS_IDL",
+    "after" : [
+      
+    ],
+      
+    "exeout" : "",
+    "libout" : ".",
+
+    "requires" : [
+              "ndds"
+          ],
+    "avoids" : [
+          ],
+    "buildFiles" : "",
+    "inheritance" : {
+              "IDL_Test_NDDS_IDL" : "/tao_builds/phil/ocitao/tao22a/build/mpctest/TAO/tests/IDL_Test/IDL_Test.mpc",
+              "ndds_cck_ts_defaults" : "/tao_builds/phil/wustl/github/MPC/config/ndds_cck_ts_defaults.mpb",
+              "ndds_ts_defaults" : "/tao_builds/phil/wustl/github/MPC/config/ndds_ts_defaults.mpb"
+          }
+  }
+}

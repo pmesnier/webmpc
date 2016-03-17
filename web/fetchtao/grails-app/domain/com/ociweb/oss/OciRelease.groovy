@@ -16,7 +16,6 @@ public class OciRelease extends Release {
     String relNotesPath
     String vcs
     String repourl
-
     int major
     int minor
     int micro

@@ -62,8 +62,9 @@
       "ext":"a",
       "basePath": "http://download.ociweb.com",
       "assetInit": "tao22aFiles.json",
+      "testRlsNote": "OCIReleaseNotes.html",
       "vcs" : "svn",
-      "repourl" : "svn+ssh://svn.ociweb.comocitao/branches/tao-2_2_0"
+      "repourl" : "svn+ssh://svn.ociweb.com/ocitao/branches/tao-2_2_0"
     }
   ]
 }

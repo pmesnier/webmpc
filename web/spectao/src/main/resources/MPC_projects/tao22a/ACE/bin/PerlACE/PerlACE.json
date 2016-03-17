@@ -1,0 +1,21 @@
+{
+  "project" : {
+    "name" : "PerlACE",
+    "after" : [
+      
+    ],
+      
+    "exeout" : "",
+    "libout" : ".",
+
+    "requires" : [
+          ],
+    "avoids" : [
+          ],
+    "buildFiles" : "",
+    "inheritance" : {
+              "PerlACE" : "/tao_builds/phil/ocitao/tao22a/build/mpctest/ACE/bin/PerlACE/perlace.mpc",
+              "script" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/script.mpb"
+          }
+  }
+}

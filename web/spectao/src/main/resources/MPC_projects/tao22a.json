@@ -1,0 +1,21 @@
+{
+  "projectRoot" : "MPC_projects/tao22a_group_dirs.json",
+  "initialSelection" : [
+    "ACE","gperf","TAO_IDL_EXE","TAO"
+  ],
+  "features" : "global.features",
+  "types" : [
+    "gnuace","vc8","vc9","vc10","vc11","vc12","vc15"
+  ],
+  "menu" : [
+    {
+      "majorlabel": "Common CORBA Services ",
+      "subHeading": "These are the most frequently used TAO services",
+      "projects": [
+        "project1",
+        "project2",
+        "project3"
+      ]
+    }
+  ]
+}

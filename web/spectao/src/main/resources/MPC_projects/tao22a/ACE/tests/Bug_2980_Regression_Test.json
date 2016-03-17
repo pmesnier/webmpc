@@ -1,0 +1,21 @@
+{
+  "project" : {
+    "name" : "Bug_2980_Regression_Test",
+    "after" : [
+      "Bug_2980_Regression_Dll"
+    ],
+    "exename" : "Bug_2980_Regression_Test",
+      
+    "exeout" : "",
+    "libout" : ".",
+
+    "requires" : [
+          ],
+    "avoids" : [
+              "uses_wchar"
+          ],
+    "buildFiles" : "",
+    "inheritance" : {
+          }
+  }
+}

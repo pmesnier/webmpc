@@ -1,0 +1,45 @@
+{
+  "project" : {
+    "name" : "ACE_XtReactor",
+    "after" : [
+      "ACE"
+    ],
+      "sharedname" : "ACE_XtReactor",
+      "staticname" : "ACE_XtReactor",
+  
+    "exeout" : "",
+    "libout" : "../../lib",
+
+    "requires" : [
+              "x11",
+              "xt"
+          ],
+    "avoids" : [
+          ],
+    "buildFiles" : "ace_xtreactor.mpc",
+    "inheritance" : {
+              "ACE_XtReactor" : "/tao_builds/phil/ocitao/tao22a/build/mpctest/ACE/ace/XtReactor/ace_xtreactor.mpc",
+              "ace_output" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/ace_output.mpb",
+              "ace_xt" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/ace_xt.mpb",
+              "ace_x11" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/ace_x11.mpb",
+              "acedefaults" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/acedefaults.mpb",
+              "ace_idl_dependencies" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/ace_idl_dependencies.mpb",
+              "ace_unicode" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/ace_unicode.mpb",
+              "ipv6" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/ipv6.mpb",
+              "svc_conf_files" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/svc_conf_files.mpb",
+              "test_files" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/test_files.mpb",
+              "vc_warnings" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/vc_warnings.mpb",
+              "build_files" : "/tao_builds/phil/wustl/github/MPC/config/build_files.mpb",
+              "acelib" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/acelib.mpb",
+              "ace_for_tao" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/ace_for_tao.mpb",
+              "acenosubsets" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/acenosubsets.mpb",
+              "pkgconfig" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/pkgconfig.mpb",
+              "versioned_namespace" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/versioned_namespace.mpb",
+              "install" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/install.mpb",
+              "install_bin" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/install_bin.mpb",
+              "install_data" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/install_data.mpb",
+              "install_headers" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/install_headers.mpb",
+              "install_lib" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/install_lib.mpb"
+          }
+  }
+}

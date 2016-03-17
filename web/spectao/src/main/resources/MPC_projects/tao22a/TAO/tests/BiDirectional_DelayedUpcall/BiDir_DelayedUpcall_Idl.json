@@ -1,0 +1,29 @@
+{
+  "project" : {
+    "name" : "BiDir_DelayedUpcall_Idl",
+    "after" : [
+      "TAO_IDL_EXE"
+    ],
+      
+    "exeout" : "",
+    "libout" : ".",
+
+    "requires" : [
+          ],
+    "avoids" : [
+          ],
+    "buildFiles" : "BiDir_DelayedUpcall.mpc",
+    "inheritance" : {
+              "BiDir_DelayedUpcall_Idl" : "/tao_builds/phil/ocitao/tao22a/build/mpctest/TAO/tests/BiDirectional_DelayedUpcall/BiDir_DelayedUpcall.mpc",
+              "taoidldefaults" : "/tao_builds/phil/ocitao/tao22a/build/mpctest/TAO/MPC/config/taoidldefaults.mpb",
+              "ace_idl_dependencies" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/ace_idl_dependencies.mpb",
+              "corba_e_compact" : "/tao_builds/phil/ocitao/tao22a/build/mpctest/TAO/MPC/config/corba_e_compact.mpb",
+              "corba_e_micro" : "/tao_builds/phil/ocitao/tao22a/build/mpctest/TAO/MPC/config/corba_e_micro.mpb",
+              "gen_ostream" : "/tao_builds/phil/ocitao/tao22a/build/mpctest/TAO/MPC/config/gen_ostream.mpb",
+              "minimum_corba" : "/tao_builds/phil/ocitao/tao22a/build/mpctest/TAO/MPC/config/minimum_corba.mpb",
+              "optimize_collocated_invocations" : "/tao_builds/phil/ocitao/tao22a/build/mpctest/TAO/MPC/config/optimize_collocated_invocations.mpb",
+              "taobaseidldefaults" : "/tao_builds/phil/ocitao/tao22a/build/mpctest/TAO/MPC/config/taobaseidldefaults.mpb",
+              "build_files" : "/tao_builds/phil/wustl/github/MPC/config/build_files.mpb"
+          }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "project" : {
+    "name" : "Java_Big_Reply_IDL",
+    "after" : [
+      
+    ],
+      
+    "exeout" : "",
+    "libout" : ".",
+
+    "requires" : [
+              "java"
+          ],
+    "avoids" : [
+          ],
+    "buildFiles" : "",
+    "inheritance" : {
+          }
+  }
+}

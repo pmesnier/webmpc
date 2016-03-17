@@ -21,7 +21,7 @@ class ProductController {
         else if (prod instanceof GitHubProduct) {
             redirect (controller: 'gitHubProduct', action: 'show', resource: (GitHubProduct)prod )
         }
-        else if (prod.rlsurl && prod.rlsurl.length() > 0) {
+        else if (prod.rlsurl) {
             redirect(url: prod.rlsurl)
         }
         else {

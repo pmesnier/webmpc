@@ -1,0 +1,30 @@
+{
+  "project" : {
+    "name" : "minizip",
+    "after" : [
+      
+    ],
+      "sharedname" : "minizip",
+      "staticname" : "minizip",
+  
+    "exeout" : "",
+    "libout" : "../../lib",
+
+    "requires" : [
+              "zlib"
+          ],
+    "avoids" : [
+          ],
+    "buildFiles" : "",
+    "inheritance" : {
+              "minizip" : "/tao_builds/phil/ocitao/tao22a/build/mpctest/ACE/contrib/minizip/minizip.mpc",
+              "install" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/install.mpb",
+              "install_bin" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/install_bin.mpb",
+              "install_data" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/install_data.mpb",
+              "install_headers" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/install_headers.mpb",
+              "install_lib" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/install_lib.mpb",
+              "vc_warnings" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/vc_warnings.mpb",
+              "zlib" : "/tao_builds/phil/wustl/github/MPC/config/zlib.mpb"
+          }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "project" : {
+    "name" : "Library_Unload",
+    "after" : [
+      
+    ],
+    "exename" : "UnloadLibACE",
+      
+    "exeout" : "",
+    "libout" : ".",
+
+    "requires" : [
+          ],
+    "avoids" : [
+              "wince"
+          ],
+    "buildFiles" : "",
+    "inheritance" : {
+              "Library_Unload" : "/tao_builds/phil/ocitao/tao22a/build/mpctest/ACE/tests/tests.mpc",
+              "unload_libace" : "/tao_builds/phil/ocitao/tao22a/build/mpctest/ACE/tests/unload_libace.mpb",
+              "vc_warnings" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/vc_warnings.mpb"
+          }
+  }
+}

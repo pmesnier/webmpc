@@ -1,0 +1,22 @@
+{
+  "project" : {
+    "name" : "IDL_Test_CoreDX_IDL",
+    "after" : [
+      
+    ],
+      
+    "exeout" : "",
+    "libout" : ".",
+
+    "requires" : [
+              "coredx"
+          ],
+    "avoids" : [
+          ],
+    "buildFiles" : "",
+    "inheritance" : {
+              "IDL_Test_CoreDX_IDL" : "/tao_builds/phil/ocitao/tao22a/build/mpctest/TAO/tests/IDL_Test/IDL_Test.mpc",
+              "coredx_ts_defaults" : "/tao_builds/phil/wustl/github/MPC/config/coredx_ts_defaults.mpb"
+          }
+  }
+}

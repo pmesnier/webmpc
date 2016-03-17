@@ -2,9 +2,6 @@ package com.ociweb.oss
 
 import groovy.json.JsonSlurper
 
-/**
- * Created by phil on 1/12/16.
- */
 class webMpcService {
 
     static def loader = null

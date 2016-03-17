@@ -44,10 +44,19 @@
                                                     )}"
                             />
 
-                        <button value="View License" onClick="findRelNotes()"> Release Notes </button>
+                              <g:actionSubmit value="remote test" action="${remoteFunction (controller: 'ociProduct',
+                                                                                            action: 'updateOciAssetOptions',
+                                                                                            params: '\'id=\' + 1',
+                                                                                            update: 'ociAssetOptions'
+                                                                                            )}" />
+
+                        <button value="View License" onClick=""> License </button>
                         </p>
                          <div id="${product.dynamicDivId}" >
                             <g:render template="${product.dynamicDivId}" />
+                        </div>
+                        <div id="viewRelNotes">
+                            <g:render template="viewRelNotes" />
                         </div>
                     </div>
                 </div>

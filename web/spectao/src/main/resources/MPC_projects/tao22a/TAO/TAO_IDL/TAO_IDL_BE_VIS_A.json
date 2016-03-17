@@ -1,0 +1,40 @@
+{
+  "project" : {
+    "name" : "TAO_IDL_BE_VIS_A",
+    "after" : [
+      "ACE",
+      "TAO_IDL_FE",
+      "TAO_IDL_BE"
+    ],
+      
+    "exeout" : "",
+    "libout" : "$(ACE_ROOT)/lib",
+
+    "requires" : [
+              "build_tao_idl_be"
+          ],
+    "avoids" : [
+          ],
+    "buildFiles" : "tao_idl.mpc TAO_IDL.mwc TAO_IDL_ACE.mwc tao_idl_be.mpc tao_idl_fe.mpc",
+    "inheritance" : {
+              "TAO_IDL_BE_VIS_A" : "/tao_builds/phil/ocitao/tao22a/build/mpctest/TAO/TAO_IDL/tao_idl_be.mpc",
+              "acelib" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/acelib.mpb",
+              "ace_for_tao" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/ace_for_tao.mpb",
+              "acedefaults" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/acedefaults.mpb",
+              "ace_idl_dependencies" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/ace_idl_dependencies.mpb",
+              "ace_unicode" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/ace_unicode.mpb",
+              "ipv6" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/ipv6.mpb",
+              "svc_conf_files" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/svc_conf_files.mpb",
+              "test_files" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/test_files.mpb",
+              "vc_warnings" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/vc_warnings.mpb",
+              "build_files" : "/tao_builds/phil/wustl/github/MPC/config/build_files.mpb",
+              "acenosubsets" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/acenosubsets.mpb",
+              "pkgconfig" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/pkgconfig.mpb",
+              "versioned_namespace" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/versioned_namespace.mpb",
+              "conv_lib" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/conv_lib.mpb",
+              "tao_idl_fe" : "/tao_builds/phil/ocitao/tao22a/build/mpctest/TAO/MPC/config/tao_idl_fe.mpb",
+              "tao_output" : "/tao_builds/phil/ocitao/tao22a/build/mpctest/TAO/MPC/config/tao_output.mpb",
+              "tao_vc8warnings" : "/tao_builds/phil/ocitao/tao22a/build/mpctest/TAO/MPC/config/tao_vc8warnings.mpb"
+          }
+  }
+}

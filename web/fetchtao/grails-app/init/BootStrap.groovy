@@ -9,7 +9,6 @@ class BootStrap {
         def jsonSlurper = new JsonSlurper()
         def resource = getClass().getClassLoader().getResource("products.json")
         def products = jsonSlurper.parse(resource)
-
         productService.initAll (products)
     }
 

@@ -1,8 +1,5 @@
 package com.ociweb.oss
 
-/**
- * Created by phil on 1/3/16.
- */
 class GitHubProductController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
     static standardScaffolding = true
@@ -13,7 +10,7 @@ class GitHubProductController {
     }
 
     def show (GitHubProduct prod) {
-        if (prod.rlsurl && prod.rlsurl.length() > 0)
+        if (prod.rlsurl)
             redirect (url:prod.rlsurl)
         else {
             def rlist = gitHubService.fetchReleaseInfo(prod)

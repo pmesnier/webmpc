@@ -1,0 +1,21 @@
+{
+  "project" : {
+    "name" : "gperf_docs",
+    "after" : [
+      
+    ],
+      
+    "exeout" : "",
+    "libout" : ".",
+
+    "requires" : [
+          ],
+    "avoids" : [
+          ],
+    "buildFiles" : "",
+    "inheritance" : {
+              "gperf_docs" : "/tao_builds/phil/ocitao/tao22a/build/mpctest/ACE/apps/gperf/ace_gperf.mpc",
+              "man" : "/tao_builds/phil/ocitao/tao22a/ACE/bin/MakeProjectCreator/config/man.mpb"
+          }
+  }
+}

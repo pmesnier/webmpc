@@ -1,8 +1,6 @@
 package com.ociweb.oss
 
-/**
- * Created by phil on 12/11/15.
- */
+
 import grails.transaction.Transactional
 
 @Transactional
@@ -15,7 +13,7 @@ class OciProductController {
     def show(OciProduct prod) {
         def nvlist = []
         nvlist.add ([name: "-Select Content-", value: ""])
-        OciRelease rel = prod.latest
+        def rel = prod.latest
         def defPlList = rel.plList.collect() { p->
             [name: message(code: "ociPatchBase.${p.patchKind}",
                     args: [p.patchNum, p.testNum]),
@@ -26,24 +24,16 @@ class OciProductController {
             [name: message (code : "ociContent.${c}"), value: "C:${c}"]}
         params.content = defConList[0].value
         def pkg = ociService.target(rel, params)
+//        String rnotes = ociService.cached (rel, "RelNote", rel.relNotesPath)
+
         respond prod.releases,  model: [product: prod,
                                         latest: prod.latest,
                                         plSelector: defPlList,
                                         plsel: defPlList[0].value,
                                         conList: defConList,
                                         consel: defConList[0].value,
+ //                                       ociReleaseNotes: rnotes,
                                         pkg: pkg]
-    }
-
-    def showMpc(OciRelease rel) {
-        respond rel
-    }
-
-    def viewRelNotes(OciRelease rel) {
-        String rnurl = rel?.relNotesPath
-        if (rnurl != null)
-            redirect (url:rnurl)
-
     }
 
     def updateOciSelector(OciRelease rel) {
@@ -75,13 +65,13 @@ class OciProductController {
             params.content = model.conList[0].value
         }
 
+//        String rnotes = ociService.cached (rel, "RelNote", rel.relNotesPath)
         def pkg = ociService.target(rel, params)
-        model << [consel: params.content, pkg: pkg ]
+        model << [consel: params.content, pkg: pkg] //, ociReleaseNotes: rnotes]
 
+ //       render template: "viewRelNotes", model: model
         render template: tmpl, model: model
     }
 
-    def runMPC(OciRelease rel) {
 
-    }
 }

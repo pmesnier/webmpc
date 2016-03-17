@@ -1,15 +1,14 @@
 package com.ociweb.oss
 
 import groovy.json.JsonSlurper
+import groovy.util.XmlSlurper
 
-/**
- * Created by phil on 1/7/16.
- */
 class OciService {
     def formatter = new Formatter()
 
     def loader = null
     def jsonSlurper = new JsonSlurper()
+    def xmlSlurper = new XmlSlurper()
 
 
     //------------------------------------ OciProduct specific functions --------------------------------------
@@ -29,6 +28,10 @@ class OciService {
                 if (rlsdef.assetInit) {
                     resource = loader.getResource(rlsdef.assetInit)
                     initAssets (prod.name, rls, resource)
+                }
+                if (rlsdef.testRlsNote) {
+                    resource = loader.getResource(rlsdef.testRlsNote)
+                    loadReleaseNote (rls, resource)
                 }
             }
         }
@@ -229,6 +232,43 @@ class OciService {
 
     String targetKey(OciSelectorInfo p, int ckNdx) {
         return  "C:${p.contentKind[ckNdx]}.${targetKey(p)}"
+    }
+
+    void loadReleaseNote (OciRelease rls, def resource) {
+        String key = "OCIRelease-${rls.rlsVersion}-RelNote"
+        def parser=new XmlSlurper()
+        parser.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false)
+        parser.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+      //  def url = new URL (resource as String)
+        def con = resource.openConnection()
+        con.connect()
+        def page = parser.parse(con.content)
+        ContentCache.content.$key = page.body
+    }
+    String cached (OciRelease rls, String what, String subpath) {
+        String key = "${rls}.${what}"
+        def url = new URL ("${rls.basePath}/${subpath}")
+        HttpURLConnection con = (HttpURLConnection) url.openConnection()
+//        if (ContentCache.lastModified.$key) {
+//           con.addRequestProperty("If-Modified-Since", ContentCache.lastModified.$key)
+//        }
+        con.connect()
+        if (con.getResponseCode() == HttpURLConnection.HTTP_OK)
+        {
+            def parser=new XmlSlurper()
+            parser.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false)
+            parser.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+
+            def page = parser.parse(con.getContent())
+            page.each {
+                println it.key
+            }
+            ContentCache.content.$key = page.body
+            ContentCache.lastModified.$key = con.getHeaderField("Last-Modified")
+        }
+
+        ContentCache.content.$key
+
     }
 
 }
