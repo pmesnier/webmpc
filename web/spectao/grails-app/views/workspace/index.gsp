@@ -28,25 +28,23 @@
             <div class="container page-sidebar">
                 <div class="row">
                     <section class="body col-sm-8">
-                        <h2>First pick a workspace to build then start picking projects </h2>
-                        <ul>
-                        <g:each var="cat" in="${categoryList}">
-                            <li>${cat.name} has ${cat.subList.size()} subsets
-                            <ul>
-                            <g:each in="${cat.subList.mpcSub}" status="i" var="sub">
-                              <li>
-                                ${sub.alias} ( ${sub.mpcProjects.size()} projects )
-                             </li>
-                            </g:each >
-                            </ul>
-                            </li>
-                        </g:each >
-                        </ul>
+                        <h2>Welcome to the MPC Custom workspace builder for ${product.name} </h2>
+                        <p>These pages allow you to select just the projects you want, tailored to your particular feature set,
+                        and generating a download package containing the source code files, along with just the build files
+                        necessary to build your chosen packages.
+                        </p>
+                        <p>Workspaces, also known as Solutions, are collections of projects. A project is a buildable specification
+                        that describes how to build a single binary, whether that is a library or an executable
+                        </p>
+
                     </section>
                     <aside class="sidebar col-sm-4">
                         <div id="blockStyle15228Sidebar122" class=" ccm-block-styles" >
-                          <h2> Workspaces </h2>
-                          <h3><g:link class="create" action="create"><g:message code="default.createWS.label" args="" /></g:link></h3>
+                          <h2> Create A Workspace </h2>
+                          <g:form controller="workspace" action="create">
+                          Name your workspace:  <g:textField name="wsName" />
+                          <h3><g:actionSubmit action="create" value="Create it!" /><h3>
+                          </g:form>
                         </div>
                     </aside>
                  </div>

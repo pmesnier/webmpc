@@ -1,5 +1,7 @@
 
 <div id="workspaceView" class="content scaffold-create" role="main">
+    <g:set var="wspicked" value="${wsp.wsuser ?: 'Your Selected Projects list here'}" />
+    <g:set var="wsimplied" value="${wsp.wsimplied ?: "Projects implied by the above list here"}" />
     <g:if test="${flash.message}">
     <div class="message" role="status">${flash.message}</div>
     </g:if>
@@ -11,16 +13,9 @@
         </g:eachError>
     </ul>
     </g:hasErrors>
-    <g:form >
-        <h2>The Workspace so far<h2>
-        <h3>Name:</h3> <g:textField name="wsName" value="${wsp.name}" />
-        <h3>content:</h3><br/>
-        <g:textArea name="WorkspaceView" readonly="true" value="${wsspec}" rows="10" cols="40" />
-        <g:submitButton name="next" class="save" action="Next Step"
-                        value="${message(code: 'default.button.create.label', default: 'Create')}" />
-        <g:submitButton name="discard" class="save" action="discard"
-                        value="${message(code: 'default.button.discard.label', default: 'Discard')}" />
-
-
-    </g:form>
+    <h2>Workspace: ${wsp.name}</h2>
+    <p>Selected Projects</p>
+    <g:textArea name="userSelectedProjects" readonly="true" value="${wspicked}" rows="8" cols="40" />
+    <p>Required Projects</p>
+    <g:textArea name="RequiredProjects" readonly="true" value="${wsimplied}" rows="8" cols="40" />
 </div>

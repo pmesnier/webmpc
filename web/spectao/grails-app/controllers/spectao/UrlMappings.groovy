@@ -8,9 +8,10 @@ class UrlMappings {
                 // apply constraints here
             }
         }
-        "/workspace/showPicker/$id/$wid" (controller:'Workspace', action:'showPicker')
-        "/workspace/showPick2/$id" (controller:'Workspace', action:'showPick2')
-      //  "/workspace/updateOneProject/$wid?/$proj?/$sel?" (controller:'Workspace', action:'updateOneProject')
+        "/workspace/showProjectPicker/$id/$wid" (controller:'Workspace', action:'showProjectPicker')
+        "/workspace/updateProject/$id" (controller:'Workspace', action:'updateProject')
+        "/workspace/disable/$id" (controller:'Workspace', action:'disable')
+        "/workspace/enable/$id" (controller:'Workspace', action:'enable')
         "/"(view:"/index")
         "500"(view:'/error')
         "404"(view:'/notFound')

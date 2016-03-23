@@ -772,6 +772,25 @@ th[align="center"] {
   background-color: white;
 }
 
+
+table#projectChoices {
+    boder: solid;
+}
+
+#projectChoices td {
+  color: green;
+}
+
+#projectChoices td[state=disabled] {
+  background-color: HSL (30, 80%, 40%;
+  color: white;
+}
+
+.feature-comment {
+  backgroud-color: (30, 80%, 40%);
+  color: white;
+}
+
 /* @end */
 
 /* @group Google Custom Search */

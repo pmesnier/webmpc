@@ -12,11 +12,9 @@ class WorkspaceController {
     def workspaceService
 
     def create () {
-        def wsp = workspaceService.createWorkspace()
-        println "starting redirect call"
+        println "starting redirect call params = ${params}"
+        def wsp = workspaceService.createWorkspace(params.wsName)
         redirect (controller: "workspace", action: "edit", resource : wsp)
-
-        println "end of create operation"
     }
 
     def edit (Workspace wsp) {
@@ -25,7 +23,6 @@ class WorkspaceController {
             wsp = Workspace.get(id)
         respond wsp,
                 model: [categoryList: workspaceService.categories(),
-                        wsspec: workspaceService.wsSpec(wsp),
                         wsp: wsp,
                         product: [name: "TAO"]]
 
@@ -35,34 +32,61 @@ class WorkspaceController {
     }
 
     def update(Workspace wsp) {
-        println "in update, id = ${params}"
-        def model = workspaceService.postPick (params, wsp)
-        //render template: "workspaceView", model : [wsp : wsp]
+        workspaceService.postPick (params, wsp)
+        def model = [wsp: wsp]
         render template: "projectPicker", model : model
     }
 
-    def showPick2 (Workspace wsp) {
-        println "showPick2 called, params = ${params}"
-//        redirect (controller: "workspace", action: "edit", resource : wsp)
-        def model = workspaceService.postPick (params, wsp)
-        render template: "workspaceView", model : [wsp : wsp, wsspec: workspaceService.wsSpec(wsp)]
+    def updateProject (Workspace wsp) {
+        workspaceService.postPick (params, wsp)
+        def model = [categoryList: workspaceService.categories(),
+                     wsp: wsp, product: [name: "TAO"]]
+        render template: "editMainView", model: model
     }
 
-//    def updateOneProject (Workspace wsp, String proj, boolean sel) {
-//        println "updateOneProject wid = ${wsp?.name} proj = ${proj}, sel = ${sel}"
-//        MpcSubset sub = workspaceService.mapper.findProject(proj)?.subset
-//        def checklist = workspaceService.updatePickList (sub, proj, sel == "true ", wsp)
-//        render template: "projectPicker", model : [setname: "${sub.alias} after update" , sid: sub.id, checks: checklist, wid: wid]
-//    }
+     def enable (Workspace wsp) {
+         if (params.mode == "dis")
+             workspaceService.enableFeatures (wsp, params.enab, false)
+         else
+             workspaceService.enableFeatures (wsp, params.dis, true)
+         def model = [categoryList: workspaceService.categories(),
+                      wsp: wsp, product: [name: "TAO"]]
+         render template: "editMainView", model : model
+     }
 
-    def showPicker (MpcSubset sub, int wid ) {
-        println "showPick2 called, params = ${params}"
-        def model = workspaceService.initPicker (sub, wid)
-        render template: "projectPicker", model : model //[setname: sub.alias, sid: sub.id, checks: checklist, wid: wid]
+    def resolve (Workspace wsp) {
+        println "resolve called, params = ${params}"
+        def model = workspaceService.resolve (wsp)
+        render template: "workspaceView", model : [wsp : wsp]
+    }
+
+    def next (Workspace wsp) {
+        println "next called, params = ${params}"
+        def model = workspaceService.resolve (wsp)
+        render template: "workspaceView", model : [wsp : wsp]
+    }
+
+    def previous (Workspace wsp) {
+        println "previous called, params = ${params}"
+        def model = workspaceService.resolve (wsp)
+        render template: "workspaceView", model :[wsp : wsp]
+    }
+
+    def discard (Workspace wsp) {
+        println "discard called, params = ${params}"
+        def model = workspaceService.resolve (wsp)
+        render template: "workspaceView", model : [wsp : wsp]
+    }
+
+    def showProjectPicker(MpcSubset sub, int wid ) {
+        Workspace wsp = Workspace.get (wid)
+        wsp.currentSubset = sub
+        workspaceService.initPicker (wsp)
+        def model = [wsp: wsp]
+        render template: "projectPicker", model : model
     }
 
     def show (Workspace wsp) {
-        println "show called, wsp = ${wsp}"
         respond wsp, model: [categoryList: workspaceService.categories(), product: [name: "TAO"]]
     }
 

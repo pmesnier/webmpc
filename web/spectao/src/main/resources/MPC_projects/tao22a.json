@@ -1,12 +1,7 @@
 {
-  "projectRoot" : "MPC_projects/tao22a_group_dirs.json",
-  "initialSelection" : [
-    "ACE","gperf","TAO_IDL_EXE","TAO"
-  ],
-  "features" : "global.features",
-  "types" : [
-    "gnuace","vc8","vc9","vc10","vc11","vc12","vc15"
-  ],
+  "sources" : "MPC_projects/tao22a/group_dirs.json",
+  "features" : "MPC_projects/tao22a/mpcfeatures.json",
+  "types" : "MPC_projects/tao22a/mpctypes.json",
   "menu" : [
     {
       "majorlabel": "Common CORBA Services ",

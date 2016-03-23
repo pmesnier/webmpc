@@ -1,26 +1,31 @@
 <div id="projectPicker" class="content scaffold-edit" role="main">
+    <g:set var="setname" value="${wsp?.currentSubset?.alias}" />
+    <g:set var="wid" value="${wsp?.id}" />
+    <g:if test="${wsp?.checklist}">
+        <h3>${setname} projects</h3>
+            <g:checkBox name="All" value="${false}" /> Select All
 
-    <g:if test="${checks}">
-        <h3>Choose projects from ${setname} </h3>
-        sid = ${sid} wid = ${wid}
-        <g:form  controller="workspace" action="showPick2" id="${wid}">
-            <g:checkBox name="All" value="${false}"
-            /> Select All
+        <div id = "projectSelectFrame">
+        <g:form  controller="workspace" id="${wid}">
             <div class="chex">
             <table id="projectChoices">
-            <g:each var="prj" status="i" in="${checks}">
-                <g:if test="${i % 7 == 0}">
-                    <g:if test="${i > 0 && i < checks.size() - 1 }">
+            <g:each var="prj" status="i" in="${wsp.checklist}">
+                <g:if test="${i % 3 == 0}">
+                    <g:if test="${i > 0 && i < wsp.checklist.size() - 1 }">
                         </tr>
                     </g:if>
                     <tr>
                 </g:if>
-                <td> <g:checkBox name="${prj.mpc.name}" label="${prj.mpc.name}" value="${prj.desired > 0 || prj.required > 0}" />${prj.mpc.name} </td>
+                <td state="${prj.disabled ? 'disabled' : 'enabled'}">
+                    <g:checkBox name="${prj.name}" label="${prj.name}" value="${prj.checked}" disabled="${prj.disabled}" />
+                    ${prj.name}
+                </td>
             </g:each>
             </table>
             </div>
-            <g:submitToRemote value="update Workspace" action="showPick2" controller="workspace" id="${wid}" update="workspaceView" />
+            <g:submitToRemote value="update Workspace" update="edit-main" action="updateProject" controller="workspace" id="${wid}" />
         </g:form>
+        </div>
     </g:if>
     <g:else>
         <h3>Select a project category above!</h3>

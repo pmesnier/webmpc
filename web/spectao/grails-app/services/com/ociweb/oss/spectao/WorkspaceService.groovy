@@ -15,31 +15,14 @@ class WorkspaceService {
         mapper = mpcProjectManager.mapper
     }
 
-    String wsSpec (Workspace wsp) {
-        String spec = ""
-        String dlist = ""
-        String rlist = ""
-        wsp.projects.values().each {
-            if (it.desired > 0 && it.required == 0) {
-                dlist += "${it.mpc.name}\n"
-            }
-            else if (it.required > 0) {
-                rlist += "${it.mpc.name}\n"
-            }
-
-        }
-        spec = "Projects You Chose:\n${dlist}\nAdditional Required Projects\n${rlist}"
-    }
-
-    def createWorkspace () {
-        Workspace wsp = new Workspace([name    : "unnamed_${Workspace.list().size()}",
-                                       projects: [:]])
+    def createWorkspace (def wsName) {
+        Workspace wsp = new Workspace([name    : (wsName == null) ? "unnamed_${Workspace.list().size()}" : wsName,
+                                       required: [:],
+                                       desiredProject: [],
+                                       impliedProject: [],
+                                       features: []])
+        mpcProjectManager.loadFeatures(wsp)
         wsp.save(failOnError : true)
-        println "createWorkspace saving new workspace"
-        wsp.save ()
-
-        wsp.save(failOnError: true)
-        println "createWorkspace returning"
         wsp
     }
 
@@ -50,71 +33,40 @@ class WorkspaceService {
         catlist
     }
 
-    def initPicker (MpcSubset sub, int wid) {
-        def checklist = []
-        Workspace wsp = Workspace.get(wid)
-        if (!wsp ){
-            println "did not find workspace for wid = ${wid}"
+    void initPicker (Workspace wsp) {
+        MpcSubset sub = wsp.currentSubset
+        if (sub) {
+            wsp.checklist = []
+            mpcProjectManager.loadChecklist (wsp)
+            wsp.save()
         }
-        mpcProjectManager.loadChecklist (sub, wsp, checklist)
-        wsp.save()
-        println "returning from initpicker "
-        [setname: sub?.alias, sid: sub?.id, checks: checklist, wid: wsp.id]
     }
 
-    def postPick (def checks, Workspace wsp) {
-        def onlist = []
-        MpcSubset subset = null
-        checks.each { entry ->
-            if (!entry.key.startsWith('_')) {
-                MpcProject mproj = mapper.findProject(entry.key)
-                if (!subset) {
-                    subset = mproj?.subset
-                }
-                if (mproj) {
-                    onlist.add (entry.key)
-                    Project prj = mpcProjectManager.projectPrecedent(mproj,wsp,true,false)
-
-//                    wsp.projects.get (mproj.name)
-//                    prj.with {
-//                        println "postPick, name = ${entry.key}, desired = ${desired}"
-//                        if (desired == 0) {
-//                            desired++
-//                            afterProj.each { rproj ->
-//                                rproj.required++
-//                            }
-//                        }
-//                    }
+    void postPick (def checks, Workspace wsp) {
+        MpcSubset sub = wsp.currentSubset
+        sub.mpcProjects.each { mpc ->
+            if (checks.containsKey (mpc.name)) {
+                if (!wsp.desiredProject.contains(mpc.name) ) {
+                    wsp.desiredProject.add(mpc.name)
+                    println "post pick adding ${mpc.name}"
                 }
             }
-            else {
-                if (!subset) {
-                    MpcProject mproj = mapper.findProject(entry.key.substring(1))
-                    subset = mproj?.subset
+            else if (checks.containsKey ("_${mpc.name}")) {
+                int index = wsp.desiredProject.indexOf(mpc.name)
+                if (index > -1) {
+                    wsp.desiredProject.removeAt(index)
+                    println "post pick removing ${key} at index ${index}"
                 }
             }
         }
+        mpcProjectManager.resolveImplied(wsp)
 
-        def checklist = []
-        subset?.mpcProjects.each { mpc ->
-            Project prj = wsp.projects.get (mpc.name) //find {it.mpc.name == mpc.name }
-            if (!onlist.contains(mpc.name)) {
-                 if (prj.desired > 0) {
-                    prj.desired--
-                    prj.afterProj.each { rproj ->
-                        if (rpoj.required > 0) {
-                            rproj.required--
-                        }
-                        else {
-                            println "project ${mpc.name} afterproj ${rproj.mpc.name} required underflow"
-                        }
-                    }
-                }
-            }
-            checklist.add (prj)
-        }
+        initPicker (wsp)
+    }
 
-        [setname: subset?.alias, sid: subset?.id, checks: checklist, wid: wsp.id]
+    void enableFeatures (Workspace wsp, def fvalue, enable) {
+        mpcProjectManager.enableFeatures (wsp, fvalue, enable)
+        initPicker (wsp)
     }
 
     def getWorkspace (int wid) {
@@ -124,7 +76,6 @@ class WorkspaceService {
         }
 
     }
-
 
     def existingWorkspace (String name) {
         Workspace.find (name)

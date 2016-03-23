@@ -1,8 +1,6 @@
 package com.ociweb.oss.spectao
 
-/**
- * Created by phil on 3/14/16.
- */
+
 class MpcUnit {
     String name
     static belongsTo = [owner: MpcProject]

@@ -4,12 +4,12 @@ import groovy.json.JsonSlurper
 
 class MpcProjectManager {
     MpcMapper mapper = new MpcMapper()
-    def initialSelected = []
+    def mfeatures = []
+    def buildTypes = []
     def jsonSlurper = new JsonSlurper()
 
     void initAll(def initresource) {
-        def subres = getClass().getClassLoader().getResource(initresource.projectRoot)
-        def mpcprojects = jsonSlurper.parse(subres)
+        def mpcprojects = jsonSlurper.parse(getClass().getClassLoader().getResource(initresource.sources))
         println "core size = ${mpcprojects.core.size()}"
         println "tests size = ${mpcprojects.tests.size()}"
         println "examples size = ${mpcprojects.examples.size()}"
@@ -34,12 +34,14 @@ class MpcProjectManager {
             }
         }
         mapper.resolveDependencies()
-        initialSelected = initresource.initialSelection.collect {
-            mapper.findProject(it)
+        def feat = jsonSlurper.parse(getClass().getClassLoader().getResource(initresource.features))?.features
+        feat.each {
+            MpcFeature mf = new MpcFeature (it)
+            mf.save()
+            mfeatures.add(mf)
         }
-        if (initialSelected.size() == 0)
-            initialSelected = mapper.rawProjects.values()
-        println "initial selection has = ${initialSelected.size()}"
+        buildTypes = jsonSlurper.parse(getClass().getClassLoader().getResource(initresource.types))?.buildTypes
+        println "found ${mfeatures.size()} features and ${buildTypes.size()} build types"
     }
 
     void addToMapper(def params, def res) {
@@ -97,59 +99,161 @@ class MpcProjectManager {
         catlist
     }
 
-    def loadChecklist (MpcSubset sub, Workspace wsp, def checklist) {
-        sub.mpcProjects.each { mpc ->
-            Project proj = projectPrecedent(mpc, wsp, false, false)
-            println "loadChecklist adding ${mpc.name} desired = ${proj.desired} required = ${proj.required}"
-            checklist.add (proj)
+    void loadFeatures (Workspace wsp) {
+        if (wsp.features == null) {
+            wsp.features = []
         }
-        println "loadChecklist returns\n"
+
+        mfeatures.eachWithIndex { feat, i ->
+            Feature f = new Feature ([mpcFeature: feat, isComment: feat.defState == "comment", enabled: feat.defState == "1"])
+            wsp.addToFeatures(f);
+            if (i > 80) {
+                println "saving feature ${i} for ${feat.name}"
+            }
+            f.save(failOnError:true)
+        }
     }
 
-    def projectPrecedent (MpcProject mpc, Workspace wsp, boolean deep, boolean implied) {
-        Project prec = wsp.projects.get(mpc.name)
-        if (!prec) {
-            prec = new Project([mpc: mpc, afterProj: [], neededBy: []])
-            wsp.projects.put(mpc.name, prec)
-            prec.workspace = wsp
-            prec.save(failOnError: true)
-            if (deep) {
-                mpc.precedents.each {
-                    Project sub = projectPrecedent(it, wsp, deep, true)
-                    sub.addToNeededBy (prec)
-                    prec.addToAfterProj (sub)
+    void loadChecklist (Workspace wsp) {
+        wsp.currentSubset.mpcProjects.each { mpc ->
+            boolean disable = false
+            mpc.units.each { unit ->
+                unit.requires?.each {
+                    if (wsp.disabledFeatures.contains(it)) {
+                        disable = true
+                    }
+                    if (disable)
+                        return
+                }
+                if (!disable) {
+                    unit.avoids?.each {
+                        if (wsp.enabledFeatures.contains(it)) {
+                            disable = true
+                        }
+                        if (disable)
+                            return
+                    }
+                }
+                if (disable) {
+                    Project proj = wsp.desiredProject.find {it == mpc.name}
+                    if (proj) {
+                        proj.desired --;
+                        proj.afterProj.each { after ->
+                            after.required --;
+                        }
+                        proj.neededBy.each { need ->
+
+                        }
+
+                    }
+                    return
                 }
             }
+            int selected = (wsp.desiredProject.contains(mpc.name) || wsp.impliedProject.contains(mpc.name)) ? 1 : 0
+            wsp.checklist.add ([name: mpc.name, checked: selected, disabled:disable])
         }
-        if (deep) {
-            if (implied)
-                prec.required++
-            else
-                prec.desired++
+    }
+
+    boolean cancelDisabledProject (Workspace wsp, MpcProject proj, MpcFeature feat) {
+        boolean lostPrec = false
+        proj.precedents.each { prec ->
+            lostPrec = cancelDisabledProject(wsp, prec, feat)
         }
+        if (!lostPrec) {
+            proj.units.each { unit ->
+                lostPrec |= unit.requires.contains (feat.name)
+            }
+        }
+        if (lostPrec) {
+            wsp.desiredProject.remove (proj.name)
+            wsp.required.remove (proj.name)
+        }
+        lostPrec
+
+    }
+
+    void enableAfeature (Workspace wsp, String name, boolean enable) {
+        Feature f = wsp.features.find { it.mpcFeature.name == name}
+        if (f == null) {
+            print "enable feature ${name} is null"
+        }
+        else {
+            if (!f.isComment) {
+                if (!enable) {
+                    wsp.desiredProject.each {
+                        MpcProject proj = mapper.findProject (it)
+                        cancelDisabledProject(wsp, proj, f.mpcFeature)
+                    }
+                }
+                f.enabled = enable;
+            }
+        }
+    }
+
+    void enableFeatures (Workspace wsp, def fvalue, enable) {
+        if (fvalue instanceof String) {
+            enableAfeature(wsp, fvalue, enable)
+        }
+        else {
+            fvalue.each {
+                enableAfeature(wsp, it, enable)
+            }
+        }
+    }
+
+
+    def projectPrecedent (MpcProject mpc, Workspace wsp) {
+        println "projectPrecident mpc = ${mpc.name}, deep = ${deep}, ${implied}"
+        Project prec = wsp.required.get(mpc.name)
+        if (!prec) {
+            prec = new Project([mpc: mpc, afterProj: [], neededBy: []])
+            wsp.required.put(mpc.name, prec)
+            prec.workspace = wsp
+            prec.save(failOnError: true)
+        } else {
+            println "projectPrecident mpc = ${mpc.name}, deep = ${deep}, ${implied}"
+        }
+        if (deep && prec.afterProj.size() < mpc.precedents?.size()) {
+            println "projectPrecident going deep on ${mpc.name}"
+            mpc.precedents?.each {
+                Project sub = projectPrecedent(it.owner, wsp, deep, true)
+                sub.addToNeededBy(prec)
+                prec.addToAfterProj(sub)
+            }
+        }
+
+        if (implied)
+            prec.required++
+        else
+            prec.desired++
+
         prec
     }
 
-    def resolvePrecedents (Workspace wsp) {
-        wsp.projects.values().each { proj ->
-            proj.mpc?.precedents?.each { submpc ->
-                Project prec = projectPrecedent(proj, submpc.owner, wsp)
-                if (!proj?.mpc) {
-                    print "proj or mpc is null"
-                } else if (!prec?.mpc) {
-                    print "prec or mpc is null"
-                } else if (proj.mpc.name == prec.mpc.name) {
-                    println "project ${proj.mpc.name} requires itself to be built"
-                } else {
-                    if (!proj.afterProj.find {it.mpc.name == prec.mpc.name}) {
-                        proj.afterProj.add(prec)
-                        prec.neededBy.add(proj)
-                    }
-                }
+    def resolveImplied_i (Workspace wsp, MpcProject mpcProject) {
+        mpcProject.precedents?.each { prec ->
+            String pName = prec.owner.name
+            if (!wsp.desiredProject.contains(pName) &&
+                    !wsp.impliedProject.contains(pName)) {
+                 wsp.impliedProject.add (pName)
+                MpcProject proj = mapper.findProject(pName)
+                resolveImplied_i (wsp, proj)
             }
-            if ((i + 1) % 500 == 0)
-                println("resolvePrecedents completed ${i + 1} iterations")
         }
     }
 
- }
+    def resolveImplied (Workspace wsp) {
+        wsp.impliedProject.clear()
+        wsp.desiredProject.each { mpcName ->
+            MpcProject mpcProject = mapper.findProject(mpcName)
+            if (mpcProject == null) {
+                println "No project for ${mpcName}"
+            }
+            else {
+                resolveImplied_i(wsp, mpcProject)
+            }
+        }
+    }
+
+
+}
