@@ -10,6 +10,9 @@ class MpcProject {
 
     String name
     String mpcpath
+    List<String> projectRequires
+    List<String> projectAvoids
+
     List<MpcUnit> precedents
     static transients = ["precedents"]
     static constraints = {

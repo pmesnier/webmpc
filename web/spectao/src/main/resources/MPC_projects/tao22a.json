@@ -1,15 +1,101 @@
 {
-  "sources" : "MPC_projects/tao22a/group_dirs.json",
-  "features" : "MPC_projects/tao22a/mpcfeatures.json",
-  "types" : "MPC_projects/tao22a/mpctypes.json",
-  "menu" : [
+  "product" : {"name" : "OCITAO", "revision" : "2.2a", "availableArchiveTypes" : ["zip", "tar.gz", "tar.bz2"] },
+
+  "sources": "MPC_projects/tao22a/group_dirs.json",
+  "features": "MPC_projects/tao22a/mpcfeatures.json",
+  "types": "MPC_projects/tao22a/mpctypes.json",
+  "menu": [
     {
-      "majorlabel": "Common CORBA Services ",
-      "subHeading": "These are the most frequently used TAO services",
-      "projects": [
-        "project1",
-        "project2",
-        "project3"
+      "label": "Services and Libraries",
+      "subMenu": [
+        {
+          "label": "Common and Fault Tolerant services",
+          "projects": [
+            "MPC_projects/tao22a/TAO/orbsvcs/Naming_Service",
+            "MPC_projects/tao22a/TAO/orbsvcs/Notify_Service",
+            "MPC_projects/tao22a/TAO/orbsvcs/CosEvent_Service",
+            "MPC_projects/tao22a/TAO/orbsvcs/ImplRepo_Service",
+            "MPC_projects/tao22a/TAO/orbsvcs/FT_Naming_Service",
+            "MPC_projects/tao22a/TAO/orbsvcs/IFR_Service",
+            "MPC_projects/tao22a/TAO/orbsvcs/Trading_Service",
+            "MPC_projects/tao22a/TAO/orbsvcs/Logging_Service"
+          ]
+        },
+        {
+          "label": "Real-time services",
+          "projects": []
+        },
+        {
+          "label": "Specialty and Experimental Services",
+          "projects": []
+        },
+        {
+          "label": "TAO optional features",
+          "projects": []
+        },
+        {
+          "label": "Generally useful utilities",
+          "projects": []
+        },
+        {
+          "label": "Everything else",
+          "projects": []
+        }
+      ]
+    },
+    {
+      "label": "Test sets",
+      "submenu": [
+        {
+          "label": "ACE Core Regression",
+          "projects": []
+        },
+        {
+          "label": "ACE Performance",
+          "projects": []
+        },
+        {
+          "label": "ACE Extras",
+          "projects": []
+        },
+        {
+          "label": "TAO Core Regression",
+          "projects": []
+        },
+        {
+          "label": "TAO Services Regression",
+          "projects": []
+        },
+        {
+          "label": "TAO Performance",
+          "projects": []
+        }
+
+      ]
+    },
+    {
+      "label": "Example sets",
+      "submenu": [
+        {
+          "label": "ACE Examples",
+          "projects": []
+        },
+        {
+          "label": "TAO General Examples",
+          "projects": []
+        },
+        {
+          "label": "TAO Developer's Guide Examples",
+          "projects": []
+        },
+        {
+          "label": "TAO Services Examples",
+          "projects": []
+        },
+        {
+          "label": "TAO Services Developer's Guide Examples",
+          "projects": []
+        }
       ]
     }
   ]

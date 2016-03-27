@@ -8,12 +8,12 @@
             <h2>Project Categories </h2>
             <ul>
             <g:each var="cat" in="${categoryList}">
-                <li>${cat.name} has ${cat.subList.size()} subsets
+                <li>${cat.name}
                 <ul>
                 <g:each in="${cat.subList.mpcSub}" status="i" var="sub">
                   <li>
                     <g:remoteLink action="showProjectPicker" controller="workspace" id="${sub.id}" params="${[wid:wsp.id]}" update="projectPicker">
-                    ${sub.alias} ( ${sub.mpcProjects.size()} projects )
+                    ${sub.alias}
 
                     </g:remoteLink>
                   </li>

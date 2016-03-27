@@ -31,7 +31,8 @@ class OciService {
                 }
                 if (rlsdef.testRlsNote) {
                     resource = loader.getResource(rlsdef.testRlsNote)
-                    loadReleaseNote (rls, resource)
+                    if (resource)
+                        loadReleaseNote (rls, resource)
                 }
             }
         }

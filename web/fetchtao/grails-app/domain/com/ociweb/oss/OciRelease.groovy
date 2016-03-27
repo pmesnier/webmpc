@@ -16,6 +16,7 @@ public class OciRelease extends Release {
     String relNotesPath
     String vcs
     String repourl
+    String customizer
     int major
     int minor
     int micro
@@ -28,6 +29,7 @@ public class OciRelease extends Release {
 
         vcs nullable:true
         repourl nullable:true
+        customizer nullable:true
     }
 
     @Override

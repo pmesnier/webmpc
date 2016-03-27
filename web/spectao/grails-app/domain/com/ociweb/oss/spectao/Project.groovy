@@ -6,7 +6,7 @@ class Project {
 
     List<Project> afterProj
     List<Project> neededBy
-
+    List<String> disabledBy
     MpcProject mpc
     int desired
     int required

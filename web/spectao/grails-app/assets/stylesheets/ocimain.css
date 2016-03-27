@@ -774,7 +774,8 @@ th[align="center"] {
 
 
 table#projectChoices {
-    boder: solid;
+    border: solid;
+    padding: 20px 0 8px;
 }
 
 #projectChoices td {
@@ -782,8 +783,13 @@ table#projectChoices {
 }
 
 #projectChoices td[state=disabled] {
-  background-color: HSL (30, 80%, 40%;
-  color: white;
+  background-color: hsl(204, 66%, 90%);
+  color: hsl(204, 40%, 70%);
+}
+
+select#featurePicker {
+  height: 100px;
+  line-height: 100px;
 }
 
 .feature-comment {

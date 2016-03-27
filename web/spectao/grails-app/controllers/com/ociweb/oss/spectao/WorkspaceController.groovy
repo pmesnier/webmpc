@@ -22,13 +22,13 @@ class WorkspaceController {
         if (!wsp)
             wsp = Workspace.get(id)
         respond wsp,
-                model: [categoryList: workspaceService.categories(),
+                model: [categoryList: MpcProjectManager.categories(),
                         wsp: wsp,
                         product: [name: "TAO"]]
 
     }
     def index() {
-        [categoryList: workspaceService.categories(), product: [name: "TAO"]]
+        [categoryList: MpcProjectManager.categories(), product: [name: "TAO"]]
     }
 
     def update(Workspace wsp) {
@@ -39,55 +39,52 @@ class WorkspaceController {
 
     def updateProject (Workspace wsp) {
         workspaceService.postPick (params, wsp)
-        def model = [categoryList: workspaceService.categories(),
+        def model = [categoryList: MpcProjectManager.categories(),
                      wsp: wsp, product: [name: "TAO"]]
         render template: "editMainView", model: model
     }
 
-     def enable (Workspace wsp) {
-         if (params.mode == "dis")
-             workspaceService.enableFeatures (wsp, params.enab, false)
-         else
-             workspaceService.enableFeatures (wsp, params.dis, true)
-         def model = [categoryList: workspaceService.categories(),
-                      wsp: wsp, product: [name: "TAO"]]
-         render template: "editMainView", model : model
-     }
-
-    def resolve (Workspace wsp) {
-        println "resolve called, params = ${params}"
-        def model = workspaceService.resolve (wsp)
-        render template: "workspaceView", model : [wsp : wsp]
+    def enable(Workspace wsp) {
+        workspaceService.enableFeatures(wsp, params.dis, true)
+        def model = [categoryList: MpcProjectManager.categories(),
+                     wsp         : wsp, product: [name: "TAO"]]
+        render template: "editMainView", model: model
     }
 
-    def next (Workspace wsp) {
-        println "next called, params = ${params}"
-        def model = workspaceService.resolve (wsp)
-        render template: "workspaceView", model : [wsp : wsp]
+    def disable(Workspace wsp) {
+        workspaceService.enableFeatures(wsp, params.enab, false)
+        def model = [categoryList: MpcProjectManager.categories(),
+                     wsp         : wsp, product: [name: "TAO"]]
+        render template: "editMainView", model: model
     }
 
-    def previous (Workspace wsp) {
-        println "previous called, params = ${params}"
-        def model = workspaceService.resolve (wsp)
-        render template: "workspaceView", model :[wsp : wsp]
+    def unchoose(Workspace wsp) {
+        workspaceService.removeProjects (params.userPicked, wsp)
+        def model = [categoryList: MpcProjectManager.categories(),
+                     wsp: wsp, product: [name: "TAO"]]
+        render template: "editMainView", model: model
     }
 
-    def discard (Workspace wsp) {
-        println "discard called, params = ${params}"
-        def model = workspaceService.resolve (wsp)
-        render template: "workspaceView", model : [wsp : wsp]
+    def trigger(Workspace wsp) {
+        workspaceService.setBuildType (params.output, params.archive, wsp)
+        if (wsp.buildType.size() > 0)
+            workspaceService.buildIt (wsp)
+        //Todo: display a popup window that alerts if buildtype list is empty
+        // or shows how to retrieve built package when ready
+        def model = [categoryList: MpcProjectManager.categories(),
+                     wsp: wsp, product: [name: "TAO"]]
+        render template: "editMainView", model: model
     }
 
     def showProjectPicker(MpcSubset sub, int wid ) {
         Workspace wsp = Workspace.get (wid)
         wsp.currentSubset = sub
-        workspaceService.initPicker (wsp)
         def model = [wsp: wsp]
         render template: "projectPicker", model : model
     }
 
     def show (Workspace wsp) {
-        respond wsp, model: [categoryList: workspaceService.categories(), product: [name: "TAO"]]
+        respond wsp, model: [categoryList: MpcProjectManager.categories(), product: [name: "TAO"]]
     }
 
     @Transactional

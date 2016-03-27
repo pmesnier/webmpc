@@ -7,4 +7,5 @@ class Feature {
     MpcFeature mpcFeature
     boolean isComment
     boolean enabled
+    boolean byUser
 }
