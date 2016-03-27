@@ -52,6 +52,9 @@
 
                         <button value="View License" onClick=""> License </button>
                         </p>
+                        <g:if test="${product.latest.customizer}">
+                          Custom project builder available <g:link controller="workspace" base="${product.latest.customizer}" > here </g:link>
+                        </g:if>
                          <div id="${product.dynamicDivId}" >
                             <g:render template="${product.dynamicDivId}" />
                         </div>
