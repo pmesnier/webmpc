@@ -88,7 +88,7 @@ class MpcProjectManager {
     static def addImplied(Workspace wsp, Project project) {
         project.mpc.units?.each { unit ->
             unit.after.each { after ->
-                MpcProject prec = wsp.product.rawProjects.get(after)?:product.rawUnits.get(after)?.owner
+                MpcProject prec = wsp.product.rawProjects.get(after)?:wsp.product.rawUnits.get(after)?.owner
                 String pName = prec.name
                 Project depProj = wsp.projects.find { it.mpc.name == pName }
                 if (depProj == null) {
@@ -107,7 +107,7 @@ class MpcProjectManager {
     static def removeImplied (Workspace wsp, Project project) {
         project.mpc.units?.each { unit ->
             unit.after.each { after ->
-                MpcProject prec = wsp.product.rawProjects.get(after)?:product.rawUnits.get(after)?.owner
+                MpcProject prec = wsp.product.rawProjects.get(after)?:wsp.product.rawUnits.get(after)?.owner
                 String pName = prec.name
                 Project depProj = wsp.projects.find { it.mpc.name == pName }
                 if (depProj == null) {

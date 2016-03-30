@@ -1,63 +1,19 @@
 {
   "core": {
-    "aceApps": [
+    "allProjects": [
       {
         "displayOnTop": 0,
-        "alias": "ACE supplied helper apps",
+        "alias": "core menu source",
         "fileRoot": [
-          "MPC_projects/tao22a/ACE/apps/gperf/src"
-        ]
-      }
-    ],
-    "aceLibs": [
-      {
-        "displayOnTop": 1,
-        "alias": "ACE core libraries",
-        "fileRoot": [
+          "MPC_projects/tao22a/ACE/apps/gperf/src",
           "MPC_projects/tao22a/ACE/ace",
-          "MPC_projects/tao22a/ACE/protocols/ace"
-        ]
-      },
-      {
-        "displayOnTop": 0,
-        "alias": "ACE XML utility libraries",
-        "fileRoot": [
+          "MPC_projects/tao22a/ACE/protocols/ace",
           "MPC_projects/tao22a/ACE/ACEXML/common",
           "MPC_projects/tao22a/ACE/ACEXML/parser",
-          "MPC_projects/tao22a/ACE/ACEXML/apps"
-        ]
-      },
-      {
-        "displayOnTop": 0,
-        "alias": "ACE extra utility libraries",
-        "fileRoot": [
-          "MPC_projects/tao22a/ACE/Kokyu/Kokyu.json"
-        ]
-      }
-    ],
-    "idlCompiler": [
-      {
-        "displayOnTop": 0,
-        "alias": "TAO's IDL complier suite",
-        "fileRoot": [
-          "MPC_projects/tao22a/TAO/TAO_IDL"
-        ]
-      }
-    ],
-    "taoUtilityApps": [
-      {
-        "displayOnTop": 1,
-        "alias": "Generally useful utilities for TAO operation",
-        "fileRoot": [
-          "MPC_projects/tao22a/TAO/utils"
-        ]
-      }
-    ],
-    "taoServiceApps": [
-      {
-        "displayOnTop": 1,
-        "alias": "Common CORBA Services",
-        "fileRoot": [
+          "MPC_projects/tao22a/ACE/ACEXML/apps",
+          "MPC_projects/tao22a/ACE/Kokyu/Kokyu.json",
+          "MPC_projects/tao22a/TAO/TAO_IDL",
+          "MPC_projects/tao22a/TAO/utils",
           "MPC_projects/tao22a/TAO/orbsvcs/Naming_Service",
           "MPC_projects/tao22a/TAO/orbsvcs/Notify_Service",
           "MPC_projects/tao22a/TAO/orbsvcs/CosEvent_Service",
@@ -67,24 +23,12 @@
           "MPC_projects/tao22a/TAO/orbsvcs/Trading_Service",
           "MPC_projects/tao22a/TAO/orbsvcs/Logging_Service/Basic_Logging_Service",
           "MPC_projects/tao22a/TAO/orbsvcs/Logging_Service/Event_Logging_Service",
-          "MPC_projects/tao22a/TAO/orbsvcs/Logging_Service/Notify_Logging_Service"
-        ]
-      },
-      {
-        "displayOnTop": 1,
-        "alias": "Services to support Realtime systems",
-        "fileRoot": [
+          "MPC_projects/tao22a/TAO/orbsvcs/Logging_Service/Notify_Logging_Service",
           "MPC_projects/tao22a/TAO/orbsvcs/Dump_Schedule",
           "MPC_projects/tao22a/TAO/orbsvcs/Event_Service",
           "MPC_projects/tao22a/TAO/orbsvcs/Scheduling_Service",
           "MPC_projects/tao22a/TAO/orbsvcs/FTRT_Event_Service",
-          "MPC_projects/tao22a/TAO/orbsvcs/Logging_Service/RTEvent_Logging_Service"
-        ]
-      },
-      {
-        "displayOnTop": 1,
-        "alias": "Less common or experimental services",
-        "fileRoot": [
+          "MPC_projects/tao22a/TAO/orbsvcs/Logging_Service/RTEvent_Logging_Service",
           "MPC_projects/tao22a/TAO/orbsvcs/TAO_Service",
           "MPC_projects/tao22a/TAO/orbsvcs/Concurrency_Service",
           "MPC_projects/tao22a/TAO/orbsvcs/Time_Service",
@@ -92,24 +36,8 @@
           "MPC_projects/tao22a/TAO/orbsvcs/Fault_Notifier",
           "MPC_projects/tao22a/TAO/orbsvcs/FT_ReplicationManager",
           "MPC_projects/tao22a/TAO/orbsvcs/LifeCycle_Service",
-          "MPC_projects/tao22a/TAO/orbsvcs/LoadBalancer"
-        ]
-      }
-    ],
-    "taoServiceLibs": [
-      {
-        "displayOnTop": 1,
-        "alias": "CORBA Service Implementation and Proxy libraries",
-        "fileRoot": [
-          "MPC_projects/tao22a/TAO/orbsvcs/orbsvcs"
-        ]
-      }
-    ],
-    "taoCoreLibs": [
-      {
-        "displayOnTop": 1,
-        "alias": "TAO core Implementation and Proxy libraries",
-        "fileRoot": [
+          "MPC_projects/tao22a/TAO/orbsvcs/LoadBalancer",
+          "MPC_projects/tao22a/TAO/orbsvcs/orbsvcs",
           "MPC_projects/tao22a/TAO/tao"
         ]
       }
@@ -118,31 +46,29 @@
   "tests": {
     "aceTests": [
       {
-        "displayOnTop": 1,
-        "alias": "Tests for ACE supplied functions",
+        "displayOnTop": 0,
+        "alias": "ACE Core Tests",
         "fileRoot": [
+          "MPC_projects/tao22a/ACE/tests",
           "MPC_projects/tao22a/ACE/apps/gperf/tests",
           "MPC_projects/tao22a/ACE/ACEXML/tests",
-          "MPC_projects/tao22a/ACE/tests",
           "MPC_projects/tao22a/ACE/Kokyu/tests",
           "MPC_projects/tao22a/ACE/protocols/tests",
           "MPC_projects/tao22a/ACE/performance-tests"
         ]
       }
     ],
-    "taoOrbTests": [
+    "taoTests": [
       {
-        "displayOnTop": 1,
-        "alias": "Tests for TAO core functionality",
+        "displayOnTop": 0,
+        "alias": "TAO Core Tests",
         "fileRoot": [
           "MPC_projects/tao22a/TAO/tests"
-        ]
-      }
-    ],
-    "taoOtherTests": [
+        ],
+      },
       {
-        "displayOnTop": 1,
-        "alias": "Tests for TAO non-core functionality",
+        "displayOnTop": 0,
+        "alias": "TAO Other Tests",
         "fileRoot": [
           "MPC_projects/tao22a/TAO/orbsvcs/tests",
           "MPC_projects/tao22a/TAO/performance-tests",
@@ -154,8 +80,8 @@
   "examples": {
     "aceExamples": [
       {
-        "displayOnTop": 1,
-        "alias": "ACE usage examples",
+        "displayOnTop": 0,
+        "alias": "ACE Examples",
         "fileRoot": [
           "MPC_projects/tao22a/ACE/examples",
           "MPC_projects/tao22a/ACE/protocols/examples",
@@ -165,8 +91,8 @@
     ],
     "taoExamples": [
       {
-        "displayOnTop": 1,
-        "alias": "TAO usage examples",
+        "displayOnTop": 0,
+        "alias": "TAO Examples",
         "fileRoot": [
           "MPC_projects/tao22a/TAO/examples",
           "MPC_projects/tao22a/TAO/DevGuideExamples",

@@ -76,7 +76,7 @@ class WorkspaceController {
         render template: "editMainView", model: model
     }
 
-    def showProjectPicker(MpcSubset sub, int wid ) {
+    def showProjectPicker(MenuSubEntry sub, int wid ) {
         Workspace wsp = Workspace.get (wid)
         wsp.currentSubset = sub
         def model = [wsp: wsp]

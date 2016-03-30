@@ -1,9 +1,13 @@
 package com.ociweb.oss.spectao
 
+import grails.transaction.Transactional
 import groovy.json.JsonSlurper
+import org.springframework.transaction.annotation.Propagation
 
+@Transactional (propagation = Propagation.REQUIRED)
 class WorkspaceService {
 
+    @Transactional (propagation = Propagation.SUPPORTS)
     void init (String bootref) {
         def jsonSlurper = new JsonSlurper()
         def resource = getClass().getClassLoader().getResource(bootref)
@@ -26,6 +30,7 @@ class WorkspaceService {
         wsp
     }
 
+    @Transactional (propagation = Propagation.SUPPORTS)
     void removeAProject (String name, Workspace wsp) {
         Project proj = wsp.projects.find {it.mpc.name == name}
         if (proj) {
@@ -51,13 +56,13 @@ class WorkspaceService {
         }
     }
 
-    void postPick (def checks, Workspace wsp) {
-        MpcSubset sub = wsp.currentSubset
-        sub.mpcProjects.each { mpc ->
-            if (checks.containsKey (mpc.name)) {
-                Project proj = wsp.projects.find {it.mpc.name == mpc.name}
+    @Transactional (propagation = Propagation.SUPPORTS)
+    void scanPickList (def checks, def picklist, Workspace wsp) {
+        picklist?.each { pName ->
+            if (checks.containsKey (pName)) {
+                Project proj = wsp.projects.find {it.mpc.name == pName}
                 if (proj == null) {
-
+                    MpcProject mpc = wsp.product.rawProjects.get(pName)
                     mpc.projectRequires?.each { ureq ->
                         Feature f = wsp.features.find { ureq == it.mpcFeature.name }
                         if (f && !f.isComment && !f.enabled) {
@@ -65,7 +70,6 @@ class WorkspaceService {
                                 println "overriding user setting feature ${ureq} disabled"
                             }
                             f.enabled = true
-
                         }
                     }
                     mpc.projectAvoids?.each { uavo ->
@@ -86,10 +90,15 @@ class WorkspaceService {
                     MpcProjectManager.addImplied(wsp, proj)
                 }
             }
-            else if (checks.containsKey ("_${mpc.name}")) {
-                removeAProject(mpc.name, wsp)
+            else if (checks.containsKey ("_${pName}")) {
+                removeAProject(pName, wsp)
             }
         }
+    }
+    void postPick (def checks, Workspace wsp) {
+        scanPickList(checks, wsp.currentSubset.projects.client, wsp)
+        scanPickList(checks, wsp.currentSubset.projects.server, wsp)
+
         MpcProjectManager.refreshProjectNameLists(wsp)
     }
 

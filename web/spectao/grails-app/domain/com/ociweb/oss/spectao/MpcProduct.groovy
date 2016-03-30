@@ -12,11 +12,13 @@ class MpcProduct {
 
     List<String> availableBuildTypes
     List<String> availableArchiveTypes
+    List<MenuEntry> menu
 
     static constraints = {
         rawProjects nullable:true
         rawUnits nullable:true
         availableBuildTypes nullable:true
         availableArchiveTypes nullable:true
+        menu nullable:true
     }
 }

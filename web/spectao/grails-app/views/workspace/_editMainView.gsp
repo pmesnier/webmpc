@@ -1,20 +1,20 @@
 <div id="edit-main" class="container page-sidebar">
-        <g:set var="entityName" value="${product.name}" />
+        <g:set var="entityName" value="${wsp.product.name}" />
         <g:set var="disabledFeat" value="${wsp.disabledFeatures}" />
         <g:set var="enabledFeat" value="${wsp.enabledFeatures}" />
+        <g:set var="menu" value="${wsp.product.menu}" />
 
         <div class="row">
         <section class="body col-sm-8">
             <h2>Project Categories </h2>
             <ul>
-            <g:each var="cat" in="${categoryList}">
-                <li>${cat.name}
+            <g:each var="topEntry" in="${wsp.product.menu}">
+                <li>${topEntry.label}
                 <ul>
-                <g:each in="${cat.subList.mpcSub}" status="i" var="sub">
+                <g:each in="${topEntry.subMenu}" status="i" var="sub">
                   <li>
                     <g:remoteLink action="showProjectPicker" controller="workspace" id="${sub.id}" params="${[wid:wsp.id]}" update="projectPicker">
-                    ${sub.alias}
-
+                    ${sub.label}
                     </g:remoteLink>
                   </li>
                 </g:each >

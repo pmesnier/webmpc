@@ -1,45 +1,241 @@
 {
-  "product" : {"name" : "OCITAO", "revision" : "2.2a", "availableArchiveTypes" : ["zip", "tar.gz", "tar.bz2"] },
-
-  "sources": "MPC_projects/tao22a/group_dirs.json",
-  "features": "MPC_projects/tao22a/mpcfeatures.json",
-  "types": "MPC_projects/tao22a/mpctypes.json",
-  "menu": [
+  "name": "OCITAO",
+  "revision": "2.2a",
+  "availableArchiveTypes": [
+    "zip",
+    "tar.gz",
+    "tar.bz2"
+  ],
+  "rootDirectory": "MPC_projects/tao22a",
+  "sources": "all_projects.json",
+  "features": "mpcfeatures.json",
+  "types": "mpctypes.json",
+  "menu_source": [
     {
       "label": "Services and Libraries",
       "subMenu": [
         {
           "label": "Common and Fault Tolerant services",
-          "projects": [
-            "MPC_projects/tao22a/TAO/orbsvcs/Naming_Service",
-            "MPC_projects/tao22a/TAO/orbsvcs/Notify_Service",
-            "MPC_projects/tao22a/TAO/orbsvcs/CosEvent_Service",
-            "MPC_projects/tao22a/TAO/orbsvcs/ImplRepo_Service",
-            "MPC_projects/tao22a/TAO/orbsvcs/FT_Naming_Service",
-            "MPC_projects/tao22a/TAO/orbsvcs/IFR_Service",
-            "MPC_projects/tao22a/TAO/orbsvcs/Trading_Service",
-            "MPC_projects/tao22a/TAO/orbsvcs/Logging_Service"
-          ]
+          "projects": {
+            "server": [
+              "Basic_Logging_Service",
+              "Event_Logging_Service",
+              "Concurrency_Service",
+              "CosEvent_Service",
+              "FT_Naming_Service",
+              "FtNamingReplication",
+              "IFR_Service",
+              "ImplRepo_Service",
+              "Naming_Service",
+              "Notify_Service",
+              "Notify_Logging_Service",
+              "PortableGroup",
+              "TAO_Service",
+              "Time_Service",
+              "Trading_Service"
+            ],
+            "client": [
+              "CosConcurrency",
+              "CosEvent",
+              "CosNaming",
+              "CosNotification",
+              "CosTime",
+              "CosTrading",
+              "DsEventLogAdmin",
+              "DsLogAdmin",
+              "DsNotifyLogAdmin",
+              "FtNaming"
+            ]
+          }
         },
         {
           "label": "Real-time services",
-          "projects": []
+          "projects": {
+            "server": [
+              "Dump_Schedule",
+              "Event_Service",
+              "FTRT_Event_Service",
+              "FTRTEC_Factory_Service",
+              "FTRTEC_Gateway_Service",
+              "RTEvent_LoggingService",
+              "Scheduling_Service",
+              "RTCORBA",
+              "RTPortableServer",
+              "RTScheduler"
+            ],
+            "client": [
+              "FtRtEvent",
+              "RTCORBAEvent",
+              "RTEvent",
+              "RTEventLogAdmin",
+              "RTKokyuEvent",
+              "RTSched",
+              "RTSchedEvent",
+              "RT_Notification"
+            ]
+          }
         },
         {
           "label": "Specialty and Experimental Services",
-          "projects": []
+          "projects": {
+            "server": [
+              "AV",
+              "CosProperty",
+              "FT_ReplicationManager",
+              "Fault_Detector",
+              "Fault_Notifier",
+              "LifeCycle_Service",
+              "LoadBalancer"
+            ],
+            "client": [
+              "CosLifeCycle",
+              "CosLoadBalancing",
+              "FTORB",
+              "FTRT_ClientORB",
+              "FTRT_EventChannel",
+              "FT_ClientORB",
+              "FaultTolerance"
+            ]
+          }
         },
         {
           "label": "TAO optional features",
-          "projects": []
+          "projects": {
+            "server": [],
+            "client": [
+              "BiDir_GIOP",
+              "Codeset",
+              "CSD_ThreadPool",
+              "DiffServPolicy",
+              "Dynamic_TP",
+              "DynamicAny",
+              "DynamicInterface",
+              "EndpointPolicy",
+              "HTIOP",
+              "IFR_Client",
+              "ImR_Client",
+              "IORTable",
+              "Monitor",
+              "Security",
+              "SSLIOP",
+              "SmartProxies",
+              "Strategies",
+              "TC_IIOP"
+            ]
+          }
         },
         {
           "label": "Generally useful utilities",
-          "projects": []
+          "projects": {
+            "server": [],
+            "client": [
+              "catior",
+              "logWalker",
+              "monitor",
+              "NamingViewer",
+              "nsgroup",
+              "nslist",
+              "wxNamingViewer"
+            ]
+          }
         },
         {
-          "label": "Everything else",
-          "projects": []
+          "label": "The IDL Compiler",
+          "projects": {
+            "server": [],
+            "client": [
+              "gperf",
+              "tao_idl_be",
+              "tao_idl_fe",
+              "tao_idl"
+            ]
+          }
+        },
+        {
+          "label": "Special UI Adapters",
+          "projects": {
+            "server": [],
+            "client": [
+              "%TAO components%",
+              "FlResource",
+              "FoxResource",
+              "QtResource",
+              "TkResource",
+              "XtResource",
+              "%ACE components%",
+              "ace_FlReactor",
+              "ace_FoxReactor",
+              "ace_Qt4Reactor",
+              "ace_Qt4Reactor_moc",
+              "ace_TkReactor",
+              "ace_XtReactor"
+            ]
+          }
+        },
+        {
+          "label": "On-the-wire Compression",
+          "projects": {
+            "server": [],
+            "client": [
+              "ACE_Compression",
+              "ACE_RLECompression",
+              "Bzip2Compressor",
+              "Compression",
+              "LzoCompressor",
+              "RLECompressor",
+              "ZlibCompressor",
+              "ZIOP"
+            ]
+          }
+        },
+        {
+          "label": "ACE Base Projects",
+          "projects": {
+            "server": [],
+            "client": [
+              "ace",
+              "ETCL",
+              "Kokyu",
+              "Monitor_Control",
+              "ssl",
+              "%ACE Protocols%",
+              "HTBP",
+              "inet",
+              "inet_ssl",
+              "RMCast",
+              "TMCast",
+              "%ACEXML%",
+              "common",
+              "parser",
+              "svcconf"
+            ]
+          }
+        },
+        {
+          "label": "TAO Base Projects",
+          "projects": {
+            "client": [
+              "Async_IORTable",
+              "AnyTypeCode",
+              "CodecFactory",
+              "TAO_ETCL",
+              "IORInterceptor",
+              "IORManipulation",
+              "Messaging",
+              "ObjRefTemplate",
+              "PI",
+              "Svc_Utils",
+              "tao",
+              "TAO_Core_idl",
+              "TypeCodeFactory",
+              "TAO_Utils",
+              "Valuetype"
+            ],
+            "server": [
+              "PI_Server",
+              "PortableServer"
+            ]
+          }
         }
       ]
     },
@@ -70,7 +266,6 @@
           "label": "TAO Performance",
           "projects": []
         }
-
       ]
     },
     {
@@ -94,7 +289,9 @@
         },
         {
           "label": "TAO Services Developer's Guide Examples",
-          "projects": []
+          "projects": [
+            "DevGuideExamples"
+          ]
         }
       ]
     }

@@ -773,13 +773,22 @@ th[align="center"] {
 }
 
 
-table#projectChoices {
+table#projPickTable {
     border: solid;
-    padding: 20px 0 8px;
+    padding: 20px 10 8px;
+}
+#projPickTable.pickLabel p {
+  background-color: green;
+  color: white
 }
 
-#projectChoices td {
-  color: green;
+#projPickTable td {
+  color: orange;
+}
+
+#projPickTable th {
+  background-color: green;
+  color: white
 }
 
 #projectChoices td[state=disabled] {
