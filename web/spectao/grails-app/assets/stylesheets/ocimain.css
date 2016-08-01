@@ -367,6 +367,22 @@ main {
   margin-top: 0 !important;
 }
 
+.panel-height-10 {
+  min-height: 150px;
+  max-height: 150px;
+  overflow-y: scroll;
+}
+
+.panel-height-20 {
+  min-height: 250px;
+  max-height: 250px;
+}
+.panel-height-40 {
+  min-height: 500px;
+  max-height: 500px;
+
+}
+
 /* @end */
 
 /* @group Footer */

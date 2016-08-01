@@ -67,59 +67,62 @@ class Workspace {
         return checks
     }
 
-    def getDisabledFeatures () {
+    private  def getFeatureSets (boolean wantEnabled) {
         def result = []
+        String title = "General features"
+        def subset = [:]
+        def items = []
         features.each {
-            if (it.isComment ) {
-                result.add ("- ${it.mpcFeature.name} -")
+            if (it.isComment) {
+                subset = [title: title, items: items]
+                result.add (subset)
+                title = it.mpcFeature.name
+                items = []
             }
-            else if (!it.enabled) {
-                result.add (it.mpcFeature.name)
+            else if (it.enabled == wantEnabled) {
+                items.add([name: it.mpcFeature.name, checked: false])
             }
         }
+        subset = [title: title, items: items]
+        result.add (subset)
+
         result
+    }
+
+    def getDisabledFeatures () {
+        getFeatureSets (false)
     }
 
     def getEnabledFeatures () {
-        def result = []
-        features.each {
-            if (it.isComment ) {
-                result.add ("- ${it.mpcFeature.name} -")
-            }
-            else if (it.enabled) {
-                result.add (it.mpcFeature.name)
-            }
-        }
-        result
+        getFeatureSets (true)
     }
 
-    String getWsuser () {
-        String spec = ""
+    def getWsuser () {
+        List<String> coll = new ArrayList<String>()
         desiredProject.each { des ->
-            spec += des
+            String spec = des
             def disabled = projects.find {it.mpc.name == des}?.disabledBy
             if (disabled) {
-                spec += " -disabled by features\n  "
+                spec += " -disabled by features "
                 disabled.eachWithIndex { dis, i -> spec += "${dis}${i < disabled.size() -1 ? ',' : ' '}" }
             }
-            spec += "\n"
+            coll.add(spec)
         }
-        spec
+        coll
     }
 
-    String getWsimplied () {
-        String spec = ""
+    def getWsimplied () {
+        List<String> coll = new ArrayList<String>()
         impliedProject.each { des ->
-            spec += des
+            String spec = des
             def disabled = projects.find {it.mpc.name == des}?.disabledBy
             if (disabled) {
-                spec += " -disabled by features\n  "
+                spec += " -disabled by features "
                 disabled.eachWithIndex { dis, i -> spec += "${dis}${i < disabled.size() -1 ? ',' : ' '}" }
             }
-            spec += "\n"
-
+            coll.add(spec)
         }
-        spec
+        coll
     }
 
  }

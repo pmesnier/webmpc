@@ -7,15 +7,8 @@
         <title>${name} Workspace Builder</title>
     </head>
     <body>
-        <div id="ociTopStripDiv">
-            <g:render template="ociTopStrip" />
+        <div id="${templateName}">
+        <g:render template="${templateName}" categoryList="${categoryList}", wsp="${wsp}" />
         </div>
-
-        <main>
-            <div id="edit-main" class="container page-sidebar">
-                <g:render template="editMainView" categoryList="${categoryList}", wsp="${wsp}" />
-             </div>
-        </main>
-
     </body>
 </html>

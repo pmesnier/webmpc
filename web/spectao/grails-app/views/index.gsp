@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta name="layout" content="main"/>
-        <title>OCI Download Portal</title>
+        <title>MPC Workspace Builder</title>
         <style type="text/css" media="screen">
             #status {
                 background-color: #eee;

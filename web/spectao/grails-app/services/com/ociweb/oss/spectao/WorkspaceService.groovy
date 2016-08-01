@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Propagation
 @Transactional (propagation = Propagation.REQUIRED)
 class WorkspaceService {
 
+    static String[] editPage = ["projects", "features", "workspace"]
+
     @Transactional (propagation = Propagation.SUPPORTS)
     void init (String bootref) {
         def jsonSlurper = new JsonSlurper()
@@ -63,31 +65,36 @@ class WorkspaceService {
                 Project proj = wsp.projects.find {it.mpc.name == pName}
                 if (proj == null) {
                     MpcProject mpc = wsp.product.rawProjects.get(pName)
-                    mpc.projectRequires?.each { ureq ->
-                        Feature f = wsp.features.find { ureq == it.mpcFeature.name }
-                        if (f && !f.isComment && !f.enabled) {
-                            if (f.byUser) {
-                                println "overriding user setting feature ${ureq} disabled"
-                            }
-                            f.enabled = true
-                        }
+                    if (mpc == null) {
+                        println "scanPickList cannot fine mpc project for ${pname}";
                     }
-                    mpc.projectAvoids?.each { uavo ->
-                        Feature f = wsp.features.find { uavo == it.mpcFeature.name }
-                        if (f && !f.isComment && f.enabled) {
-                            if (f.byUser) {
-                                println "overriding user setting feature ${uavo} disabled"
+                    else {
+                        mpc.projectRequires?.each { ureq ->
+                            Feature f = wsp.features.find { ureq == it.mpcFeature.name }
+                            if (f && !f.isComment && !f.enabled) {
+                                if (f.byUser) {
+                                    println "overriding user setting feature ${ureq} disabled"
+                                }
+                                f.enabled = true
                             }
-                            f.enabled = false
+                        }
+                        mpc.projectAvoids?.each { uavo ->
+                            Feature f = wsp.features.find { uavo == it.mpcFeature.name }
+                            if (f && !f.isComment && f.enabled) {
+                                if (f.byUser) {
+                                    println "overriding user setting feature ${uavo} disabled"
+                                }
+                                f.enabled = false
+                            }
+
                         }
 
+                        proj = new Project ([mpc: mpc, desired: 1, required: 0, afterProj: [], neededBy: []])
+                        wsp.addToProjects (proj)
+                        proj.save (failOnError: true)
+                        println "post pick adding ${mpc.name}"
+                        MpcProjectManager.addImplied(wsp, proj)
                     }
-
-                    proj = new Project ([mpc: mpc, desired: 1, required: 0, afterProj: [], neededBy: []])
-                    wsp.addToProjects (proj)
-                    proj.save (failOnError: true)
-                    println "post pick adding ${mpc.name}"
-                    MpcProjectManager.addImplied(wsp, proj)
                 }
             }
             else if (checks.containsKey ("_${pName}")) {
@@ -102,6 +109,52 @@ class WorkspaceService {
         MpcProjectManager.refreshProjectNameLists(wsp)
     }
 
+    static def getDefPage () {
+        return [prev: "", curr: editPage[0], next: editPage[1]]
+    }
+
+    static def getNextPage (def from) {
+        String prev = ""
+        String curr = ""
+        String next = ""
+        for (int i = 0; i < editPage.size() ; i++) {
+            if (from == editPage[i]) {
+                prev = editPage[i];
+                if (i < editPage.size() - 1) {
+                    curr = editPage[i + 1]
+                }
+                if (i < editPage.size() - 2) {
+                    next = editPage[i + 2]
+                }
+                break
+            }
+        }
+        return [prev: prev, curr: curr, next: next]
+    }
+
+    static def getPrevPage (def from) {
+        String prev = ""
+        String curr = ""
+        String next = ""
+        for (int i = editPage.size()-1; i > -1 ; i--) {
+            if (from == editPage[i]) {
+                next = editPage[i];
+                if (i > 0) {
+                    curr = editPage[i - 1]
+                }
+                if (i > 1) {
+                    prev = editPage[i - 2]
+                }
+                break
+            }
+        }
+        return [prev: prev, curr: curr, next: next]
+    }
+
+    @Override
+    int hashCode() {
+        return super.hashCode()
+    }
 
     void enableFeatures (Workspace wsp, def fvalue, enable) {
         MpcProjectManager.enableFeatures (wsp, fvalue, enable)

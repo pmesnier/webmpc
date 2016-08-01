@@ -1,24 +1,36 @@
-<div id="featurePicker" class="content scaffold-edit" role="main">
-        <g:set var="disabledFeat" value="${wsp.disabledFeatures}" />
-        <g:set var="enabledFeat" value="${wsp.enabledFeatures}" />
-        <g:set var="wid" value="${wsp.id}" />
-    <h2>Additional Features </h2>
-    <div id = "featureSelectFrame">
-    <g:form controller="workspace" id="${wid}">
-        <table id="feature-outer">
-        <tr><th>Disabled</th><th></th><th>Enabled</th></tr>
-        <tr>
-        <td><g:select id="feature-picker" name="dis" from="${disabledFeat}" multiple="true" height="50px" line-height="50px" />
-        </td>
-        <td><table>
-        <tr><td><g:submitToRemote value="enable" action="enable" update="edit-main" controller="workspace" id="${wid}"
-                                 image="${resource(dir: 'images', file: 'rightArrow.gif')}" /></td></tr>
-        <tr><td><g:submitToRemote value="disable" action="disable" update="edit-main" controller="workspace" id="${wid}"
-                                 image="${resource(dir: 'images', file: 'leftArrow.gif')}" /></td></tr>
-        </table></td>
-        <td><g:select id="feature-picker" name="enab" from="${enabledFeat}" multiple="true" height="50px" line-height="50px" /></td>
-        </tr>
-        </table>
-    </g:form>
+<div id="featurePicker" class="panel panel-default">
+    <div class="panel-header" >
+        <h2>${pickerTitle}</h2>
+    </div>
+    <div id="featureSelectFrame" class="panel-body " >
+        <g:form controller="workspace" id="${wsp.id}">
+            <div class="panel-group" id="accordion_${side}">
+                <g:each var="fset" in="${listItems}">
+                    <g:set var="link" value="${fset.title.split()[0]}_${side}" />
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion_${side}" href="#${link}">
+                                ${fset.title} <span class="badge">${fset.items.size()}</span>
+                            </a>
+                            </h4>
+                        </div>
+                        <div id="${link}" class="panel-collapse collapse">
+                            <div class="panel-body panel-height-10">
+                                <g:each var="feat" in="${fset.items}" >
+                                    <label id="projPickTableChoice">
+                                    <g:checkBox name="${feat.name}" value="${feat.name}" checked="${feat.checked}"/>
+                                                  ${feat.name}
+                                    </label>
+                                </g:each >
+                            </div>
+                        </div>
+                    </div>
+                </g:each >
+            </div>
+            <p>
+            <g:submitToRemote value="${buttonAction}" action="${buttonAction}" update="edit-main" controller="workspace" id="${wid}" />
+            </p>
+        </g:form>
     </div>
 </div>
