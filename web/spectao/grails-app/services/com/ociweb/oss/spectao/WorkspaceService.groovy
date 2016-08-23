@@ -15,6 +15,7 @@ class WorkspaceService {
         def resource = getClass().getClassLoader().getResource(bootref)
         def initdef = jsonSlurper.parse(resource)
         MpcProjectManager.initAll(initdef)
+        println "MpcProjectManager.initAll complete"
     }
 
     def createWorkspace (def wsName) {
@@ -24,11 +25,12 @@ class WorkspaceService {
                                        impliedProject: [],
                                        features: []])
         MpcProjectManager.loadFeatures(wsp)
-        MpcSubset sub = MpcSubset.get (7)
-        wsp.currentSubset = sub;
+//        MenuSubEntry sub = MenuSubEntry.get (1)
+//        wsp.currentSubset = sub;
         wsp.product = MpcProjectManager.mapper.currentProduct
 
         wsp.save(failOnError : true)
+        println "CreateWorkspace wsp saved, has ${wsp.product.rawProjects.size()} raw projects"
         wsp
     }
 
@@ -59,53 +61,66 @@ class WorkspaceService {
     }
 
     @Transactional (propagation = Propagation.SUPPORTS)
-    void scanPickList (def checks, def picklist, Workspace wsp) {
-        picklist?.each { pName ->
-            if (checks.containsKey (pName)) {
-                Project proj = wsp.projects.find {it.mpc.name == pName}
-                if (proj == null) {
-                    MpcProject mpc = wsp.product.rawProjects.get(pName)
-                    if (mpc == null) {
-                        println "scanPickList cannot fine mpc project for ${pname}";
-                    }
-                    else {
-                        mpc.projectRequires?.each { ureq ->
-                            Feature f = wsp.features.find { ureq == it.mpcFeature.name }
-                            if (f && !f.isComment && !f.enabled) {
-                                if (f.byUser) {
-                                    println "overriding user setting feature ${ureq} disabled"
-                                }
-                                f.enabled = true
-                            }
+    void addAProject (String pName,  Workspace wsp) {
+        MpcProject mpc = wsp.product.rawProjects.get(pName)
+        if (mpc == null) {
+            println "addAProject cannot find mpc project for ${pName}"
+        }
+        if (mpc) {
+            println "addAProject found mpc for ${pName}"
+            Project proj = wsp.projects?.find() { pName == it.mpc.name}
+            if (proj != null) {
+                println "addAProject wsp already had a project, desired count = ${proj.desired}"
+            }
+            else {
+                mpc.projectRequires?.each { ureq ->
+                    Feature f = wsp.features.find { ureq == it.mpcFeature.name }
+                    if (f && !f.isComment && !f.enabled) {
+                        if (f.byUser) {
+                            println "overriding user setting feature ${ureq} disabled"
                         }
-                        mpc.projectAvoids?.each { uavo ->
-                            Feature f = wsp.features.find { uavo == it.mpcFeature.name }
-                            if (f && !f.isComment && f.enabled) {
-                                if (f.byUser) {
-                                    println "overriding user setting feature ${uavo} disabled"
-                                }
-                                f.enabled = false
-                            }
-
-                        }
-
-                        proj = new Project ([mpc: mpc, desired: 1, required: 0, afterProj: [], neededBy: []])
-                        wsp.addToProjects (proj)
-                        proj.save (failOnError: true)
-                        println "post pick adding ${mpc.name}"
-                        MpcProjectManager.addImplied(wsp, proj)
+                        f.enabled = true
                     }
                 }
+                mpc.projectAvoids?.each { uavo ->
+                    Feature f = wsp.features.find { uavo == it.mpcFeature.name }
+                    if (f && !f.isComment && f.enabled) {
+                        if (f.byUser) {
+                            println "overriding user setting feature ${uavo} disabled"
+                        }
+                        f.enabled = false
+                    }
+                }
+
+                proj = new Project([mpc: mpc, desired: 1, required: 0, afterProj: [], neededBy: []])
+                wsp.addToProjects(proj)
             }
-            else if (checks.containsKey ("_${pName}")) {
-                removeAProject(pName, wsp)
-            }
+            proj.save (failOnError: true)
+            println "addAProject adding ${mpc.name}"
+            MpcProjectManager.addImplied(wsp, proj)
         }
     }
-    void postPick (def checks, Workspace wsp) {
-        scanPickList(checks, wsp.currentSubset.projects.client, wsp)
-        scanPickList(checks, wsp.currentSubset.projects.server, wsp)
 
+
+    @Transactional (propagation = Propagation.SUPPORTS)
+    void postPick (def params, Workspace wsp) {
+        boolean adding = true;
+        String option = params.get("checked");
+        if (option == null) {
+            option = params.get("unchecked");
+            adding = false;
+        }
+        println "postPick, option = ${option} and adding = ${adding}"
+
+        if (option != null) {
+            int pivot = option.indexOf(':')
+            String listname = option.substring(0, pivot - 1)
+            String pname = option.substring(pivot + 1)
+            if (adding)
+                addAProject(pname, wsp)
+            else
+                removeAProject(pname, wsp)
+        }
         MpcProjectManager.refreshProjectNameLists(wsp)
     }
 

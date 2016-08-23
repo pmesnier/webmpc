@@ -1,55 +1,58 @@
 <div id="projectPicker" class="content" role="main">
     <g:set var="setname" value="${wsp?.currentSubset?.label}" />
-    <g:set var="wid" value="${wsp?.id}" />
-    <g:set var="clientChecks" value="${wsp?.clientChecks}" />
-    <g:set var="serverChecks" value="${wsp?.serverChecks}" />
+    <g:set var="widstr" value="${wsp?.id}" />
+    <g:set var="picks" value="${wsp?.currentSubset?.pickList}" />
 
-    <g:if test="${clientChecks?.size() > 0 || serverChecks?.size() > 0 }">
-        <h3>${setname} projects</h3>
+    <g:if test="${picks?.size() > 0 }">
+        <h4>${setname}</h4>
         <div id = "projectSelectFrame">
-            <g:form  controller="workspace" id="${wid}">
-                <div class="chex">
-                    <table id="projPickTable">
-                    <tr><th> <b>Used In Clients And Servers</b> </th></tr>
-                    <tr><td>
-                    <g:each var="prj" in="${clientChecks}">
-                        <g:if test="${prj.isLabel}">
-                        <p id="pickLabel"> ${prj.name} </p>
-                        </g:if>
-                        <g:else>
-                            <label id="projPickTableChoice">
-                                <g:checkBox name="${prj.name}" label="${prj.name}" value="${prj.checked}"/>
-                                ${prj.name}
+            <div class="chex">
+                <table id="projPickTable">
+                    <g:each status="ndx" var="pickSet" in="${picks}" >
+                        <tr><th> <b>${pickSet.label}</b> </th></tr>
+                        <tr><td>
+                        <g:each var="prj" in="${wsp.getCheckedProjects(ndx)}">
+                            <g:set var="labeltext" value="${prj.name}" />
+                            <g:if test="${prj.desired > 0}" >
+                                <label state="desired" />
+                            </g:if>
+                            <g:elseif test="${prj.required > 0}" >
+                                <label state="required" />
+                                <g:set var="labeltext" value="${prj.name}.${prj.required}" />
+                            </g:elseif>
+                            <g:else>
+                                <label state="none">
+                            </g:else>
+                                <g:checkBox name="${pickSet.label}:${prj.name}" value="${prj.name}" checked="${prj.desired > 0}"
+                                            onChange="myRemote(${widstr}, this.name, this.checked)"
+                                />
+                                ${labeltext}
                             </label>
-                        </g:else>
+                        </g:each>
+                        </td></tr>
                     </g:each>
-                    </td></tr>
-                    <g:if test="${serverChecks.size() > 0}">
-                        <tr> <th> <b>Server side only </b> </th> </tr>
-                        <tr>
-                            <td>
-                                <g:each var="prj" in="${serverChecks}">
-                                    <g:if test="${prj.isLabel}">
-                                    <p id="projPickTableLabel"> prj.name </p>
-                                    </g:if>
-                                    <g:else>
-                                        <label id="projPickTableChoice">
-                                            <g:checkBox name="${prj.name}" label="${prj.name}" value="${prj.checked}"/>
-                                            ${prj.name}
-                                        </label>
-                                    </g:else>
-                                </g:each>
-                            </td>
-                        </tr>
-                    </g:if>
-                    </table>
-                </div><p>
-                <g:submitToRemote value="add Projects" update="edit-main" action="updateProject" controller="workspace" id="${wid}" />
-                </p>
-            </g:form>
+                </table>
+                Total Projects selected and implied = ${wsp.projects.size()}
+            </div>
         </div>
     </g:if>
     <g:else>
         <h3>Select a project category</h3>
     </g:else>
 </div>
+<script>
+function myRemote(widval, name, checked) {
+    k = checked ? "checked" : "unchecked";
+    v = name;
+    datastr = "wid=" + escape(widval) + "&" + escape(k) + "=" + escape(v);
+
+    jQuery.ajax( {type:'GET',
+                 id: widval,
+                 data: datastr,
+                 url:'/workspace/updateProject',
+                 update:'projectPicker',
+                 success:function(data,status){jQuery('#projectPicker').html(data);},
+                 error:function(XMLHttpRequest,textStatus,errorThrown){}});
+ }
+
+</script>

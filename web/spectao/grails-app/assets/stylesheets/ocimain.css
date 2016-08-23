@@ -798,8 +798,14 @@ table#projPickTable {
   color: white
 }
 
-#projPickTable td {
+#projPickTable label[state=none] {
+  color: blue;
+}
+#projPickTable label[state=required] {
   color: green;
+}
+#projPickTable label[state=desired] {
+  color: red;
 }
 
 #projPickTable th {

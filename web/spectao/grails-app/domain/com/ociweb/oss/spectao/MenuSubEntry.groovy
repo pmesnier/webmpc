@@ -5,9 +5,11 @@ package com.ociweb.oss.spectao
  */
 class MenuSubEntry {
     String label
-    MenuProjects projects
+    static hasMany=[pickList: MenuPickList ]
+    List pickList
+
     static constraints = {
         label nullable: true
-        projects nullable: true
+        pickList nullable: true
     }
 }

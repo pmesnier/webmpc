@@ -1,7 +1,7 @@
 
 <div id="workspaceView" class="content scaffold-create" role="main">
     <g:set var="wspicked" value="${wsp.desiredProject ?: ['Your Selected Projects list here']}" />
-    <g:set var="wsimplied" value="${wsp.impliedProject ?: "Projects implied by the above list here"}" />
+    <g:set var="wsimplied" value="${wsp.impliedProject ?: ['Additional required Projects list here']}" />
     <g:set var="wid" value="${wsp.id}" />
      <g:form controller="workspace" action="unchoose" id="${wid}" >
          <div class="panel panel-default">

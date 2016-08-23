@@ -1,5 +1,6 @@
 package com.ociweb.oss
 
+import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import grails.test.mixin.TestMixin
 import grails.test.mixin.support.GrailsUnitTestMixin
@@ -10,24 +11,30 @@ import spock.lang.*
  */
 @TestFor(OciService)
 @TestMixin(GrailsUnitTestMixin)
+@Mock([OciSelectorInfo, OciRelease, OciAsset])
 class TaoLegacyServiceTestSpec extends Specification {
 
     OciRelease rls22a
     OciRelease rls12a
 
     def ociService
+    def loader
 
     def setup() {
+        ociService = new OciService()
+        loader = ociService.getClass().getClassLoader()
         rls22a = new OciRelease (["rlsVersion" : "2.2a",
                                   "lastPatch"  : 8, "patchsrc": true,
                                   "basePath"   : "http://download.ociweb.com/",
                                   "patchesPath": "http://download.ociweb.com/TAO-2.2a_patches"])
-        ociService.initAssets (rls22a, "tao22aFiles.json")
+        def resource = loader.getResource("tao22aFiles.json")
+        ociService.initAssets ("Tao", rls22a, resource)
         rls12a = new OciRelease (["rlsVersion" : "1.2a",
                                   "lastPatch"  : 8, "patchsrc": true,
                                   "basePath"   : "http://download.ociweb.com/",
                                   "patchesPath": "http://download.ociweb.com/TAO-1.2a_patches"])
-        ociService.initAssets (rls12a, "tao12aFiles.json")
+        resource = loader.getResource("tao12aFiles.json")
+        ociService.initAssets ("Tao", rls12a, resource)
     }
 
     def cleanup() {
@@ -45,15 +52,16 @@ class TaoLegacyServiceTestSpec extends Specification {
 
     void "verify genkey"() {
         when:
-        String key = ociService.genTaoKey("TAO-2.2a/ACE+TAO-2.2a_with_latest_patches_NO_makefiles.tar.gz", 0)
+        OciSelectorInfo info = rls22a.plList[0]
+        String key = ociService.targetKey(info, 0)
 
         then:
-        key == "SRC.LTST.TGZ"
+        key == "C:SRC.P:BASE.L:0"
     }
 
     void "getting patchlevel"() {
         when:
-        def plist = ociService.patchlevelFor(rls22a)
+        def plist = rls22a.plList
 
         then:
         plist.size() == 13
@@ -64,20 +72,28 @@ class TaoLegacyServiceTestSpec extends Specification {
         when:
         int pnum = 8
         def lev = OciPatchBase.LEVL
-        //def plist = ociService.contentFor(rls22a, [patchLevel:lev])
+        String key = "P:${lev}.L:${pnum}"
+
+        def plev = rls22a.plList.find() {p ->
+            key.equals(ociService.targetKey(p))
+        }
 
         then:
-        false //  plist.size() == 3
+        plev?.contentKind.size() == 3
     }
 
     void "getting content 12a"() {
         when:
-        int pnum = 8
-        def lev = OciPatchBase.LEVL
-        //def plist = ociService.contentFor(rls12a, [patchLevel:lev])
+        int pnum = 0
+        def lev = OciPatchBase.BASE
+        String key = "P:${lev}.L:${pnum}"
+
+        def plev = rls22a.plList.find() {p ->
+            key.equals(ociService.targetKey(p))
+        }
 
         then:
-        false // plist.size() == 1
+        plev?.contentKind.size() == 2
     }
 
     void "find doxy file"() {
@@ -86,10 +102,9 @@ class TaoLegacyServiceTestSpec extends Specification {
         def con = OciContent.DOX
         def cmp = OciCompress.TGZ
         String filename = "TAO-2.2a/ACE+TAO-2.2a_dox.tar.gz"
-        String key = "Tao.C:${con}.P:${lev}.L:0.Z:${cmp}"
+        String testKey = "Tao.C:${con}.P:${lev}.L:0.Z:${cmp}"
 
-        println "key = " + key
-        def pkg = rls22a.legacy.get (key)
+        OciAsset pkg = rls22a.legacy.find { it.key.equals(testKey) }
 
         then:
         pkg.filePath == filename

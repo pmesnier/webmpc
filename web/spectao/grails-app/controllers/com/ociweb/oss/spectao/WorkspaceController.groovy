@@ -74,39 +74,24 @@ class WorkspaceController {
                      enabled: enList,
                      product: [name: "TAO"]]
                 render template: editTemplate, model: model
-
-//        <g:set var="link" value="${fset.title}.split()[0]"/>
-//        <div class="panel panel-default">
-//        <div class="panel-heading">
-//        <h4 class="panel-title">
-//        <a data-toggle="collapse" data-parent="#accordion" href="#${link}">
-//                ${fset.title}
-//        </a>
-//                            </h4>
-//        </div>
-//                        <div id="${link}" class="panel-collapse collapse">
-//                            <div class="panel-body panel-height-10">
-//                                <g:each var="feat" in="${fset.items}" >
-//                                    <label id="projPickTableChoice">
-//                                    <g:checkBox name="${feat.name}" value="${feat.name}" checked="${feat.checked}"/>
-//                ${feat.name}
-//        </label>
-//                                </g:each >
-//        </div>
-//                        </div>
-//        </div>
-
-
-
     }
 
-    def updateProject (Workspace wsp) {
+    def updateProject (int id) {
+        Workspace wsp = Workspace.get(params.remove("wid").toInteger())
+        params.remove ("controller");
+        params.remove ("format");
+        params.remove ("action");
+        println "calling postpick with ${params}"
         workspaceService.postPick (params, wsp)
-        def model = [categoryList: MpcProjectManager.categories(),
-                     templateName: editTemplate,
-                     wsp: wsp,
-                     product: [name: "TAO"]]
-        render template: editTemplate, model: model
+        def model = [wsp: wsp]
+        render template: "projectPicker", model: model
+    }
+
+    def showProjectPicker(MenuSubEntry sub, int wid ) {
+        Workspace wsp = Workspace.get (wid)
+        wsp.currentSubset = sub
+        def model = [wsp: wsp]
+        render template: "projectPicker", model : model
     }
 
     def enable(Workspace wsp) {
@@ -137,21 +122,16 @@ class WorkspaceController {
 
     def trigger(Workspace wsp) {
         workspaceService.setBuildType (params.output, params.archive, wsp)
-        if (wsp.buildType.size() > 0)
+        if (wsp.buildType?.size() > 0) {
             workspaceService.buildIt (wsp)
-        //Todo: display a popup window that alerts if buildtype list is empty
+        } else {
+            //Todo: display a popup window that alerts if buildtype list is empty
+        }
         // or shows how to retrieve built package when ready
         def model = [categoryList: MpcProjectManager.categories(),
                      templateName: editTemplate,
                      wsp: wsp, product: [name: "TAO"]]
         render template: editTemplate, model: model
-    }
-
-    def showProjectPicker(MenuSubEntry sub, int wid ) {
-        Workspace wsp = Workspace.get (wid)
-        wsp.currentSubset = sub
-        def model = [wsp: wsp]
-        render template: "projectPicker", model : model
     }
 
     def show (Workspace wsp) {

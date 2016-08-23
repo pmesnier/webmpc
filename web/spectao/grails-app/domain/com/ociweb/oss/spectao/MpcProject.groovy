@@ -22,4 +22,6 @@ class MpcProject {
     String getLongName() {
         "${subset.group.name}/${subset.alias}/${name}"
     }
+
+
 }

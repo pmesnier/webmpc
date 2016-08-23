@@ -1,6 +1,7 @@
 package com.ociweb.oss.spectao
 
 import groovy.json.JsonSlurper
+import org.hibernate.jdbc.Work
 
 class MpcProjectManager {
     static MpcMapper mapper = new MpcMapper()
@@ -85,24 +86,53 @@ class MpcProjectManager {
         }
     }
 
-    static def addImplied(Workspace wsp, Project project) {
-        project.mpc.units?.each { unit ->
+    static int findImplied (Workspace wsp, MpcProject mpc, List<String> implied) {
+        int added = 0
+        mpc.units?.each { unit ->
             unit.after.each { after ->
                 MpcProject prec = wsp.product.rawProjects.get(after)?:wsp.product.rawUnits.get(after)?.owner
-                String pName = prec.name
-                Project depProj = wsp.projects.find { it.mpc.name == pName }
-                if (depProj == null) {
-                    depProj = new Project([mpc: prec, desired: 0, required: 0, afterProj: [], neededBy: []])
-                    wsp.addToProjects(depProj)
-                    depProj.save(failOnError: true)
-                    addImplied(wsp, depProj)
+                String pName = prec?.name
+                if (pName && !implied.contains(pName)) {
+                    implied.add(pName)
+                    added++
+                    int subs = findImplied (wsp, prec, implied)
+                    added += subs
                 }
-                depProj.addToNeededBy(project);
-                project.addToAfterProj(depProj);
-                depProj.required++
             }
         }
+        added
     }
+
+    static def addImplied(Workspace wsp, Project desiredProj) {
+        List<String> implied = new ArrayList<>()
+        findImplied(wsp, desiredProj.mpc, implied)
+        implied.each { pName ->
+            if (pName != desiredProj.mpc.name) {
+
+                // get the project element, increment the required count save the project
+            }
+        }
+        // get the poject element for the desired project, increment the desired count and save
+        // return
+    }
+
+//        project.mpc.units?.each { unit ->
+//            unit.after.each { after ->
+//                MpcProject prec = wsp.product.rawProjects.get(after)?:wsp.product.rawUnits.get(after)?.owner
+//                String pName = prec.name
+//                Project depProj = wsp.projects.find { it.mpc.name == pName }
+//                if (depProj == null) {
+//                    depProj = new Project([mpc: prec, desired: 0, required: 0, afterProj: [], neededBy: []])
+//                    wsp.addToProjects(depProj)
+//                    depProj.save(failOnError: true)
+//                    addImplied(wsp, depProj)
+//                }
+//                depProj.addToNeededBy(project);
+//                project.addToAfterProj(depProj);
+//                depProj.required++
+//            }
+//        }
+//    }
 
     static def removeImplied (Workspace wsp, Project project) {
         project.mpc.units?.each { unit ->

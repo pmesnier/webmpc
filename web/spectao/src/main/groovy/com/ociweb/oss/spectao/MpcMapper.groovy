@@ -124,12 +124,10 @@ class MpcMapper {
 
     def initProduct (def config) {
         MpcProduct product = new MpcProduct (config)
-       config.menu_source.each { entryConf ->
+        config.menu_source.each { entryConf ->
             MenuEntry me = new MenuEntry (label : entryConf.label)
             entryConf.subMenu.each { sub ->
-                MenuSubEntry ms = new MenuSubEntry(label: sub.label)
-                ms.projects = new MenuProjects(server: sub.projects.server?:[], client: sub.projects.client?:[]);
-                ms.projects.save(failOnError: true)
+                MenuSubEntry ms = new MenuSubEntry(label: sub.label, pickList: sub.pickList)
                 ms.save(failOnError: true)
                 me.addToSubMenu(ms)
             }
@@ -202,7 +200,7 @@ class MpcMapper {
                 println "${name} is a duplicate key,\n   mpath = ${mpath}\n   dup = ${dup.mpcpath}"
             }
             currentProduct.rawProjects.put(name, container)
-            currentSubset.addToMpcProjects(container)
+            currentSubset?.addToMpcProjects(container)
             container.save(failOnError: true)
         }
         container.addToUnits (punit)

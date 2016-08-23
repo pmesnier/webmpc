@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class=" cID-286 section-products">
+<html id="edit-main" lang="en" class=" cID-286 section-products">
     <head>
         <g:javascript library="jquery" />
         <meta name="layout" content="ociwebmockspec" />

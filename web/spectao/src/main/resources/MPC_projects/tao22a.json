@@ -12,288 +12,364 @@
   "types": "mpctypes.json",
   "menu_source": [
     {
+      "label": "Project Bundles",
+      "subMenu": [
+        {
+          "label": "Predefined Collections",
+          "pickList": [
+            {
+              "label": "exclusive",
+              "options": [
+                "Traditional Distribution",
+                "The Whole Thing",
+                "You pick [default]"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "label": "Services and Libraries",
       "subMenu": [
         {
-          "label": "Common and Fault Tolerant services",
-          "projects": {
-            "server": [
-              "Basic_Logging_Service",
-              "Event_Logging_Service",
-              "Concurrency_Service",
-              "CosEvent_Service",
-              "FT_Naming_Service",
-              "FtNamingReplication",
-              "IFR_Service",
-              "ImplRepo_Service",
-              "Naming_Service",
-              "Notify_Service",
-              "Notify_Logging_Service",
-              "PortableGroup",
-              "TAO_Service",
-              "Time_Service",
-              "Trading_Service"
-            ],
-            "client": [
-              "CosConcurrency",
-              "CosEvent",
-              "CosNaming",
-              "CosNotification",
-              "CosTime",
-              "CosTrading",
-              "DsEventLogAdmin",
-              "DsLogAdmin",
-              "DsNotifyLogAdmin",
-              "FtNaming"
-            ]
-          }
+          "label": "Common and Fault Tolerant Services",
+          "pickList": [
+            {
+              "label": "Server side - Executables and libraries",
+              "options": [
+                "Concurrency_Service",
+                "CosEvent_Service",
+                "IFR_Service",
+                "ImplRepo_Service",
+                "Naming_Service",
+                "Notify_Service",
+                "FT_Naming_Service",
+                "FtNamingReplication",
+                "PortableGroup",
+                "TAO_Service",
+                "Time_Service",
+                "Trading_Service"
+              ]
+            },
+            {
+              "label": "Client side libraries for integration",
+              "options": [
+                "CosConcurrency",
+                "CosEvent",
+                "CosNaming",
+                "CosNotification",
+                "CosTime",
+                "CosTrading",
+                "FtNaming",
+                "FTORB",
+                "FT_ClientORB",
+                "FaultTolerance"
+              ]
+            }
+          ]
         },
         {
-          "label": "Real-time services",
-          "projects": {
-            "server": [
-              "Dump_Schedule",
-              "Event_Service",
-              "FTRT_Event_Service",
-              "FTRTEC_Factory_Service",
-              "FTRTEC_Gateway_Service",
-              "RTEvent_LoggingService",
-              "Scheduling_Service",
-              "RTCORBA",
-              "RTPortableServer",
-              "RTScheduler"
-            ],
-            "client": [
-              "FtRtEvent",
-              "RTCORBAEvent",
-              "RTEvent",
-              "RTEventLogAdmin",
-              "RTKokyuEvent",
-              "RTSched",
-              "RTSchedEvent",
-              "RT_Notification"
-            ]
-          }
+          "label": "Real-Time",
+          "pickList": [
+            {
+              "label": "server",
+              "options": [
+                "Dump_Schedule",
+                "Event_Service",
+                "FTRT_Event_Service",
+                "FTRTEC_Factory_Service",
+                "FTRTEC_Gateway_Service",
+                "RTEvent_LoggingService",
+                "Scheduling_Service",
+                "RTCORBA",
+                "RTPortableServer",
+                "RTScheduler"
+              ]
+            },
+            {
+              "label": "client",
+              "options": [
+                "FtRtEvent",
+                "FTRT_ClientORB",
+                "FTRT_EventChannel",
+                "RTCORBAEvent",
+                "RTEvent",
+                "RTEventLogAdmin",
+                "RTKokyuEvent",
+                "RTSched",
+                "RTSchedEvent",
+                "RT_Notification"
+              ]
+            }
+          ]
         },
         {
-          "label": "Specialty and Experimental Services",
-          "projects": {
-            "server": [
-              "AV",
-              "CosProperty",
-              "FT_ReplicationManager",
-              "Fault_Detector",
-              "Fault_Notifier",
-              "LifeCycle_Service",
-              "LoadBalancer"
-            ],
-            "client": [
-              "CosLifeCycle",
-              "CosLoadBalancing",
-              "FTORB",
-              "FTRT_ClientORB",
-              "FTRT_EventChannel",
-              "FT_ClientORB",
-              "FaultTolerance"
-            ]
-          }
+          "label": "Specialty and Experimental Service",
+          "pickList": [
+            {
+              "label": "server",
+              "options": [
+                "AV",
+                "CosProperty",
+                "FT_ReplicationManager",
+                "Fault_Detector",
+                "Fault_Notifier",
+                "LifeCycle_Service",
+                "LoadBalancer",
+                "Basic_Logging_Service",
+                "Event_Logging_Service",
+                "Notify_Logging_Service"
+              ]
+            },
+            {
+              "label": "client",
+              "options": [
+                "CosLifeCycle",
+                "CosLoadBalancing",
+                "DsEventLogAdmin",
+                "DsLogAdmin",
+                "DsNotifyLogAdmin"
+              ]
+            }
+          ]
         },
         {
-          "label": "TAO optional features",
-          "projects": {
-            "server": [],
-            "client": [
-              "BiDir_GIOP",
-              "Codeset",
-              "CSD_ThreadPool",
-              "DiffServPolicy",
-              "Dynamic_TP",
-              "DynamicAny",
-              "DynamicInterface",
-              "EndpointPolicy",
-              "HTIOP",
-              "IFR_Client",
-              "ImR_Client",
-              "IORTable",
-              "Monitor",
-              "Security",
-              "SSLIOP",
-              "SmartProxies",
-              "Strategies",
-              "TC_IIOP"
-            ]
-          }
+          "label": "TAO Optional Service",
+          "pickList": [
+            {
+              "label": "client",
+              "options": [
+                "BiDir_GIOP",
+                "Codeset",
+                "CSD_ThreadPool",
+                "DiffServPolicy",
+                "Dynamic_TP",
+                "DynamicAny",
+                "DynamicInterface",
+                "EndpointPolicy",
+                "HTIOP",
+                "IFR_Client",
+                "ImR_Client",
+                "IORTable",
+                "Monitor",
+                "Security",
+                "SSLIOP",
+                "SmartProxies",
+                "Strategies",
+                "TC_IIOP"
+              ]
+            }
+          ]
         },
         {
-          "label": "Generally useful utilities",
-          "projects": {
-            "server": [],
-            "client": [
-              "catior",
-              "logWalker",
-              "monitor",
-              "NamingViewer",
-              "nsgroup",
-              "nslist",
-              "wxNamingViewer"
-            ]
-          }
-        },
+          "label": "Generally Useful Utility",
+          "pickList": [
+            {
+              "label": "client",
+              "options": [
+                "catior",
+                "logWalker",
+                "monitor",
+                "NamingViewer",
+                "nsgroup",
+                "nslist",
+                "wxNamingViewer"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Mostly Internal Stuff",
+      "subMenu": [
         {
           "label": "The IDL Compiler",
-          "projects": {
-            "server": [],
-            "client": [
-              "gperf",
-              "tao_idl_be",
-              "tao_idl_fe",
-              "tao_idl"
-            ]
-          }
+          "pickList": [
+            {
+              "label": "client",
+              "options": [
+                "gperf",
+                "tao_idl_be",
+                "tao_idl_fe",
+                "tao_idl"
+              ]
+            }
+          ]
         },
         {
-          "label": "Special UI Adapters",
-          "projects": {
-            "server": [],
-            "client": [
-              "%TAO components%",
-              "FlResource",
-              "FoxResource",
-              "QtResource",
-              "TkResource",
-              "XtResource",
-              "%ACE components%",
-              "ace_FlReactor",
-              "ace_FoxReactor",
-              "ace_Qt4Reactor",
-              "ace_Qt4Reactor_moc",
-              "ace_TkReactor",
-              "ace_XtReactor"
-            ]
-          }
+          "label": "Special UI Adapter",
+          "pickList": [
+            {
+              "label": "TAO components",
+              "options": [
+                "FlResource",
+                "FoxResource",
+                "QtResource",
+                "TkResource",
+                "XtResource"
+              ]
+            },
+            {
+              "label": "ACE components",
+              "options": [
+                "ace_FlReactor",
+                "ace_FoxReactor",
+                "ace_Qt4Reactor",
+                "ace_Qt4Reactor_moc",
+                "ace_TkReactor",
+                "ace_XtReactor"
+              ]
+            }
+          ]
         },
         {
           "label": "On-the-wire Compression",
-          "projects": {
-            "server": [],
-            "client": [
-              "ACE_Compression",
-              "ACE_RLECompression",
-              "Bzip2Compressor",
-              "Compression",
-              "LzoCompressor",
-              "RLECompressor",
-              "ZlibCompressor",
-              "ZIOP"
-            ]
-          }
+          "pickList": [
+            {
+              "label": "client",
+              "options": [
+                "ACE_Compression",
+                "ACE_RLECompression",
+                "Bzip2Compressor",
+                "Compression",
+                "LzoCompressor",
+                "RLECompressor",
+                "ZlibCompressor",
+                "ZIOP"
+              ]
+            }
+          ]
         },
         {
-          "label": "ACE Base Projects",
-          "projects": {
-            "server": [],
-            "client": [
-              "ace",
-              "ETCL",
-              "Kokyu",
-              "Monitor_Control",
-              "ssl",
-              "%ACE Protocols%",
-              "HTBP",
-              "inet",
-              "inet_ssl",
-              "RMCast",
-              "TMCast",
-              "%ACEXML%",
-              "common",
-              "parser",
-              "svcconf"
-            ]
-          }
+          "label": "ACE Base",
+          "pickList": [
+            {
+              "label": "Core",
+              "options": [
+                "ace",
+                "ETCL",
+                "Kokyu",
+                "Monitor_Control",
+                "ssl"
+              ]
+            },
+            {
+              "label": "ACE Protocols",
+              "options": [
+                "HTBP",
+                "inet",
+                "inet_ssl",
+                "RMCast",
+                "TMCast"
+              ]
+            },
+            {
+              "label": "ACEXML",
+              "options": [
+                "common",
+                "parser",
+                "svcconf"
+              ]
+            }
+          ]
         },
         {
-          "label": "TAO Base Projects",
-          "projects": {
-            "client": [
-              "Async_IORTable",
-              "AnyTypeCode",
-              "CodecFactory",
-              "TAO_ETCL",
-              "IORInterceptor",
-              "IORManipulation",
-              "Messaging",
-              "ObjRefTemplate",
-              "PI",
-              "Svc_Utils",
-              "tao",
-              "TAO_Core_idl",
-              "TypeCodeFactory",
-              "TAO_Utils",
-              "Valuetype"
-            ],
-            "server": [
-              "PI_Server",
-              "PortableServer"
-            ]
-          }
+          "label": "TAO Base",
+          "pickList": [
+            {
+              "label": "client",
+              "options": [
+                "Async_IORTable",
+                "AnyTypeCode",
+                "CodecFactory",
+                "TAO_ETCL",
+                "IORInterceptor",
+                "IORManipulation",
+                "Messaging",
+                "ObjRefTemplate",
+                "PI",
+                "Svc_Utils",
+                "tao",
+                "TAO_Core_idl",
+                "TypeCodeFactory",
+                "TAO_Utils",
+                "Valuetype"
+              ]
+            },
+            {
+              "label": "server",
+              "options": [
+                "PI_Server",
+                "PortableServer"
+              ]
+            }
+          ]
         }
       ]
     },
     {
       "label": "Test sets",
-      "submenu": [
+      "subMenu": [
         {
-          "label": "ACE Core Regression",
-          "projects": []
+          "label": "ACE Test",
+          "pickList": [
+            {
+              "label": "client",
+              "options": [
+                "Core Regression",
+                "Performance",
+                "Extras"
+              ]
+            }
+          ]
         },
         {
-          "label": "ACE Performance",
-          "projects": []
-        },
-        {
-          "label": "ACE Extras",
-          "projects": []
-        },
-        {
-          "label": "TAO Core Regression",
-          "projects": []
-        },
-        {
-          "label": "TAO Services Regression",
-          "projects": []
-        },
-        {
-          "label": "TAO Performance",
-          "projects": []
+          "label": "TAO Test",
+          "pickList": [
+            {
+              "label": "client",
+              "options": [
+                "Core Regression",
+                "TAO Services Regression",
+                "Performance"
+              ]
+            }
+          ]
         }
       ]
     },
     {
-      "label": "Example sets",
-      "submenu": [
+      "label": "Example Sets",
+      "subMenu": [
         {
-          "label": "ACE Examples",
-          "projects": []
+          "label": "ACE Example",
+          "pickList": [
+            {
+              "label": "client",
+              "options": [
+                "ACE General Examples"
+              ]
+            }
+          ]
         },
         {
-          "label": "TAO General Examples",
-          "projects": []
-        },
-        {
-          "label": "TAO Developer's Guide Examples",
-          "projects": []
-        },
-        {
-          "label": "TAO Services Examples",
-          "projects": []
-        },
-        {
-          "label": "TAO Services Developer's Guide Examples",
-          "projects": [
-            "DevGuideExamples"
+          "label": "TAO Example",
+          "pickList": [
+            {
+              "label": "clients",
+              "options": [
+                "Geneal Examples",
+                "Developer's Guide Examples",
+                "Services Examples",
+                "Developer's Guide TAO Service Examples"
+              ]
+            }
           ]
         }
       ]
     }
   ]
 }
+

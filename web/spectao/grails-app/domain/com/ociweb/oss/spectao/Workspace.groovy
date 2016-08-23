@@ -16,7 +16,7 @@ class Workspace {
     String archiveType
     boolean includeSource
 
-    static transients=[ "productName", "wsimplied", "disabledFeatures", "enabledFeatures", "clientChecks", "serverChecks"]
+    static transients=[ "productName", "wsimplied", "disabledFeatures", "enabledFeatures"]
 
     static constraints = {
         projects nullable:true
@@ -33,38 +33,20 @@ class Workspace {
         "${product.name ?: "OCITAO"} version ${product.revision ?: "2.2a"}"
     }
 
-    def getClientChecks () {
+    def getCheckedProjects (int pl) {
         def checks = []
-        if (currentSubset) {
-            currentSubset.projects.client?.each { pname ->
-                if (pname.startsWith('%') && pname.endsWith('%')) {
-                    checks.add ([name: pname.substring(1,pname.length()-1), isLabel:true, checked: false])
+        MenuPickList plist = currentSubset?.pickList?.get(pl)
+        if (plist) {
+            plist.options?.each () { pname ->
+                Project prj = projects.find {
+                    it?.mpc.name == pname
                 }
-                else {
-                    boolean selected = projects.find { it.mpc.name == pname } != null
-                    checks.add([name: pname, isLabel: false, checked: selected])
-                }
+                int des = prj?.desired ?: 0
+                int req = prj?.required ?: 0
+                checks.add ([name: pname, desired: des, required:req, checked: des > 0])
             }
-
         }
-        return checks
-    }
-
-    def getServerChecks () {
-        def checks = []
-        if (currentSubset) {
-            currentSubset.projects.server?.each { pname ->
-                if (pname.startsWith('%') && pname.endsWith('%')) {
-                    checks.add ([name: pname.substring(1,pname.length()-1), isLabel:true, checked: false])
-                }
-                else {
-                    boolean selected = projects.find { it.mpc.name == pname } != null
-                    checks.add([name: pname, isLabel: false, checked: selected])
-                }
-            }
-
-        }
-        return checks
+        checks
     }
 
     private  def getFeatureSets (boolean wantEnabled) {

@@ -9,8 +9,9 @@ import spock.lang.*
 /**
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
  */
+//@TestFor (MpcMapper)
 @TestMixin(GrailsUnitTestMixin)
-@Mock(MpcUnit)
+@Mock ([MpcSubset, MpcGroup, MpcCategory])
 class MpcMapperSpec extends Specification {
     MpcMapper mapper
 

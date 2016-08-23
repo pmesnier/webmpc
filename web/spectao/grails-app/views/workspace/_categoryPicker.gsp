@@ -4,7 +4,7 @@
 
     <h2>Project Categories </h2>
     <div class="panel-group" id="accordion">
-        <g:each var="topEntry" in="${wsp.product.menu}">
+        <g:each var="topEntry" in="${wsp?.product?.menu}">
             <g:set var="link" value="${topEntry.label.split()[0]}"/>
             <div class="panel panel-default">
                 <div class="panel-heading">
